@@ -12,16 +12,16 @@ class StockPriceUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public string $symbol;
-    public float $price;
+    // public string $symbol;
+    // public float $price;
+    public $stocks;
     /**
      * Create a new event instance.
      */
-    public function __construct(array $data)
+    public function __construct(array $stocks)
     {
         //
-        $this->symbol = $data['sym'];
-        $this->price = $data['vw'];
+        $this->stocks = $stocks;
     }
 
     /**
@@ -32,5 +32,12 @@ class StockPriceUpdated implements ShouldBroadcastNow
     public function broadcastOn(): Channel
     {
         return new Channel('stocks');
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'stocks' => $this->stocks,
+        ];
     }
 }
