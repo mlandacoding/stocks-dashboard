@@ -45,7 +45,6 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
 
 const initialSymbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA'];
 const stocks = ref({});
@@ -68,45 +67,11 @@ initialSymbols.forEach(symbol => {
     };
 });
 
-// var symbol = ref(null)
-// var price = ref(null)
-
-// Reactive variables
-const tasks = ref([]);
-const newTask = ref('');
-
-// Fetch tasks on component mount
-const fetchTasks = () => {
-    axios.get('/tasks/all').then((response) => {
-        tasks.value = response.data.tasks;
-    });
-};
-
-// Add a new task
-const addTask = () => {
-    if (newTask.value.trim()) {
-        axios.post('/tasks', { name: newTask.value }).then(() => {
-            newTask.value = '';
-        });
-    }
-};
-
-// Update task (complete/uncomplete)
-const updateTask = (task) => {
-    axios.put(`/tasks/${task.id}`, { title: task.title, completed: task.completed });
-};
-
-// Delete a task
-const deleteTask = (task) => {
-    axios.delete(`/tasks/${task.id}`);
-};
-
 
 const setupListeners = () => {
 
     window.Echo.channel('stocks')
         .listen('StockPriceUpdated', (payload) => {
-            console.log(payload);
             payload.stocks.forEach(entry => {
                 const symbol = entry.sym;
                 const current = stocks.value[symbol];
@@ -134,30 +99,10 @@ const setupListeners = () => {
 
         })
 
-    // window.Echo.channel('stocks')
-    // .listen('.StockPriceUpdated', (event) => {
-    //     console.log(event.symbol, event.price);
-    // });
-
-    window.Echo.channel('tasks')
-        .listen('TaskAdded', (event) => {
-            tasks.value.push(event.task);
-        })
-
-        .listen('TaskUpdated', (event) => {
-            const task = tasks.value.find((t) => t.id === event.task.id);
-            if (task) {
-                task.completed = event.task.completed;
-            }
-        })
-        .listen('TaskDeleted', (event) => {
-            tasks.value = tasks.value.filter((t) => t.id !== event.id);
-        });
 };
 
 // Initialize on component mount
 onMounted(() => {
-    fetchTasks();
     setupListeners();
 });
 </script>

@@ -8,15 +8,17 @@ use App\Http\Controllers\TaskController;
 //     return Inertia::render('Welcome');
 // })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', function () {
+    return Inertia::render('ExamplePage', [
+        'message' => 'Hello from Laravel!'
+    ]);
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
 
-Route::get('/', [TaskController::class, 'index']);
+Route::get('/testing', [TaskController::class, 'index']);
 Route::get('/tasks/all', [TaskController::class, 'all']);
 Route::post('/tasks', [TaskController::class, 'store']);
 Route::put('/tasks/{task}', [TaskController::class, 'update']);
