@@ -1,7 +1,5 @@
 <template>
-    <v-container class="py-12" style="color:aqua">
-      <h1 class="text-2xl font-bold mb-12 text-center" style="color: aqua">Stonks App</h1>
-
+    <v-container style="color:aqua" class="py-12 custom-card">
       <h5 class="font-semibold mb-4">* Prices have a delay of 15 minutes</h5>
 
       <v-text-field
@@ -17,7 +15,7 @@
         :items="formattedStocks"
         :search="search"
         :items-per-page="5"
-        class="elevation-2"
+        class="custom-table"
       >
         <template #item.vwap="{ item }">
           <span
@@ -53,7 +51,7 @@
     </v-container>
   </template>
 
-  <script setup>
+<script setup>
   import { ref, onMounted, computed } from 'vue';
 
   const search = ref('');
@@ -138,3 +136,65 @@
     }
   });
   </script>
+
+<style scoped>
+/* Dark theme styling */
+.custom-card {
+    background-color: #0c1427 !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+/* Force Search Bar to Stay Dark */
+.custom-input :deep(.v-input__control) {
+    background: #1a2238 !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Make sure text is visible */
+.custom-input :deep(.v-field__input) {
+    color: rgb(255, 255, 255) !important;
+    background-color: #0c1427 !important;
+}
+
+/* Keep background dark when focused */
+.custom-input :deep(.v-input.v-input--focused) .v-input__control {
+    background: #1a2238 !important;
+    border-color: white !important;
+}
+
+/* Fix label color */
+.custom-input :deep(.v-label) {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Table styling */
+.custom-table {
+    background: #0c1427 !important;
+    color: white !important;
+}
+
+/* Table header styling */
+.custom-table .v-data-table-header {
+    background: #1a2238 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Remove hover effect from table headers */
+.custom-table .v-data-table-header th:hover {
+    background: none !important; /* Remove background hover color */
+}
+
+/* Table row hover effect */
+.custom-table .v-data-table__tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Thinner Border Lines */
+.custom-table .v-data-table__th,
+.custom-table .v-data-table__td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+</style>

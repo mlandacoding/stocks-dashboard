@@ -9,9 +9,7 @@ use App\Http\Controllers\TaskController;
 // })->name('home');
 
 Route::get('/', function () {
-    return Inertia::render('ExamplePage', [
-        'message' => 'Hello from Laravel!'
-    ]);
+    return Inertia::render('Welcome');
 });
 
 require __DIR__.'/settings.php';

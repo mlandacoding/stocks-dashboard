@@ -2,15 +2,15 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import './bootstrap'
-import 'vuetify/styles'
+import vuetify from "./vuetify";
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-const vuetify = createVuetify({
-  components,
-  directives,
-})
+// const vuetify = createVuetify({
+//   components,
+//   directives,
+// })
 
 createInertiaApp({
     resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -20,12 +20,4 @@ createInertiaApp({
         .use(vuetify)
         .mount(el)
     },
-  })
-
-// import './bootstrap';
-// import { createApp } from 'vue';
-// import TasksComponent from './components/TasksComponent.vue';
-
-// createApp({})
-// .component('TasksComponent', TasksComponent)
-// .mount('#app')
+})

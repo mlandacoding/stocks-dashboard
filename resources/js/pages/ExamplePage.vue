@@ -1,13 +1,13 @@
 <template>
     <MainLayout>
-        <TasksComponent></TasksComponent>
+        <LiveStocksTable></LiveStocksTable>
     </MainLayout>
   </template>
 
   <script setup>
 
   import MainLayout from '@/layouts/MainLayout.vue';
-  import TasksComponent from '@/components/TasksComponent.vue';
+  import LiveStocksTable from '@/components/LiveStocksTable.vue';
   defineProps({
     message: String
   })
