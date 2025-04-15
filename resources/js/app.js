@@ -1,7 +1,7 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-
+import './bootstrap'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
@@ -21,3 +21,11 @@ createInertiaApp({
         .mount(el)
     },
   })
+
+// import './bootstrap';
+// import { createApp } from 'vue';
+// import TasksComponent from './components/TasksComponent.vue';
+
+// createApp({})
+// .component('TasksComponent', TasksComponent)
+// .mount('#app')

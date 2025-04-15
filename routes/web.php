@@ -18,7 +18,7 @@ require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
 
-Route::get('/testing', [TaskController::class, 'index']);
+// Route::get('/', [TaskController::class, 'index']);
 Route::get('/tasks/all', [TaskController::class, 'all']);
 Route::post('/tasks', [TaskController::class, 'store']);
 Route::put('/tasks/{task}', [TaskController::class, 'update']);
