@@ -17,8 +17,8 @@
                             <v-card class="pa-0" color="primary">
                                 <v-container>
                                     <stock-card
-                                        symbol="JNJ"
-                                        company_name="Johnson & Johnson"
+                                        symbol="SPY"
+                                        company_name="S&P 500"
                                         :price="176.23"
                                         :is-up="true"
                                     />
