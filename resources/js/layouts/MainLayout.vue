@@ -45,7 +45,7 @@
                                 <v-container>
                                     <stock-card
                                         logo-url="https://logo.clearbit.com/apple.com"
-                                        symbol="AAPL"
+                                        symbol="META"
                                         company_name="Apple Inc."
                                         :price="85.23"
                                         :is-up="false"

@@ -12,7 +12,7 @@
 
       <v-data-table
         :headers="headers"
-        :items="formattedStocks"
+        :items="stocks"
         :search="search"
         :items-per-page="5"
         class="custom-table"
@@ -24,9 +24,9 @@
               {
                 'text-red': item.previous_vwap !== null && item.vwap < item.previous_vwap,
                 'text-green': item.previous_vwap !== null && item.vwap > item.previous_vwap,
-                'bg-green-lighten-4': item.vwapFlash && item.vwap > item.previous_vwap,
-                'bg-red-lighten-4': item.vwapFlash && item.vwap < item.previous_vwap,
-              },
+                'bg-green-lighten-4': flashStates[item.sym] && item.vwap > item.previous_vwap,
+                'bg-red-lighten-4': flashStates[item.sym] && item.vwap < item.previous_vwap,
+              }
             ]"
           >
             ${{ item.vwap ?? '—' }}
@@ -51,31 +51,48 @@
     </v-container>
   </template>
 
-<script setup>
-  import { ref, onMounted, computed } from 'vue';
+  <script setup>
+  import { ref, watch } from 'vue';
+  import useStockStream from '@/composables/useStockStream';
 
   const search = ref('');
-  const initialSymbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA'];
-  const stocks = ref({});
+  const { formattedStocks: globalFormattedStocks } = useStockStream();
+  const stocks = ref([]);
 
-  initialSymbols.forEach(symbol => {
-    stocks.value[symbol] = {
-      sym: symbol,
-      volume: null,
-      accumulated_volume: null,
-      official_open_price: null,
-      vwap: null,
-      previous_vwap: null,
-      vwapFlash: false,
-      open: null,
-      close: null,
-      high: null,
-      low: null,
-      average_size: null,
-      updated: false,
-    };
+  // Create a local reactive object to control the flash state for each stock symbol.
+  const flashStates = ref({});
+
+  // Initialize flash states for the expected symbols.
+  ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA'].forEach(symbol => {
+    flashStates.value[symbol] = false;
   });
 
+  // Watch for changes in the streamed stock data and trigger a flash effect when VWAP changes.
+  watch(
+  globalFormattedStocks,
+  (newVal) => {
+    stocks.value = newVal.map(stock => {
+      const existing = stocks.value.find(s => s.sym === stock.sym);
+      const prevVWAP = existing?.vwap ?? null;
+
+      const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+
+      return {
+        ...stock,
+        previous_vwap: prevVWAP,
+        vwapFlash: vwapChanged,
+      };
+    });
+
+    // Clear flash flags after short delay
+    setTimeout(() => {
+      stocks.value.forEach(s => (s.vwapFlash = false));
+    }, 400);
+  },
+  { immediate: true, deep: true }
+);
+
+  // Define table headers.
   const headers = [
     { title: 'Symbol', key: 'sym' },
     { title: 'Volume', key: 'volume' },
@@ -85,116 +102,66 @@
     { title: 'High', key: 'high' },
     { title: 'Low', key: 'low' },
   ];
-
-  const formattedStocks = computed(() =>
-    Object.entries(stocks.value).map(([symbol, data]) => ({
-      sym: symbol,
-      ...data,
-    }))
-  );
-
-  const setupListeners = () => {
-    window.Echo.channel('stocks').listen('StockPriceUpdated', payload => {
-      payload.stocks.forEach(entry => {
-        const symbol = entry.sym;
-        const current = stocks.value[symbol];
-        current.previous_vwap = current.vwap;
-
-        if (stocks.value[symbol]) {
-          Object.assign(stocks.value[symbol], {
-            volume: entry.v,
-            accumulated_volume: entry.av,
-            official_open_price: entry.op,
-            vwap: entry.vw,
-            open: entry.o,
-            close: entry.c,
-            high: entry.h,
-            low: entry.l,
-            average_size: entry.a,
-            updated: true,
-          });
-
-          current.vwapFlash = true;
-          setTimeout(() => {
-            current.vwapFlash = false;
-          }, 400);
-        }
-      });
-    });
-  };
-
-  onMounted(() => {
-    if (window.Echo) {
-      setupListeners();
-    } else {
-      const wait = setInterval(() => {
-        if (window.Echo) {
-          setupListeners();
-          clearInterval(wait);
-        }
-      }, 100);
-    }
-  });
   </script>
 
-<style scoped>
-/* Dark theme styling */
-.custom-card {
+  <style scoped>
+  /* Dark theme styling */
+  .custom-card {
     background-color: #0c1427 !important;
     color: white !important;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 8px;
-}
+  }
 
-/* Force Search Bar to Stay Dark */
-.custom-input :deep(.v-input__control) {
+  /* Force Search Bar to Stay Dark */
+  .custom-input :deep(.v-input__control) {
     background: #1a2238 !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
+  }
 
-/* Make sure text is visible */
-.custom-input :deep(.v-field__input) {
+  /* Make sure text is visible */
+  .custom-input :deep(.v-field__input) {
     color: rgb(255, 255, 255) !important;
     background-color: #0c1427 !important;
-}
+  }
 
-/* Keep background dark when focused */
-.custom-input :deep(.v-input.v-input--focused) .v-input__control {
+  /* Keep background dark when focused */
+  .custom-input :deep(.v-input.v-input--focused) .v-input__control {
     background: #1a2238 !important;
     border-color: white !important;
-}
+  }
 
-/* Fix label color */
-.custom-input :deep(.v-label) {
+  /* Fix label color */
+  .custom-input :deep(.v-label) {
     color: rgba(255, 255, 255, 0.7) !important;
-}
+  }
 
-/* Table styling */
-.custom-table {
+  /* Table styling */
+  .custom-table {
     background: #0c1427 !important;
     color: white !important;
-}
+  }
 
-/* Table header styling */
-.custom-table .v-data-table-header {
+  /* Table header styling */
+  .custom-table .v-data-table-header {
     background: #1a2238 !important;
     color: white !important;
     font-weight: bold;
-}
+  }
 
-/* Remove hover effect from table headers */
-.custom-table .v-data-table-header th:hover {
-    background: none !important; /* Remove background hover color */
-}
+  /* Remove hover effect from table headers */
+  .custom-table .v-data-table-header th:hover {
+    background: none !important;
+  }
 
-/* Table row hover effect */
-.custom-table .v-data-table__tbody tr:hover {
+  /* Table row hover effect */
+  .custom-table .v-data-table__tbody tr:hover {
     background: rgba(255, 255, 255, 0.1) !important;
-}
+  }
 
-/* Thinner Border Lines */
-.custom-table .v-data-table__th,
-.custom-table .v-data-table__td {
+  /* Thinner Border Lines */
+  .custom-table .v-data-table__th,
+  .custom-table .v-data-table__td {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-</style>
+  }
+  </style>
