@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\StockOverviewController;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');
@@ -21,3 +22,4 @@ Route::get('/tasks/all', [TaskController::class, 'all']);
 Route::post('/tasks', [TaskController::class, 'store']);
 Route::put('/tasks/{task}', [TaskController::class, 'update']);
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
+Route::get('/stocks/{symbol}', [StockOverviewController::class, 'show']);

@@ -5,7 +5,7 @@ import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
 const customeTheme = {
-    dark: false,
+    dark: true,
     colors: {
         primary: "#0c1427",
         secondary: "#424242",
