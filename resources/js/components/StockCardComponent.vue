@@ -76,7 +76,6 @@
     const currentPrice = ref(props.price || 0);
     const isUp = ref(true);
 
-    // Subscribe to stream and filter for own symbol
     const stockStream = useStockStream();
     watch(
         () => stockStream.formattedStocks.value.find(s => s.sym === props.symbol),
