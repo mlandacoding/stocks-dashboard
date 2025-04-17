@@ -1,5 +1,5 @@
 <template>
-    <v-card class="pa-4" rounded="xl" elevation="0" :style="cardStyle">
+    <v-card class="pa-3" rounded="lg" elevation="0" :style="{...cardStyle, margin: '0 4px;'}" >
         <v-row align="center" no-gutters>
             <v-col cols="auto">
                 <v-avatar v-if="localImageExists || logoUrlExists" size="40"
@@ -17,10 +17,14 @@
             </v-col>
 
             <v-col class="ms-4">
-                <div class="d-flex align-center justify-space-between w-100">
+                <div class="d-flex align-center justify-space-between w-150">
                     <div>
                         <div class="text-white text-subtitle-1 font-weight-bold">{{ symbol }}</div>
-                        <div class="text-medium-emphasis text-body-2">{{ company_name }}</div>
+                        <div class="text-medium-emphasis">
+                            <h6>
+                                {{ companyName }}
+                            </h6>
+                        </div>
                     </div>
 
                     <div class="d-flex align-center">
@@ -42,16 +46,13 @@
     import { useTheme } from 'vuetify';
     import useStockStream from '@/composables/useStockStream';
 
-    // Props
     const props = defineProps({
-        logoUrl: String,
         symbol: String,
-        company_name: String,
-        price: Number,
-        isUp: Boolean,
     });
 
-    // Theme and styles
+    const companyName = ref('');
+
+
     const { current } = useTheme();
     const cardStyle = computed(() => ({
         backgroundColor: current.value.colors.primary,
@@ -88,8 +89,14 @@
         { immediate: true }
     );
 
-    // Check logo image availability
     onMounted(async () => {
+        try {
+            const response = await axios.get(`/stocks_overview/company_name/${props.symbol}`);
+            companyName.value = response.data.name;
+        } catch (error) {
+            console.error('Error fetching company name:', error);
+            companyName.value = 'Unknown Company';
+        }
         checkIfImageExists(logoUrl, logoUrlExists);
         checkIfImageExists(localLogoPath, localImageExists);
     });

@@ -12,7 +12,7 @@
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
                 <v-container>
                     <!-- Row for 3 Cards -->
-                    <v-row justify="center" class="mb-4">
+                    <v-row justify="center" class="mb-4" no-gutters>
                         <v-col cols="12" sm="4">
                             <v-card class="pa-0" color="primary">
                                 <v-container>
@@ -30,11 +30,8 @@
                             <v-card class="pa-0" color="primary">
                                 <v-container>
                                     <stock-card
-                                        logo-url="https://logo.clearbit.com/microsoft.com"
-                                        symbol="MSFT"
-                                        company_name="Microsoft Corporation"
-                                        :price="176.23"
-                                        :is-up="true"
+                                        symbol="IWM"
+                                        company_name="iShares Russell 2000"
                                     />
                                 </v-container>
                             </v-card>
@@ -44,11 +41,8 @@
                             <v-card class="pa-0" color="primary">
                                 <v-container>
                                     <stock-card
-                                        logo-url="https://logo.clearbit.com/apple.com"
-                                        symbol="META"
-                                        company_name="Meta Platforms, Inc."
-                                        :price="85.23"
-                                        :is-up="false"
+                                        symbol="DIA"
+                                        company_name="SPDR Dow Jones Industrial Average"
                                     />
                                 </v-container>
                             </v-card>
@@ -81,7 +75,7 @@
 
 <script setup>
     import { ref } from "vue";
-    import Navbar from '@/Components/Navbar.vue';
+    import Navbar from '@/components/Navbar.vue';
     import Sidebar from '@/components/Sidebar.vue';
     import StockCard from '@/components/StockCardComponent.vue';
 
