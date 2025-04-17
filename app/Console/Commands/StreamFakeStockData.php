@@ -13,7 +13,7 @@ class StreamFakeStockData extends Command
     protected $signature = 'stream:fake-stocks';
     protected $description = 'Stream fake stock data to simulate market updates';
 
-    protected $symbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA'];
+    protected $symbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY'];
 
     public function handle()
     {

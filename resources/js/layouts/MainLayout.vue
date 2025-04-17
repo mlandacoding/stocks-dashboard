@@ -46,7 +46,7 @@
                                     <stock-card
                                         logo-url="https://logo.clearbit.com/apple.com"
                                         symbol="META"
-                                        company_name="Apple Inc."
+                                        company_name="Meta Platforms, Inc."
                                         :price="85.23"
                                         :is-up="false"
                                     />

@@ -87,7 +87,7 @@
     // Clear flash flags after short delay
     setTimeout(() => {
       stocks.value.forEach(s => (s.vwapFlash = false));
-    }, 400);
+    }, 600);
   },
   { immediate: true, deep: true }
 );

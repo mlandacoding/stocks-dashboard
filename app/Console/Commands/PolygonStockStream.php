@@ -45,7 +45,7 @@ class PolygonStockStream extends Command
                 if (isset($data[0]['ev']) && $data[0]['ev'] === 'status' && $data[0]['status'] === 'auth_success') {
                     $conn->send(json_encode([
                         'action' => 'subscribe',
-                        'params' => 'A.META, A.MSFT, A.AMZN, A.CRM, A.TSLA, A.NVDA',
+                        'params' => 'A.META, A.MSFT, A.AMZN, A.CRM, A.TSLA, A.NVDA, A.SPY',
                     ]));
                 }
 
