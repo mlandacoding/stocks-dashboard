@@ -3,15 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Ratchet\Client\connect;
-use App\Events\StockPriceUpdated;
-use React\EventLoop\Factory as LoopFactory;
-use Ratchet\Client\Connector;
-use React\Socket\Connector as ReactConnector;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
 
 class PolygonStockStream extends Command
 {
@@ -45,7 +38,7 @@ class PolygonStockStream extends Command
                 if (isset($data[0]['ev']) && $data[0]['ev'] === 'status' && $data[0]['status'] === 'auth_success') {
                     $conn->send(json_encode([
                         'action' => 'subscribe',
-                        'params' => 'A.META, A.MSFT, A.AMZN, A.CRM, A.TSLA, A.NVDA, A.SPY',
+                        'params' => 'A.META, A.MSFT, A.AMZN, A.CRM, A.TSLA, A.NVDA, A.SPY, A.IWM, A.DIA',
                     ]));
                 }
 

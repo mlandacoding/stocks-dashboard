@@ -1,7 +1,7 @@
 // src/composables/useStockStream.js
 import { ref, computed, onMounted } from 'vue';
 
-const initialSymbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY'];
+const initialSymbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY', 'IWM', 'DIA'];
 const stocks = ref({});
 
 initialSymbols.forEach(symbol => {

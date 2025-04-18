@@ -26,11 +26,13 @@ Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
 Route::get('/stocks/{symbol}', [StockOverviewController::class, 'show']);
 
 Route::get('/stocks_overview/company_name/{symbol}', function ($symbol) {
-    $companyName = DB::table('stocks_overview')
+    $stockData = DB::table('stocks_overview')
         ->where('symbol', $symbol)
-        ->value('company_name');
+        ->select('company_name', 'prev_day_close')
+        ->first();
 
     return response()->json([
-        'name' => $companyName ?? 'Unknown Company',
+        'name' => $stockData->company_name ?? 'Unknown Company',
+        'prev_day_close' => $stockData->prev_day_close,
     ]);
 });

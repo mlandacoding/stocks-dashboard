@@ -1,9 +1,8 @@
 <template>
-    <v-card class="pa-3" rounded="lg" elevation="0" :style="{...cardStyle, margin: '0 4px;'}" >
+    <v-card class="pa-3" rounded="lg" elevation="0" :style="{...cardStyle, margin: '0 4px'}">
         <v-row align="center" no-gutters>
             <v-col cols="auto">
-                <v-avatar v-if="localImageExists || logoUrlExists" size="40"
-                    class="d-flex align-center justify-space-around">
+                <v-avatar v-if="localImageExists || logoUrlExists" size="40" class="d-flex align-center justify-space-around">
                     <img v-if="localImageExists" :src="localLogoPath" alt="Local Logo" class="w-100 h-100" />
                     <img v-else-if="logoUrlExists" :src="logoUrl" alt="Brandfetch Logo" class="w-100 h-100" />
                 </v-avatar>
@@ -21,19 +20,24 @@
                     <div>
                         <div class="text-white text-subtitle-1 font-weight-bold">{{ symbol }}</div>
                         <div class="text-medium-emphasis">
-                            <h6>
-                                {{ companyName }}
-                            </h6>
+                            <h6>{{ companyName }}</h6>
                         </div>
                     </div>
 
+                    <!-- Price and Percentage Change -->
                     <div class="d-flex align-center">
-                        <v-icon :color="isUp ? 'green' : 'red'" size="20" class="me-1">
-                            {{ isUp ? 'mdi-arrow-up-bold' : 'mdi-arrow-down-bold' }}
+                        <!-- Percentage Arrow and Change -->
+                        <v-icon :color="percentageChange >= 0 ? 'green' : 'red'" size="20" class="me-1">
+                            {{ percentageChange >= 0 ? 'mdi-arrow-up-bold' : 'mdi-arrow-down-bold' }}
                         </v-icon>
-                        <div :class="isUp ? 'text-green' : 'text-red'" class="text-subtitle-1 font-weight-bold">
-                            ${{ currentPrice.toFixed(2) }}
+                        <div :class="percentageChange >= 0 ? 'text-green' : 'text-red'" class="text-subtitle-1 font-weight-bold">
+                            {{ percentageChange.toFixed(2) }}%
                         </div>
+                    </div>
+
+                    <!-- Price with Flashing Effect -->
+                    <div :class="priceClass" class="text-subtitle-1 font-weight-bold">
+                        ${{ currentPrice.toFixed(2) }}
                     </div>
                 </div>
             </v-col>
@@ -51,7 +55,11 @@
     });
 
     const companyName = ref('');
-
+    const prev_day_close = ref(0);
+    const currentPrice = ref(0);
+    const percentageChange = ref(0);
+    const isUp = ref(true);
+    const priceFlash = ref(false);
 
     const { current } = useTheme();
     const cardStyle = computed(() => ({
@@ -59,10 +67,9 @@
         border: '2px solid grey',
     }));
 
-
     const apiKey = import.meta.env.VITE_POLYGON_API_KEY;
     const logoUrl = computed(() => `https://cdn.brandfetch.io/${props.symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`);
-    const localLogoPath = computed(() =>`/storage/images/logos/${props.symbol}.png`);
+    const localLogoPath = computed(() => `/storage/images/logos/${props.symbol}.png`);
 
     const localImageExists = ref(false);
     const logoUrlExists = ref(false);
@@ -74,16 +81,31 @@
         img.onerror = () => (targetRef.value = false);
     }
 
-    const currentPrice = ref(props.price || 0);
-    const isUp = ref(true);
+    // Flashing effect for the price
+    const priceClass = computed(() => {
+        return priceFlash.value ? (isUp.value ? 'text-green--light' : 'text-red--light') : '';
+    });
+
+    watch(
+        () => currentPrice.value,
+        (newPrice, oldPrice) => {
+            // If the price has changed, trigger the flashing effect
+            if (newPrice !== oldPrice) {
+                priceFlash.value = true;
+                setTimeout(() => priceFlash.value = false, 500); // Reset flash after 500ms
+            }
+        }
+    );
 
     const stockStream = useStockStream();
     watch(
         () => stockStream.formattedStocks.value.find(s => s.sym === props.symbol),
         (stockUpdate) => {
             if (stockUpdate && stockUpdate.vwap !== null) {
-                isUp.value = stockUpdate.vwap > currentPrice.value;
-                currentPrice.value = stockUpdate.vwap;
+                const newPrice = stockUpdate.vwap;
+                percentageChange.value = prev_day_close.value ? ((newPrice - prev_day_close.value) / prev_day_close.value) * 100 : 0;
+                isUp.value = newPrice > currentPrice.value;
+                currentPrice.value = newPrice;
             }
         },
         { immediate: true }
@@ -93,6 +115,7 @@
         try {
             const response = await axios.get(`/stocks_overview/company_name/${props.symbol}`);
             companyName.value = response.data.name;
+            prev_day_close.value = response.data.prev_day_close;
         } catch (error) {
             console.error('Error fetching company name:', error);
             companyName.value = 'Unknown Company';
@@ -101,3 +124,13 @@
         checkIfImageExists(localLogoPath, localImageExists);
     });
 </script>
+
+<style scoped>
+.text-green--light {
+    color: #28a745 !important;
+}
+
+.text-red--light {
+    color: #dc3545 !important;
+}
+</style>

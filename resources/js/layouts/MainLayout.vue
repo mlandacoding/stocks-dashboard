@@ -11,16 +11,12 @@
             <!-- Main Content -->
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
                 <v-container>
-                    <!-- Row for 3 Cards -->
                     <v-row justify="center" class="mb-4" no-gutters>
                         <v-col cols="12" sm="4">
                             <v-card class="pa-0" color="primary">
                                 <v-container>
                                     <stock-card
                                         symbol="SPY"
-                                        company_name="S&P 500"
-                                        :price="176.23"
-                                        :is-up="true"
                                     />
                                 </v-container>
                             </v-card>
@@ -31,7 +27,6 @@
                                 <v-container>
                                     <stock-card
                                         symbol="IWM"
-                                        company_name="iShares Russell 2000"
                                     />
                                 </v-container>
                             </v-card>
@@ -42,14 +37,12 @@
                                 <v-container>
                                     <stock-card
                                         symbol="DIA"
-                                        company_name="SPDR Dow Jones Industrial Average"
                                     />
                                 </v-container>
                             </v-card>
                         </v-col>
                     </v-row>
 
-                    <!-- Slot Wrapped in a Card (Spanning 11 Columns) -->
                     <v-row justify="center">
                         <v-col cols="12" sm="12">
                             <slot />

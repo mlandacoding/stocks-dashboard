@@ -3,9 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Event;
 use App\Events\StockPriceUpdated;
 
 class StreamFakeStockData extends Command
@@ -13,7 +10,7 @@ class StreamFakeStockData extends Command
     protected $signature = 'stream:fake-stocks';
     protected $description = 'Stream fake stock data to simulate market updates';
 
-    protected $symbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY'];
+    protected $symbols = ['IWM', 'DIA', 'META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY', ];
 
     public function handle()
     {
@@ -22,7 +19,7 @@ class StreamFakeStockData extends Command
         while (true) {
             $payload = [];
 
-            $symbolsToUpdate = collect($this->symbols)->random(rand(1, 5));
+            $symbolsToUpdate = collect($this->symbols)->random(rand(1, 9));
 
             foreach ($symbolsToUpdate as $symbol) {
                 $price = $this->randomFloat(250, 500);
@@ -51,7 +48,7 @@ class StreamFakeStockData extends Command
 
             $this->info('Broadcasted fake stock data at ' . now());
 
-            sleep(1); // wait a second before next update
+            sleep(1);
         }
 
         return 0;
