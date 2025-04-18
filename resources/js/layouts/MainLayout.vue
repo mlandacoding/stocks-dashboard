@@ -10,7 +10,11 @@
 
             <!-- Main Content -->
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
+
+
+
                 <v-container>
+                    <MarketStatus></MarketStatus>
                     <v-row justify="center" class="mb-4" no-gutters>
                         <v-col cols="12" sm="4">
                             <v-card class="pa-0" color="primary">
@@ -42,8 +46,8 @@
                             </v-card>
                         </v-col>
                     </v-row>
-
                     <v-row justify="center">
+
                         <v-col cols="12" sm="12">
                             <slot />
                         </v-col>
@@ -71,6 +75,7 @@
     import Navbar from '@/components/Navbar.vue';
     import Sidebar from '@/components/Sidebar.vue';
     import StockCard from '@/components/StockCardComponent.vue';
+    import MarketStatus from "@/components/MarketStatus.vue";
 
     const drawer = ref(false);
 

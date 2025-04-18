@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Calendar;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CalendarController extends Controller
 {
@@ -14,6 +15,12 @@ class CalendarController extends Controller
     public function index()
     {
         //
+    }
+
+    public function isHoliday(){
+        $today = Carbon::now()->toDateString();
+        $holiday = Calendar::where('date', $today)->firstOrFail();
+        return $holiday ?: false;
     }
 
     /**

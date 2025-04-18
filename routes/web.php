@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\StockOverviewController;
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\PolygonController;
 use Illuminate\Support\Facades\DB;
 
 // Route::get('/', function () {
@@ -24,6 +26,8 @@ Route::post('/tasks', [TaskController::class, 'store']);
 Route::put('/tasks/{task}', [TaskController::class, 'update']);
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
 Route::get('/stocks/{symbol}', [StockOverviewController::class, 'show']);
+Route::get('/isHoliday', [CalendarController::class, 'isHoliday']);
+Route::get('/market-status', [PolygonController::class, 'getMarketStatus']);
 
 Route::get('/stocks_overview/company_name/{symbol}', function ($symbol) {
     $stockData = DB::table('stocks_overview')
