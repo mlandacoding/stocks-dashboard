@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use React\EventLoop\Loop;
 use React\Socket\Connector as SocketConnector;
 use Ratchet\Client\Connector as WebSocketConnector;
+use App\Helpers\SNP500Helper;
 
 class PolygonStockStream extends Command
 {
@@ -24,6 +25,8 @@ class PolygonStockStream extends Command
         'currentStatus' => 'disconnected',
     ];
 
+    protected $symbols;
+
     public function handle()
     {
         $this->connect();
@@ -35,6 +38,10 @@ class PolygonStockStream extends Command
         $loop = Loop::get();
         $reactConnector = new SocketConnector($loop);
         $connector = new WebSocketConnector($loop, $reactConnector);
+
+        $this->symbols = SNP500Helper::symbols()->map(function ($symbol) {
+            return 'A.' . $symbol;
+        });
 
         $url = 'wss://delayed.polygon.io/stocks';
         $apiKey = env('POLYGON_API_KEY');
@@ -58,13 +65,12 @@ class PolygonStockStream extends Command
                 if (isset($data[0]['ev']) && $data[0]['ev'] === 'status' && $data[0]['status'] === 'auth_success') {
                     $conn->send(json_encode([
                         'action' => 'subscribe',
-                        'params' => 'A.META, A.MSFT, A.AMZN, A.CRM, A.TSLA, A.NVDA, A.SPY, A.IWM, A.DIA',
+                        'params' => $this->symbols->implode(',')
                     ]));
                 }
 
                 $aggregates = array_filter($data, fn($entry) => $entry['ev'] === 'A');
                 if (!empty($aggregates)) {
-                    Log::info('Broadcasting multiple stock updates: ' . json_encode($aggregates));
                     broadcast(new \App\Events\StockPriceUpdated($aggregates))->toOthers();
 
                     foreach ($aggregates as $entry) {
@@ -72,6 +78,9 @@ class PolygonStockStream extends Command
                         Cache::put("vwap_buffer:$symbol", $entry, now()->addMinutes(30));
                     }
                 }
+
+                unset($aggregates);
+                gc_collect_cycles();
             });
 
             $conn->on('close', function ($code = null, $reason = null) {

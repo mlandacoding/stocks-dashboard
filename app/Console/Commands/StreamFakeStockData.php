@@ -4,22 +4,23 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Events\StockPriceUpdated;
+use App\Helpers\SNP500Helper;
 
 class StreamFakeStockData extends Command
 {
     protected $signature = 'stream:fake-stocks';
     protected $description = 'Stream fake stock data to simulate market updates';
-
-    protected $symbols = ['IWM', 'DIA', 'META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY', ];
+    protected $symbols;
 
     public function handle()
     {
         $this->info('Starting fake stock data stream... Press Ctrl+C to stop.');
+        $this->symbols = SNP500Helper::symbols();
 
         while (true) {
             $payload = [];
 
-            $symbolsToUpdate = collect($this->symbols)->random(rand(1, 9));
+            $symbolsToUpdate = collect($this->symbols)->random(rand(1, 100));
 
             foreach ($symbolsToUpdate as $symbol) {
                 $price = $this->randomFloat(250, 500);
@@ -39,16 +40,19 @@ class StreamFakeStockData extends Command
                     's' => now()->timestamp * 1000,
                     'e' => (now()->timestamp + 1) * 1000,
                 ];
-
                 $payload[] = $entry;
             }
 
-            // Broadcast using your existing event (adjust class if needed)
-            broadcast(new StockPriceUpdated($payload));
+            collect($payload)->chunk(10)->each(function ($chunk) {
+                broadcast(new StockPriceUpdated($chunk->toArray()));
+            });
+
+            unset($payload);
+            gc_collect_cycles();
 
             $this->info('Broadcasted fake stock data at ' . now());
 
-            sleep(1);
+            sleep(1); // Slow down the loop to simulate a delay
         }
 
         return 0;
