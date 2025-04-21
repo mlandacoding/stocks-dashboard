@@ -19,7 +19,7 @@ connection = mysql.connector.connect(
 
 def getSNP500():
     mycursor = connection.cursor()
-    with open('./storage/app/private/cache/snp500_stocks.json', 'r') as f:
+    with open('./storage/app/private/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
     stocks = {stock['symbol']: stock['company_name'] for stock in stocks}
 

@@ -19,7 +19,7 @@ class CalendarController extends Controller
 
     public function isHoliday(){
         $today = Carbon::now()->toDateString();
-        $holiday = Calendar::where('date', $today)->firstOrFail();
+        $holiday = Calendar::where('date', $today)->first();
         return $holiday ?: false;
     }
 

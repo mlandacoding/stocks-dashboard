@@ -8,6 +8,9 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\PolygonController;
 use Illuminate\Support\Facades\DB;
 
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
+
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');
 // })->name('home');
@@ -16,15 +19,6 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
-
-
-// Route::get('/', [TaskController::class, 'index']);
-Route::get('/tasks/all', [TaskController::class, 'all']);
-Route::post('/tasks', [TaskController::class, 'store']);
-Route::put('/tasks/{task}', [TaskController::class, 'update']);
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
 Route::get('/stocks/{symbol}', [StockOverviewController::class, 'show']);
 Route::get('/isHoliday', [CalendarController::class, 'isHoliday']);
 Route::get('/market-status', [PolygonController::class, 'getMarketStatus']);
