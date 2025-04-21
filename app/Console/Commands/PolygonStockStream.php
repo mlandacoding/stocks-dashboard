@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use React\EventLoop\Loop;
 use React\Socket\Connector as SocketConnector;
 use Ratchet\Client\Connector as WebSocketConnector;
-use App\Helpers\SNP500Helper;
+use App\Helpers\ActiveAssetsHelper;
 
 class PolygonStockStream extends Command
 {
@@ -39,7 +39,7 @@ class PolygonStockStream extends Command
         $reactConnector = new SocketConnector($loop);
         $connector = new WebSocketConnector($loop, $reactConnector);
 
-        $this->symbols = SNP500Helper::symbols()->map(function ($symbol) {
+        $this->symbols = ActiveAssetsHelper::symbols()->map(function ($symbol) {
             return 'A.' . $symbol;
         });
 

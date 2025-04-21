@@ -31,6 +31,16 @@ class Asset extends Model
         return $this->hasMany(AssetMembership::class, 'member_symbol', 'symbol');
     }
 
+    public function streamingStatus()
+    {
+        return $this->hasOne(AssetStreamingStatus::class, 'symbol', 'symbol');
+    }
+
+    public function isStreaming()
+    {
+        return optional($this->streamingStatus)->is_streaming ?? false;
+    }
+
     public function etfs()
     {
         return $this->belongsToMany(

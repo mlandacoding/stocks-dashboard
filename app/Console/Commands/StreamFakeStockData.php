@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Events\StockPriceUpdated;
-use App\Helpers\SNP500Helper;
+use App\Helpers\ActiveAssetsHelper;
 
 class StreamFakeStockData extends Command
 {
@@ -15,7 +15,7 @@ class StreamFakeStockData extends Command
     public function handle()
     {
         $this->info('Starting fake stock data stream... Press Ctrl+C to stop.');
-        $this->symbols = SNP500Helper::symbols();
+        $this->symbols = ActiveAssetsHelper::symbols();
 
         while (true) {
             $payload = [];

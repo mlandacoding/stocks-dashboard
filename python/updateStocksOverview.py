@@ -33,8 +33,6 @@ for item in snapshot:
     if item.ticker not in stocks:
         continue
 
-    print(item)
-
     if not isinstance(item, TickerSnapshot):
         continue
 
@@ -44,11 +42,11 @@ for item in snapshot:
     if not isinstance(item.prev_day.open, float) or not isinstance(item.prev_day.close, float):
         continue
 
-    if item.day.transactions is None:
-        continue
+    # if item.day.transactions is None:
+    #     continue
 
     if item.day.close == 0:
-        percent_change = 0
+        continue
     else:
         percent_change = ((item.prev_day.close * 100) / item.day.close) - 100
         percent_change *= -1
