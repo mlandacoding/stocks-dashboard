@@ -4,6 +4,7 @@ import mysql.connector
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv(dotenv_path='./.env')
 client = RESTClient(os.getenv("POLYGON_API_KEY"))
@@ -16,24 +17,23 @@ connection = mysql.connector.connect(
     port= os.getenv('DB_PORT'),
 )
 
-def getStocks(db_conn):
-    mycursor = db_conn.cursor()
+def getSNP500():
+    mycursor = connection.cursor()
+    with open('./storage/app/private/cache/snp500_stocks.json', 'r') as f:
+        stocks = json.load(f)
+    stocks = {stock['symbol']: stock['company_name'] for stock in stocks}
 
-    sql = "SELECT symbol, company_name FROM stocks_overview"
-
-    mycursor.execute(sql)
-
-    indeces = {item[0]: item[1] for item in mycursor.fetchall()}
-
-    return indeces
+    return stocks
 
 snapshot = client.get_snapshot_all("stocks")
-stocks = getStocks(connection)
+stocks = getSNP500()
 data_to_insert = []
 
 for item in snapshot:
     if item.ticker not in stocks:
         continue
+
+    print(item)
 
     if not isinstance(item, TickerSnapshot):
         continue
@@ -44,11 +44,14 @@ for item in snapshot:
     if not isinstance(item.prev_day.open, float) or not isinstance(item.prev_day.close, float):
         continue
 
-    if item.day.close == 0:
+    if item.day.transactions is None:
         continue
 
-    percent_change = ((item.prev_day.close * 100) / item.day.close) - 100
-    percent_change *= -1
+    if item.day.close == 0:
+        percent_change = 0
+    else:
+        percent_change = ((item.prev_day.close * 100) / item.day.close) - 100
+        percent_change *= -1
 
     row = (
         item.ticker,
@@ -77,10 +80,12 @@ INSERT INTO stocks_overview (
     %s, %s, %s
 )
 """
-cursor.execute("TRUNCATE TABLE stocks_overview")
-cursor.executemany(insert_query, data_to_insert)
-connection.commit()
 
-print(f"Inserted {cursor.rowcount} rows.")
-cursor.close()
-connection.close()
+if len(data_to_insert) > 0:
+    cursor.execute("TRUNCATE TABLE stocks_overview")
+    cursor.executemany(insert_query, data_to_insert)
+    connection.commit()
+
+    print(f"Inserted {cursor.rowcount} rows.")
+    cursor.close()
+    connection.close()

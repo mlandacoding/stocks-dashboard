@@ -11,48 +11,46 @@
             <!-- Main Content -->
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
 
+            <v-container>
+                <MarketStatus></MarketStatus>
+                <v-row justify="center" class="mb-4" no-gutters>
+                    <v-col cols="12" sm="4">
+                        <v-card class="pa-0" color="primary">
+                            <v-container>
+                                <stock-card
+                                    symbol="SPY"
+                                />
+                            </v-container>
+                        </v-card>
+                    </v-col>
 
+                    <v-col cols="12" sm="4">
+                        <v-card class="pa-0" color="primary">
+                            <v-container>
+                                <stock-card
+                                    symbol="IWM"
+                                />
+                            </v-container>
+                        </v-card>
+                    </v-col>
 
-                <v-container>
-                    <MarketStatus></MarketStatus>
-                    <v-row justify="center" class="mb-4" no-gutters>
-                        <v-col cols="12" sm="4">
-                            <v-card class="pa-0" color="primary">
-                                <v-container>
-                                    <stock-card
-                                        symbol="SPY"
-                                    />
-                                </v-container>
-                            </v-card>
-                        </v-col>
+                    <v-col cols="12" sm="4">
+                        <v-card class="pa-0" color="primary">
+                            <v-container>
+                                <stock-card
+                                    symbol="DIA"
+                                />
+                            </v-container>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row justify="center">
 
-                        <v-col cols="12" sm="4">
-                            <v-card class="pa-0" color="primary">
-                                <v-container>
-                                    <stock-card
-                                        symbol="IWM"
-                                    />
-                                </v-container>
-                            </v-card>
-                        </v-col>
-
-                        <v-col cols="12" sm="4">
-                            <v-card class="pa-0" color="primary">
-                                <v-container>
-                                    <stock-card
-                                        symbol="DIA"
-                                    />
-                                </v-container>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row justify="center">
-
-                        <v-col cols="12" sm="12">
-                            <slot />
-                        </v-col>
-                    </v-row>
-                </v-container>
+                    <v-col cols="12" sm="12">
+                        <slot />
+                    </v-col>
+                </v-row>
+            </v-container>
             </v-main>
         </v-layout>
     </v-card>
