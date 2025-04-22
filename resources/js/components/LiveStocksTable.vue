@@ -37,6 +37,27 @@
                     ${{ item.vwap != null ? item.vwap.toFixed(2) : '—' }}
                 </span>
             </template>
+            <template #item.percentage_change="{ item }">
+                <div class="d-flex align-center gap-2">
+                    <span><b>{{ item.priceChange }}</b></span>
+                    <span :style="{
+                        backgroundColor: item.percentageChange < 0
+                            ? 'rgba(244, 67, 54, 0.2)'
+                            : item.percentageChange > 0
+                                ? 'rgba(76, 175, 80, 0.2)'
+                                : 'transparent'
+                    }" :class="[
+                        'font-mono px-2 py-1 rounded',
+                        item.percentageChange < 0
+                            ? 'text-red'
+                            : item.percentageChange > 0
+                                ? 'text-green'
+                                : 'text-grey'
+                    ]">
+                        {{ item.percentageChange }}%
+                    </span>
+                </div>
+            </template>
         </v-data-table>
     </v-container>
 </template>
@@ -49,32 +70,44 @@ const search = ref('');
 const { formattedStocks: globalFormattedStocks } = useStockStream();
 const stocks = ref([]);
 
-// Create a local reactive object to control the flash state for each stock symbol.
+
 const flashStates = ref({});
 
-// Initialize flash states for the expected symbols.
+
 ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA'].forEach(symbol => {
     flashStates.value[symbol] = false;
 });
 
-// Watch for changes in the streamed stock data and trigger a flash effect when VWAP changes.
+
 watch(
-    globalFormattedStocks,
-    (newVal) => {
+    globalFormattedStocks, (newVal) => {
         stocks.value = newVal.map(stock => {
             const existing = stocks.value.find(s => s.sym === stock.sym);
             const prevVWAP = existing?.vwap ?? null;
-
             const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+
+            let percentageChange = null;
+            const prevClose = existing?.prev_day_close;
+
+            let priceChange = null;
+
+            if (prevClose != null && stock.vwap != null) {
+                percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
+                percentageChange = percentageChange.toFixed(2)
+                priceChange = (stock.vwap - prevClose).toFixed(2)
+
+            }
 
             return {
                 ...stock,
                 previous_vwap: prevVWAP,
                 vwapFlash: vwapChanged,
+                prev_day_close: existing?.prev_day_close ?? null,
+                percentageChange: percentageChange,
+                priceChange: priceChange
             };
         });
 
-        // Clear flash flags after short delay
         setTimeout(() => {
             stocks.value.forEach(s => (s.vwapFlash = false));
         }, 600);
@@ -82,11 +115,10 @@ watch(
     { immediate: true, deep: true }
 );
 
-// Define table headers.
 const headers = [
     { title: 'Symbol', key: 'sym' },
     { title: 'Price', key: 'vwap' },
-    { title: '% Change', },
+    { title: '% Change', key: 'percentage_change' },
 
 ];
 
@@ -97,8 +129,6 @@ const apiKey = import.meta.env.VITE_POLYGON_API_KEY;
 function preloadLogosForStocks(stocks) {
     stocks.forEach(stock => {
         const symbol = stock.sym;
-
-        // Only check if not already in cache
         if (!logoStatus.value[symbol]) {
             const local = `/storage/images/logos/${symbol}.png`;
             const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`;
@@ -114,7 +144,6 @@ function preloadLogosForStocks(stocks) {
     });
 }
 
-// Recheck logos when stocks update
 watch(stocks, (newVal) => {
     preloadLogosForStocks(newVal);
 }, { immediate: true });
@@ -125,6 +154,30 @@ function checkIfImageExists(src, callback) {
     img.onerror = () => callback(false);
     img.src = src;
 }
+
+onMounted(async () => {
+    const initial = globalFormattedStocks.value;
+
+    const enriched = await Promise.all(
+        initial.map(async stock => {
+            const existing = stocks.value.find(s => s.sym === stock.sym);
+            const prevVWAP = existing?.vwap ?? null;
+            const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+
+            const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
+            const prev_day_close = response.data.prev_day_close;
+
+            return {
+                ...stock,
+                previous_vwap: prevVWAP,
+                vwapFlash: vwapChanged,
+                prev_day_close
+            };
+        })
+    );
+
+    stocks.value = enriched;
+});
 
 </script>
 

@@ -33,18 +33,6 @@ for item in snapshot:
     if item.ticker not in stocks:
         continue
 
-    if not isinstance(item, TickerSnapshot):
-        continue
-
-    if not isinstance(item.prev_day, Agg) or not isinstance(item.day, Agg):
-        continue
-
-    if not isinstance(item.prev_day.open, float) or not isinstance(item.prev_day.close, float):
-        continue
-
-    # if item.day.transactions is None:
-    #     continue
-
     if item.day.close == 0:
         continue
     else:

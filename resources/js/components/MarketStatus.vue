@@ -26,12 +26,37 @@
 
         </v-row>
     </v-container>
+    <v-container v-else>
+        <v-row justify="end">
+            <div>
+                <v-btn
+                class="closed-hours-btn" variant="outlined" color="red" density="comfortable" rounded="lg"
+                :ripple="false" style="pointer-events: none;"
+                >
+                <div class="content-wrapper" >
+                    <span class="after-hours-text">Markets Are Closed</span>
+                    <span class="closed-dot" />
+                </div>
+                </v-btn>
+            </div>
+
+        </v-row>
+    </v-container>
+
+
 
 </template>
 
 <style scoped>
 .after-hours-btn {
   border-color: #4caf50;
+  font-weight: bold;
+  text-transform: none;
+  padding: 6px 12px;
+}
+
+.closed-hours-btn {
+  border-color: red;
   font-weight: bold;
   text-transform: none;
   padding: 6px 12px;
@@ -53,6 +78,13 @@
   background-color: #4caf50;
   border-radius: 50%;
   animation: pulse 1.5s infinite ease-in-out;
+}
+
+.closed-dot {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
 }
 
 @keyframes pulse {

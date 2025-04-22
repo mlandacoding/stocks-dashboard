@@ -25,7 +25,7 @@
                     </div>
 
                     <!-- Price and Percentage Change -->
-                    <div class="d-flex align-center">
+                    <div class="d-flex align-center gap-2">
                         <!-- Percentage Arrow and Change -->
                         <v-icon :color="percentageChange >= 0 ? 'green' : 'red'" size="20" class="me-1">
                             {{ percentageChange >= 0 ? 'mdi-arrow-up-bold' : 'mdi-arrow-down-bold' }}
