@@ -40,3 +40,7 @@ Route::get('/active-assets', function () {
         'symbols' => ActiveAssetsHelper::symbols(),
     ]);
 });
+
+Route::get('/stocks_overview/prev_close', function () {
+    return \App\Models\StockOverview::pluck('prev_day_close', 'symbol');
+});

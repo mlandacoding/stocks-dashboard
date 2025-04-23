@@ -5,7 +5,7 @@
         <v-text-field v-model="search" label="Search by symbol" prepend-inner-icon="mdi-magnify" class="mb-4"
             clearable />
 
-        <v-data-table :headers="headers" :items="stocks" :search="search" :items-per-page="5" class="custom-table">
+        <v-data-table :headers="headers" :items="stocks" :search="search" :items-per-page="100" class="custom-table">
             <template #item.sym="{ item }">
                 <div class="d-flex align-center gap-2">
                     <v-avatar size="32" rounded class="bg-white">
@@ -80,6 +80,7 @@ export default {
                 { title: 'Price', key: 'vwap' },
                 { title: '% Change', key: 'percentage_change' },
             ],
+            prevCloseMap: {}
         };
     },
     setup() {
@@ -97,17 +98,8 @@ export default {
 
                 let percentageChange = null;
                 let priceChange = null;
-                let prevClose = existing?.prev_day_close;
+                let prevClose = this.prevCloseMap[stock.sym] ?? null;
 
-                // Check if prev_day_close exists; if not, fetch it
-                if (!prevClose) {
-                    try {
-                        const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
-                        prevClose = response.data.prev_day_close;
-                    } catch (error) {
-                        console.error(`Error fetching prev_day_close for ${stock.sym}:`, error);
-                    }
-                }
 
                 // Calculate percentage change and price change if we have prevClose and vwap
                 if (prevClose != null && stock.vwap != null) {
@@ -151,38 +143,33 @@ export default {
         preloadLogosForStocks(stocks) {
             stocks.forEach(stock => {
                 const symbol = stock.sym;
+                if (this.logoStatus[symbol]?.local) return;
                 if (!this.logoStatus[symbol]) {
-                    const local = `/storage/images/logos/${symbol}.png`;
                     const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
-
-                    this.checkIfImageExists(local, exists => {
-                        this.logoStatus[symbol] = {
-                            ...(this.logoStatus[symbol] || {}),
-                            local: exists
-                        };
-                    });
-
                     this.checkIfImageExists(remote, exists => {
                         this.logoStatus[symbol] = {
                             ...(this.logoStatus[symbol] || {}),
                             remote: exists
                         };
                     });
+
                 }
             });
-        },
-
-        async enrichStocksV2(){
-            for (let stock of this.stocks) {
-                if (!stock.prev_day_close) {
-                    const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
-                    stock.prev_day_close = response.data.prev_day_close;
-                }
-            }
         }
     },
     async mounted() {
-        // await this.enrichStocks();
+        try {
+            const response = await axios.get('/stocks_overview/prev_close');
+            this.prevCloseMap = response.data;
+        } catch (error) {
+            console.error('Failed to load prevCloseMap:', error);
+        }
+
+        const logos = import.meta.glob('/storage/images/logos/*.png');
+        Object.keys(logos).forEach(path => {
+            const symbol = path.split('/').pop().replace('.png', '');
+            this.logoStatus[symbol] = { local: true };
+        });
     }
 };
 </script>

@@ -22,7 +22,7 @@ class ActiveAssetsHelper
      */
     public static function symbols(): Collection
     {
-        return self::all()->take(20)->pluck('symbol');
+        return self::all()->take(100)->pluck('symbol');
     }
 
     /**
