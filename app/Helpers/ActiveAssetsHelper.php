@@ -22,7 +22,7 @@ class ActiveAssetsHelper
      */
     public static function symbols(): Collection
     {
-        return self::all()->pluck('symbol');
+        return self::all()->take(100)->pluck('symbol');
     }
 
     /**
@@ -46,5 +46,12 @@ class ActiveAssetsHelper
         }
 
         return self::$cache['raw'];
+    }
+
+    public static function polygonFormatSeconds(): string
+    {
+        return self::symbols()
+            ->map(fn($symbol) => 'A.' . $symbol)
+            ->implode(',');
     }
 }

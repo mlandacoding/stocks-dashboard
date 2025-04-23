@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\StockOverviewController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\PolygonController;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\ActiveAssetsHelper;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -32,5 +32,11 @@ Route::get('/stocks_overview/company_name/{symbol}', function ($symbol) {
     return response()->json([
         'name' => $stockData->company_name ?? 'Unknown Company',
         'prev_day_close' => $stockData->prev_day_close,
+    ]);
+});
+
+Route::get('/active-assets', function () {
+    return response()->json([
+        'symbols' => ActiveAssetsHelper::symbols(),
     ]);
 });

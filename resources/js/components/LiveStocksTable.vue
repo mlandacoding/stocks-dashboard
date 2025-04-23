@@ -62,123 +62,129 @@
     </v-container>
 </template>
 
-<script setup>
-import { ref, watch, onMounted, computed } from 'vue';
+<script>
+import { ref, watch, onMounted } from 'vue';
 import useStockStream from '@/composables/useStockStream';
 
-const search = ref('');
-const { formattedStocks: globalFormattedStocks } = useStockStream();
-const stocks = ref([]);
-
-
-const flashStates = ref({});
-
-
-['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA'].forEach(symbol => {
-    flashStates.value[symbol] = false;
-});
-
-
-watch(
-    globalFormattedStocks, (newVal) => {
-        stocks.value = newVal.map(stock => {
-            const existing = stocks.value.find(s => s.sym === stock.sym);
-            const prevVWAP = existing?.vwap ?? null;
-            const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
-
-            let percentageChange = null;
-            const prevClose = existing?.prev_day_close;
-
-            let priceChange = null;
-
-            if (prevClose != null && stock.vwap != null) {
-                percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
-                percentageChange = percentageChange.toFixed(2)
-                priceChange = (stock.vwap - prevClose).toFixed(2)
-
-            }
-
-            return {
-                ...stock,
-                previous_vwap: prevVWAP,
-                vwapFlash: vwapChanged,
-                prev_day_close: existing?.prev_day_close ?? null,
-                percentageChange: percentageChange,
-                priceChange: priceChange
-            };
-        });
-
-        setTimeout(() => {
-            stocks.value.forEach(s => (s.vwapFlash = false));
-        }, 600);
+export default {
+    name: 'LiveStocksTable',
+    data() {
+        return {
+            search: '',
+            stocks: [],
+            flashStates: {},
+            logoStatus: {},
+            apiKey: import.meta.env.VITE_POLYGON_API_KEY,
+            headers: [
+                { title: 'Symbol', key: 'sym' },
+                { title: 'Price', key: 'vwap' },
+                { title: '% Change', key: 'percentage_change' },
+            ],
+        };
     },
-    { immediate: true, deep: true }
-);
+    setup() {
+        const { formattedStocks: globalFormattedStocks } = useStockStream();
+        return { globalFormattedStocks };
+    },
+    watch: {
+        globalFormattedStocks: {
+        async handler(newVal) {
+            // Update the stocks array based on the incoming formatted stocks
+            this.stocks = await Promise.all(newVal.map(async (stock) => {
+                const existing = this.stocks.find(s => s.sym === stock.sym);
+                const prevVWAP = existing?.vwap ?? null;
+                const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
 
-const headers = [
-    { title: 'Symbol', key: 'sym' },
-    { title: 'Price', key: 'vwap' },
-    { title: '% Change', key: 'percentage_change' },
+                let percentageChange = null;
+                let priceChange = null;
+                let prevClose = existing?.prev_day_close;
 
-];
+                // Check if prev_day_close exists; if not, fetch it
+                if (!prevClose) {
+                    try {
+                        const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
+                        prevClose = response.data.prev_day_close;
+                    } catch (error) {
+                        console.error(`Error fetching prev_day_close for ${stock.sym}:`, error);
+                    }
+                }
 
-const logoStatus = ref({});
+                // Calculate percentage change and price change if we have prevClose and vwap
+                if (prevClose != null && stock.vwap != null) {
+                    percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
+                    percentageChange = percentageChange.toFixed(2);
+                    priceChange = (stock.vwap - prevClose).toFixed(2);
+                }
 
-const apiKey = import.meta.env.VITE_POLYGON_API_KEY;
+                return {
+                    ...stock,
+                    previous_vwap: prevVWAP,
+                    vwapFlash: vwapChanged,
+                    prev_day_close: prevClose,
+                    percentageChange,
+                    priceChange,
+                };
+            }));
 
-function preloadLogosForStocks(stocks) {
-    stocks.forEach(stock => {
-        const symbol = stock.sym;
-        if (!logoStatus.value[symbol]) {
-            const local = `/storage/images/logos/${symbol}.png`;
-            const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`;
+            // Reset the flash state after a short delay
+            setTimeout(() => {
+                this.stocks.forEach(s => (s.vwapFlash = false));
+            }, 600);
+        },
+        immediate: true,
+        deep: true
+    },
+    stocks: {
+        handler(newVal) {
+            this.preloadLogosForStocks(newVal);
+        },
+        immediate: true
+    }
+    },
+    methods: {
+        checkIfImageExists(src, callback) {
+            const img = new Image();
+            img.onload = () => callback(true);
+            img.onerror = () => callback(false);
+            img.src = src;
+        },
+        preloadLogosForStocks(stocks) {
+            stocks.forEach(stock => {
+                const symbol = stock.sym;
+                if (!this.logoStatus[symbol]) {
+                    const local = `/storage/images/logos/${symbol}.png`;
+                    const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
 
-            checkIfImageExists(local, exists => {
-                logoStatus.value[symbol] = { ...(logoStatus.value[symbol] || {}), local: exists };
+                    this.checkIfImageExists(local, exists => {
+                        this.logoStatus[symbol] = {
+                            ...(this.logoStatus[symbol] || {}),
+                            local: exists
+                        };
+                    });
+
+                    this.checkIfImageExists(remote, exists => {
+                        this.logoStatus[symbol] = {
+                            ...(this.logoStatus[symbol] || {}),
+                            remote: exists
+                        };
+                    });
+                }
             });
+        },
 
-            checkIfImageExists(remote, exists => {
-                logoStatus.value[symbol] = { ...(logoStatus.value[symbol] || {}), remote: exists };
-            });
+        async enrichStocksV2(){
+            for (let stock of this.stocks) {
+                if (!stock.prev_day_close) {  // Only enrich if `prev_day_close` is missing
+                    const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
+                    stock.prev_day_close = response.data.prev_day_close;
+                }
+            }
         }
-    });
-}
-
-watch(stocks, (newVal) => {
-    preloadLogosForStocks(newVal);
-}, { immediate: true });
-
-function checkIfImageExists(src, callback) {
-    const img = new Image();
-    img.onload = () => callback(true);
-    img.onerror = () => callback(false);
-    img.src = src;
-}
-
-onMounted(async () => {
-    const initial = globalFormattedStocks.value;
-
-    const enriched = await Promise.all(
-        initial.map(async stock => {
-            const existing = stocks.value.find(s => s.sym === stock.sym);
-            const prevVWAP = existing?.vwap ?? null;
-            const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
-
-            const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
-            const prev_day_close = response.data.prev_day_close;
-
-            return {
-                ...stock,
-                previous_vwap: prevVWAP,
-                vwapFlash: vwapChanged,
-                prev_day_close
-            };
-        })
-    );
-
-    stocks.value = enriched;
-});
-
+    },
+    async mounted() {
+        // await this.enrichStocks();
+    }
+};
 </script>
 
 <style scoped>

@@ -1,0 +1,63 @@
+.gap-2 {
+    gap: 0.5rem;
+}
+
+/* Dark theme styling */
+.custom-card {
+    background-color: #0c1427 !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+/* Force Search Bar to Stay Dark */
+.custom-input :deep(.v-input__control) {
+    background: #1a2238 !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Make sure text is visible */
+.custom-input :deep(.v-field__input) {
+    color: rgb(255, 255, 255) !important;
+    background-color: #0c1427 !important;
+}
+
+/* Keep background dark when focused */
+.custom-input :deep(.v-input.v-input--focused) .v-input__control {
+    background: #1a2238 !important;
+    border-color: white !important;
+}
+
+/* Fix label color */
+.custom-input :deep(.v-label) {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Table styling */
+.custom-table {
+    background: #0c1427 !important;
+    color: white !important;
+}
+
+/* Table header styling */
+.custom-table .v-data-table-header {
+    background: #1a2238 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Remove hover effect from table headers */
+.custom-table .v-data-table-header th:hover {
+    background: none !important;
+}
+
+/* Table row hover effect */
+.custom-table .v-data-table__tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Thinner Border Lines */
+.custom-table .v-data-table__th,
+.custom-table .v-data-table__td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}

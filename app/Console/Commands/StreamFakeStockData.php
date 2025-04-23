@@ -23,7 +23,7 @@ class StreamFakeStockData extends Command
             $symbolsToUpdate = collect($this->symbols)->random(rand(1, 9));
 
             foreach ($symbolsToUpdate as $symbol) {
-                $price = $this->randomFloat(250, 500);
+                $price = $this->randomFloat(250, 255);
                 $entry = [
                     'ev' => 'A',
                     'sym' => $symbol,
