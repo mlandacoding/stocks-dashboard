@@ -174,7 +174,7 @@ export default {
 
         async enrichStocksV2(){
             for (let stock of this.stocks) {
-                if (!stock.prev_day_close) {  // Only enrich if `prev_day_close` is missing
+                if (!stock.prev_day_close) {
                     const response = await axios.get(`/stocks_overview/company_name/${stock.sym}`);
                     stock.prev_day_close = response.data.prev_day_close;
                 }
