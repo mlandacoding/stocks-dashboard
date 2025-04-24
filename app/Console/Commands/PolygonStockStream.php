@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use React\EventLoop\Loop;
 use React\Socket\Connector as SocketConnector;
@@ -60,22 +61,45 @@ class PolygonStockStream extends Command
 
             $conn->on('message', function ($msg) use ($conn) {
                 $data = json_decode($msg, true);
-                Log::info('polygon message received', $data);
-
                 if (isset($data[0]['ev']) && $data[0]['ev'] === 'status' && $data[0]['status'] === 'auth_success') {
                     $conn->send(json_encode([
                         'action' => 'subscribe',
-                        'params' => $this->symbols->implode(',')
+                        'params' => $this->symbols->implode(','),
                     ]));
                 }
 
                 $aggregates = array_filter($data, fn($entry) => $entry['ev'] === 'A');
+
                 if (!empty($aggregates)) {
                     broadcast(new \App\Events\StockPriceUpdated($aggregates))->toOthers();
 
                     foreach ($aggregates as $entry) {
                         $symbol = $entry['sym'];
-                        Cache::put("vwap_buffer:$symbol", $entry, now()->addMinutes(30));
+                        $path = "intraday/$symbol.json";
+
+                        $data = [
+                            'timestamp' => now()->toISOString(),
+                            'price' => $entry['vw'],
+                            'volume' => $entry['v'],
+                        ];
+
+                        // Get last saved timestamp from cache (if available)
+                        $lastSavedTimestamp = Cache::get("last_saved_timestamp:$symbol");
+
+                        // Only store data if 5 minutes have passed since the last save
+                        if (!$lastSavedTimestamp || Carbon::parse($lastSavedTimestamp)->diffInMinutes(now()) >= 5) {
+                            // Append to existing JSON
+                            $existing = [];
+                            if (Storage::disk('public')->exists($path)) {
+                                $existing = json_decode(Storage::get($path), true);
+                            }
+
+                            $existing[] = $data;
+                            Storage::disk('public')->put($path, json_encode($existing));
+
+                            // Update the last saved timestamp in the cache
+                            Cache::put("last_saved_timestamp:$symbol", now()->toISOString(), now()->addMinutes(10)); // Store timestamp for 10 minutes
+                        }
                     }
                 }
 

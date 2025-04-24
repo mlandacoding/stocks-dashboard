@@ -46,8 +46,11 @@
                 </v-row>
                 <v-row justify="center">
 
-                    <v-col cols="12" sm="12">
+                    <v-col cols="12" sm="6">
                         <slot />
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <IntradayGraph></IntradayGraph>
                     </v-col>
                 </v-row>
             </v-container>
@@ -74,6 +77,7 @@
     import Sidebar from '@/components/Sidebar.vue';
     import StockCard from '@/components/StockCardComponent.vue';
     import MarketStatus from "@/components/MarketStatus.vue";
+    import IntradayGraph from "@/components/IntradayGraph.vue";
 
     const drawer = ref(false);
 

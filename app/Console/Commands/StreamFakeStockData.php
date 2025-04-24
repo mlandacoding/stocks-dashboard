@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 use App\Events\StockPriceUpdated;
 use App\Helpers\ActiveAssetsHelper;
 
@@ -40,7 +41,25 @@ class StreamFakeStockData extends Command
                     's' => now()->timestamp * 1000,
                     'e' => (now()->timestamp + 1) * 1000,
                 ];
+
                 $payload[] = $entry;
+
+                // 🟡 Write to file storage
+                $dataToCache = [
+                    'timestamp' => now()->toISOString(),
+                    'price' => $price,
+                    'volume' => $entry['v']
+                ];
+
+                $filePath = "intraday/{$symbol}_f.json";
+
+                $existing = [];
+                if (Storage::exists($filePath)) {
+                    $existing = json_decode(Storage::get($filePath), true);
+                }
+
+                $existing[] = $dataToCache;
+                Storage::put($filePath, json_encode($existing));
             }
 
             collect($payload)->chunk(10)->each(function ($chunk) {
@@ -52,7 +71,7 @@ class StreamFakeStockData extends Command
 
             $this->info('Broadcasted fake stock data at ' . now());
 
-            sleep(1); // Slow down the loop to simulate a delay
+            sleep(1); // Simulate real-time updates
         }
 
         return 0;

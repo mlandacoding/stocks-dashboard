@@ -5,7 +5,7 @@
         <v-text-field v-model="search" label="Search by symbol" prepend-inner-icon="mdi-magnify" class="mb-4"
             clearable />
 
-        <v-data-table :headers="headers" :items="stocks" :search="search" :items-per-page="100" class="custom-table">
+        <v-data-table :headers="headers" :items="stocks" :search="search" :items-per-page="10" class="custom-table">
             <template #item.sym="{ item }">
                 <div class="d-flex align-center gap-2">
                     <v-avatar size="32" rounded class="bg-white">
