@@ -47,8 +47,10 @@ function ensureWebSocketConnection() {
 
 async function fetchSymbolsFromAPI() {
   try {
-    const response = await axios.get('/active-assets')
-    const symbols = response.data.symbols || []
+
+    // const response = await axios.get('/active-assets')
+    const symbols = ['AAPL','MSFT','NVDA','AMZN','META','BRK.B',
+        'GOOGL','AVGO','GOOG','TSLA','SPY','IWM','DIA']
 
     // Create empty stock objects for each symbol
     symbols.forEach(symbol => {

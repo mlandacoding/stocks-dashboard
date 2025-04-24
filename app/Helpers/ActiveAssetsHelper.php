@@ -22,7 +22,7 @@ class ActiveAssetsHelper
      */
     public static function symbols(): Collection
     {
-        return self::all()->take(100)->pluck('symbol');
+        return self::all()->pluck('symbol');
     }
 
     /**
@@ -40,7 +40,7 @@ class ActiveAssetsHelper
     {
         if (!isset(self::$cache['raw'])) {
             self::$cache['raw'] = json_decode(
-                Storage::disk('local')->get('cache/active_assets.json'),
+                Storage::disk('public')->get('cache/active_assets.json'),
                 true
             );
         }

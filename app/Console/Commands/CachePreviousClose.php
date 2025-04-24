@@ -18,7 +18,7 @@ class CachePreviousClose extends Command
 
         $filePath = 'cache/previous_close.json';
 
-        Storage::disk('local')->put($filePath, $assets->toJson());
+        Storage::disk('public')->put($filePath, $assets->toJson());
 
         $this->info("Cached " . $assets->count() . " active assets to: storage/app/{$filePath}");
     }

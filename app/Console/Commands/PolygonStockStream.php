@@ -75,7 +75,8 @@ class PolygonStockStream extends Command
 
                     foreach ($aggregates as $entry) {
                         $symbol = $entry['sym'];
-                        $path = "intraday/$symbol.json";
+                        $path = storage_path("app/public/intraday/$symbol.json");
+
 
                         $data = [
                             'timestamp' => now()->toISOString(),
@@ -83,23 +84,24 @@ class PolygonStockStream extends Command
                             'volume' => $entry['v'],
                         ];
 
-                        // Get last saved timestamp from cache (if available)
-                        $lastSavedTimestamp = Cache::get("last_saved_timestamp:$symbol");
+                        if (file_exists($path)) {
 
-                        // Only store data if 5 minutes have passed since the last save
-                        if (!$lastSavedTimestamp || Carbon::parse($lastSavedTimestamp)->diffInMinutes(now()) >= 5) {
-                            // Append to existing JSON
-                            $existing = [];
-                            if (Storage::disk('public')->exists($path)) {
-                                $existing = json_decode(Storage::get($path), true);
+                            $inp = file_get_contents($path);
+                            $tempArray = json_decode($inp, true);
+
+                            if (!is_array($tempArray)) {
+                                $tempArray = [];
                             }
 
-                            $existing[] = $data;
-                            Storage::disk('public')->put($path, json_encode($existing));
+                            array_push($tempArray, $data);
 
-                            // Update the last saved timestamp in the cache
-                            Cache::put("last_saved_timestamp:$symbol", now()->toISOString(), now()->addMinutes(10)); // Store timestamp for 10 minutes
+                            $jsonData = json_encode($tempArray, JSON_PRETTY_PRINT);
+                            file_put_contents($path, $jsonData);
+                        } else {
+                            $jsonData = json_encode([$data], JSON_PRETTY_PRINT);
+                            file_put_contents($path, $jsonData);
                         }
+                        Cache::put("last_saved_timestamp:$symbol", now()->toISOString(), now()->addMinutes(10));
                     }
                 }
 

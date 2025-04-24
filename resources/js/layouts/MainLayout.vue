@@ -50,7 +50,7 @@
                         <slot />
                     </v-col>
                     <v-col cols="12" sm="6">
-                        <IntradayGraph></IntradayGraph>
+                        <IntradayGraph symbol="EA"></IntradayGraph>
                     </v-col>
                 </v-row>
             </v-container>

@@ -8,13 +8,13 @@
         <v-data-table :headers="headers" :items="stocks" :search="search" :items-per-page="10" class="custom-table">
             <template #item.sym="{ item }">
                 <div class="d-flex align-center gap-2">
-                    <v-avatar size="32" rounded class="bg-white">
+                    <v-avatar size="32" rounded="1" class="bg-white">
                         <img v-if="logoStatus[item.sym]?.local" :src="`/storage/images/logos/${item.sym}.png`"
                             alt="Local Logo" class="w-100 h-100" />
                         <img v-else-if="logoStatus[item.sym]?.remote"
                             :src="`https://cdn.brandfetch.io/${item.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`"
                             alt="Brandfetch Logo" class="w-100 h-100" />
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" width="90%" height="90%"
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" width="75%" height="75%"
                             class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
@@ -80,7 +80,8 @@ export default {
                 { title: 'Price', key: 'vwap' },
                 { title: '% Change', key: 'percentage_change' },
             ],
-            prevCloseMap: {}
+            prevCloseMap: {},
+            hasPreloaded: false
         };
     },
     setup() {
@@ -98,7 +99,8 @@ export default {
 
                 let percentageChange = null;
                 let priceChange = null;
-                let prevClose = this.prevCloseMap[stock.sym] ?? null;
+
+                let prevClose = this.prevCloseMap.find(entry => entry.symbol === stock.sym).prev_day_close ?? null;
 
 
                 // Calculate percentage change and price change if we have prevClose and vwap
@@ -128,7 +130,10 @@ export default {
     },
     stocks: {
         handler(newVal) {
-            this.preloadLogosForStocks(newVal);
+            if (!this.hasPreloaded && newVal.length > 0) {
+                this.preloadLogosForStocks(newVal);
+                this.hasPreloaded = true;
+            }
         },
         immediate: true
     }
@@ -159,8 +164,10 @@ export default {
     },
     async mounted() {
         try {
-            const response = await axios.get('/stocks_overview/prev_close');
-            this.prevCloseMap = response.data;
+            const prevCloseRes = await fetch('/storage/cache/previous_close.json');
+            const previousCloseData = await prevCloseRes.json();
+
+            this.prevCloseMap = previousCloseData;
         } catch (error) {
             console.error('Failed to load prevCloseMap:', error);
         }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppContent from '@/components/AppContent.vue';
+import AppContent from '@/components/other/AppContent.vue';
 import AppHeader from '@/components/other/AppHeader.vue';
 import AppShell from '@/components/other/AppShell.vue';
 import type { BreadcrumbItemType } from '@/types';
