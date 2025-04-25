@@ -11,6 +11,7 @@ use React\EventLoop\Loop;
 use React\Socket\Connector as SocketConnector;
 use Ratchet\Client\Connector as WebSocketConnector;
 use App\Helpers\ActiveAssetsHelper;
+use Illuminate\Support\Facades\DB;
 
 class PolygonStockStream extends Command
 {
@@ -30,8 +31,33 @@ class PolygonStockStream extends Command
 
     public function handle()
     {
-        $this->connect();
-        Loop::get()->run();
+        while (true) {
+            // $now = Carbon::now('America/New_York');
+
+            // // Exit if outside market hours
+            // $marketOpen = Carbon::createFromTime(9, 30, 0, 'America/New_York');
+            // $marketClose = Carbon::createFromTime(20, 0, 0, 'America/New_York');
+
+            // if (
+            //     $now->lt($marketOpen) ||
+            //     $now->gt($marketClose) ||
+            //     !in_array($now->dayOfWeek, [Carbon::MONDAY, Carbon::TUESDAY, Carbon::WEDNESDAY, Carbon::THURSDAY, Carbon::FRIDAY]) ||
+            //     !DB::table('calendars')
+            //     ->whereDate('date', $now)
+            //     ->where('status', '=', 'closed')
+            //     ->exists()
+            // ) {
+            //     $this->info("Market closed — exiting stream.");
+            //     break;
+            // }
+
+            $this->connect();
+            Loop::get()->run();
+
+            usleep(500000); // small sleep to avoid tight CPU loop (500ms)
+        }
+
+
     }
 
     protected function connect()
@@ -43,6 +69,8 @@ class PolygonStockStream extends Command
         $this->symbols = ActiveAssetsHelper::symbols()->map(function ($symbol) {
             return 'A.' . $symbol;
         });
+
+        $aggregatesBuffer = [];
 
         $url = 'wss://delayed.polygon.io/stocks';
         $apiKey = env('POLYGON_API_KEY');
@@ -59,54 +87,70 @@ class PolygonStockStream extends Command
                 'params' => $apiKey,
             ]));
 
-            $conn->on('message', function ($msg) use ($conn) {
+            $conn->on('message', function ($msg) use (&$aggregatesBuffer, $conn) {
                 $data = json_decode($msg, true);
+
                 if (isset($data[0]['ev']) && $data[0]['ev'] === 'status' && $data[0]['status'] === 'auth_success') {
                     $conn->send(json_encode([
                         'action' => 'subscribe',
                         'params' => $this->symbols->implode(','),
                     ]));
+                    return;
                 }
 
                 $aggregates = array_filter($data, fn($entry) => $entry['ev'] === 'A');
 
-                if (!empty($aggregates)) {
-                    broadcast(new \App\Events\StockPriceUpdated($aggregates))->toOthers();
-
-                    foreach ($aggregates as $entry) {
-                        $symbol = $entry['sym'];
-                        $path = storage_path("app/public/intraday/$symbol.json");
-
-
-                        $data = [
-                            'timestamp' => now()->toISOString(),
-                            'price' => $entry['vw'],
-                            'volume' => $entry['v'],
-                        ];
-
-                        if (file_exists($path)) {
-
-                            $inp = file_get_contents($path);
-                            $tempArray = json_decode($inp, true);
-
-                            if (!is_array($tempArray)) {
-                                $tempArray = [];
-                            }
-
-                            array_push($tempArray, $data);
-
-                            $jsonData = json_encode($tempArray, JSON_PRETTY_PRINT);
-                            file_put_contents($path, $jsonData);
-                        } else {
-                            $jsonData = json_encode([$data], JSON_PRETTY_PRINT);
-                            file_put_contents($path, $jsonData);
-                        }
-                        Cache::put("last_saved_timestamp:$symbol", now()->toISOString(), now()->addMinutes(10));
-                    }
+                foreach ($aggregates as $entry) {
+                    $aggregatesBuffer[$entry['sym']] = $entry;
                 }
 
-                unset($aggregates);
                 gc_collect_cycles();
+            });
+
+            Loop::get()->addPeriodicTimer(1, function () use (&$aggregatesBuffer) {
+                if (empty($aggregatesBuffer)) return;
+
+                $now = now();
+
+                broadcast(new \App\Events\StockPriceUpdated(array_values($aggregatesBuffer)))->toOthers();
+
+                static $lastCacheTimestamps = [];
+
+                foreach ($aggregatesBuffer as $entry) {
+                    $symbol = $entry['sym'];
+                    $path = storage_path("app/public/intraday/$symbol.json");
+
+                    $data = [
+                        'timestamp' => $now->toISOString(),
+                        'price' => $entry['vw'],
+                        'volume' => $entry['v'],
+                    ];
+
+                    $tempArray = file_exists($path)
+                        ? json_decode(file_get_contents($path), true) ?? []
+                        : [];
+
+                    $tempArray[] = $data;
+                    file_put_contents($path, json_encode($tempArray, JSON_PRETTY_PRINT));
+
+                    $last = $lastCacheTimestamps[$symbol] ?? null;
+                    if (!$last || $now->diffInMinutes($last) >= 5) {
+                        $path5m = storage_path("app/public/intraday/5m/$symbol.json");
+
+                        $fiveMinArray = file_exists($path5m)
+                            ? json_decode(file_get_contents($path5m), true) ?? []
+                            : [];
+
+                        $fiveMinArray[] = $data;
+                        file_put_contents($path5m, json_encode($fiveMinArray, JSON_PRETTY_PRINT));
+
+                        $lastCacheTimestamps[$symbol] = $now;
+                    }
+
+                    Cache::put("last_saved_timestamp:$symbol", $now->toISOString(), now()->addMinutes(10));
+                }
+
+                $aggregatesBuffer = []; // Clear buffer
             });
 
             $conn->on('close', function ($code = null, $reason = null) {

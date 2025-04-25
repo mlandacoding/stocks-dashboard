@@ -1,5 +1,5 @@
-<template>
-    <v-container v-if="holiday">
+<template >
+    <v-container v-if="holiday" >
         <v-alert v-if="marketStatus == 'closed'" color="#C51162" icon="mdi-cancel" theme="dark" density="compact" border>
             Markets are closed in observance of <b>{{ holiday }}</b>
         </v-alert>

@@ -72,12 +72,12 @@
                     style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
                 </v-btn>
             </template>
-            <template v-slot:bottom>
+            <!-- <template v-slot:bottom>
                 <v-container class="text-end">
                 Pricing delayed approximately 15 minutes*
                 </v-container>
 
-            </template>
+            </template> -->
         </v-data-table>
     </div>
     <!-- </v-container> -->
@@ -118,7 +118,7 @@ export default {
                 // Update the stocks array based on the incoming formatted stocks
                 this.stocks = (
     await Promise.all(newVal.map(async (stock) => {
-        if (this.popular_stocks.includes(stock.sym)) {
+        // if (this.popular_stocks.includes(stock.sym)) {
             const existing = this.stocks.find(s => s.sym === stock.sym);
             const prevVWAP = existing?.vwap ?? null;
             const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
@@ -143,7 +143,7 @@ export default {
                 percentageChange,
                 priceChange,
             };
-        }
+        // }
 
         // Non-popular stocks return nothing
         return null;
@@ -193,8 +193,14 @@ export default {
         },
 
         showStockGraph(sym) {
-            this.$emit('show-graph', sym);
-        },
+            const stock = this.stocks.find(s => s.sym === sym);
+            if (stock) {
+                this.$emit('show-graph', {
+                    sym: stock.sym,
+                    previous_close: stock.prev_day_close
+                });
+            }
+        }
 
     },
     async mounted() {

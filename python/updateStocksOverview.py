@@ -32,11 +32,15 @@ for item in snapshot:
     if item.ticker not in stocks:
         continue
 
-    if item.day.close == 0:
-        continue
-    else:
-        percent_change = ((item.prev_day.close * 100) / item.day.close) - 100
-        percent_change *= -1
+    # if item.day.close == 0:
+    #     continue
+    # else:
+    #     percent_change = ((item.prev_day.close * 100) / item.day.close) - 100
+    #     percent_change *= -1
+
+    percentage_change = 0
+
+    print(percentage_change)
 
     row = (
         item.ticker,
@@ -46,7 +50,7 @@ for item in snapshot:
         round(item.prev_day.open, 4),
         round(item.prev_day.close, 4),
         round(item.last_trade.price, 4) if item.last_trade else round(item.day.close, 4),
-        round(percent_change, 2),
+        round(percentage_change, 2),
         datetime.fromtimestamp(int(str(item.updated)[:13]) / 1000),
         datetime.utcnow(),
     )
