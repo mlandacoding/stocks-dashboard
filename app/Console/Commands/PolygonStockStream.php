@@ -114,7 +114,7 @@ class PolygonStockStream extends Command
 
                 $payload = $aggregatesBuffer;
                 $payloadSize = strlen(json_encode($payload)); // size in bytes
-                $maxPayloadSize = 90000; // 10KB is still a safe upper limit
+                $maxPayloadSize = 70000;
 
                 if ($payloadSize > $maxPayloadSize) {
                     Log::warning('Reverb broadcast payload too large', [
@@ -149,7 +149,7 @@ class PolygonStockStream extends Command
                     file_put_contents($path, json_encode($tempArray, JSON_PRETTY_PRINT));
 
                     $last = $lastCacheTimestamps[$symbol] ?? null;
-                    if (!$last || $now->diffInMinutes($last) >= 5) {
+                    if (!$last || $now->diffInMinutes($last) >= 2) {
                         $path5m = storage_path("app/public/intraday/5m/$symbol.json");
 
                         $fiveMinArray = file_exists($path5m)

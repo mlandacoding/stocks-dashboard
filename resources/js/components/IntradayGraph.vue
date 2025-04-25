@@ -46,14 +46,14 @@ export default {
     methods: {
         async loadChartData() {
             try {
-                const intradayRes = await fetch(`/storage/intraday/${this.symbol}.json`);
+                const intradayRes = await fetch(`/storage/intraday/5mCon2/${this.symbol}.json`);
 
 
                 const intradayData = await intradayRes.json();
 
                 const pricePoints = intradayData.map(entry => ({
-                    x: new Date(entry.timestamp),
-                    y: entry.price,
+                    x: new Date(entry[0]),
+                    y: entry[1],
                 }));
 
                 const lastPrice = pricePoints[pricePoints.length - 1]?.y;
@@ -61,10 +61,10 @@ export default {
 
                 const isGreen = lastPrice >= prevClosePrice;
 
-                const cutoff = new Date(intradayData[0].timestamp);
+                const cutoff = new Date(intradayData[0][0]);
                 cutoff.setUTCHours(20, 15, 0, 0);
 
-                const pre_market_cutoff = new Date(intradayData[0].timestamp);
+                const pre_market_cutoff = new Date(intradayData[0][0]);
                 pre_market_cutoff.setUTCHours(13, 30, 0, 0);
 
                 const regularHoursData = [];
@@ -72,14 +72,14 @@ export default {
                 const preMarketHoursData = [];
 
                 intradayData.forEach(entry => {
-                    const entryTime = new Date(entry.timestamp);
+                    const entryTime = new Date(entry[0]);
                     if(entryTime <= pre_market_cutoff){
-                        preMarketHoursData.push([entryTime.getTime(), entry.price]);
+                        preMarketHoursData.push([entryTime.getTime(), entry[1]]);
                     }
                     if (entryTime >= cutoff) {
-                        afterHoursData.push([entryTime.getTime(), entry.price]);
+                        afterHoursData.push([entryTime.getTime(), entry[1]]);
                     } else {
-                        regularHoursData.push([entryTime.getTime(), entry.price]);
+                        regularHoursData.push([entryTime.getTime(), entry[1]]);
                     }
                 });
 
