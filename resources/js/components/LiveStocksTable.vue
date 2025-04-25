@@ -1,11 +1,18 @@
 <template>
-    <v-container style="color:aqua" class="py-12 custom-card">
-        <h5 class="font-semibold mb-4">* Prices have a delay of 15 minutes</h5>
+    <div style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
 
-        <v-text-field v-model="search" label="Search by symbol" prepend-inner-icon="mdi-magnify" class="mb-4"
-            clearable />
 
-        <v-data-table :headers="headers" :items="stocks" :search="search" :items-per-page="10" class="custom-table">
+        <v-card-title class="d-flex align-center pe-2">
+            Popular Stocks
+
+            <v-spacer></v-spacer>
+
+            <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify" flat
+                hide-details single-line></v-text-field>
+        </v-card-title>
+
+        <v-data-table :headers="headers" :items="stocks" density="compact" :search="search" :items-per-page="10"
+            class="custom-table">
             <template #item.sym="{ item }">
                 <div class="d-flex align-center gap-2">
                     <v-avatar size="32" rounded="1" class="bg-white">
@@ -38,7 +45,7 @@
                 </span>
             </template>
             <template #item.percentage_change="{ item }">
-                <div class="d-flex align-center gap-2">
+                <div class="d-flex gap-2 text-end justify-end text-end">
                     <span><b>{{ item.priceChange }}</b></span>
                     <span :style="{
                         backgroundColor: item.percentageChange < 0
@@ -56,14 +63,27 @@
                     ]">
                         {{ item.percentageChange }}%
                     </span>
+
                 </div>
             </template>
+            <template #item.chart="{ item }">
+                <v-btn v-if="$vuetify.display.mdAndUp" color="primary" variant="flat" prepend-icon="mdi-chart-line"
+                    class="text-white text-capitalize font-weight-bold" @click="showStockGraph(item.sym)"
+                    style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
+                </v-btn>
+            </template>
+            <template v-slot:bottom>
+                <v-container class="text-end">
+                Pricing delayed approximately 15 minutes*
+                </v-container>
+
+            </template>
         </v-data-table>
-    </v-container>
+    </div>
+    <!-- </v-container> -->
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue';
 import useStockStream from '@/composables/useStockStream';
 
 export default {
@@ -78,10 +98,14 @@ export default {
             headers: [
                 { title: 'Symbol', key: 'sym' },
                 { title: 'Price', key: 'vwap' },
-                { title: '% Change', key: 'percentage_change' },
+                { title: '% Change', key: 'percentage_change' , align: 'end'},
+                { title: 'Chart', key: 'chart' },
             ],
             prevCloseMap: {},
-            hasPreloaded: false
+            hasPreloaded: false,
+            popular_stocks: ['META', 'MSFT', 'AMZN','TSLA',
+            'NVDA', 'GOOGL','AAPL','AMD',
+            'MSFT', 'BRK.B','TSMC','AVGO']
         };
     },
     setup() {
@@ -90,53 +114,59 @@ export default {
     },
     watch: {
         globalFormattedStocks: {
-        async handler(newVal) {
-            // Update the stocks array based on the incoming formatted stocks
-            this.stocks = await Promise.all(newVal.map(async (stock) => {
-                const existing = this.stocks.find(s => s.sym === stock.sym);
-                const prevVWAP = existing?.vwap ?? null;
-                const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+            async handler(newVal) {
+                // Update the stocks array based on the incoming formatted stocks
+                this.stocks = (
+    await Promise.all(newVal.map(async (stock) => {
+        if (this.popular_stocks.includes(stock.sym)) {
+            const existing = this.stocks.find(s => s.sym === stock.sym);
+            const prevVWAP = existing?.vwap ?? null;
+            const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
 
-                let percentageChange = null;
-                let priceChange = null;
+            let percentageChange = null;
+            let priceChange = null;
 
-                let prevClose = this.prevCloseMap.find(entry => entry.symbol === stock.sym).prev_day_close ?? null;
+            const matched = this.prevCloseMap.find(entry => entry.symbol === stock.sym);
+            const prevClose = matched ? matched.prev_day_close : null;
 
-
-                // Calculate percentage change and price change if we have prevClose and vwap
-                if (prevClose != null && stock.vwap != null) {
-                    percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
-                    percentageChange = percentageChange.toFixed(2);
-                    priceChange = (stock.vwap - prevClose).toFixed(2);
-                }
-
-                return {
-                    ...stock,
-                    previous_vwap: prevVWAP,
-                    vwapFlash: vwapChanged,
-                    prev_day_close: prevClose,
-                    percentageChange,
-                    priceChange,
-                };
-            }));
-
-            // Reset the flash state after a short delay
-            setTimeout(() => {
-                this.stocks.forEach(s => (s.vwapFlash = false));
-            }, 600);
-        },
-        immediate: true,
-        deep: true
-    },
-    stocks: {
-        handler(newVal) {
-            if (!this.hasPreloaded && newVal.length > 0) {
-                this.preloadLogosForStocks(newVal);
-                this.hasPreloaded = true;
+            if (prevClose != null && stock.vwap != null) {
+                percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
+                percentageChange = percentageChange.toFixed(2);
+                priceChange = (stock.vwap - prevClose).toFixed(2);
             }
+
+            return {
+                ...stock,
+                previous_vwap: prevVWAP,
+                vwapFlash: vwapChanged,
+                prev_day_close: prevClose,
+                percentageChange,
+                priceChange,
+            };
+        }
+
+        // Non-popular stocks return nothing
+        return null;
+    }))
+).filter(Boolean);
+
+                // Reset the flash state after a short delay
+                setTimeout(() => {
+                    this.stocks.forEach(s => (s.vwapFlash = false));
+                }, 600);
+            },
+            immediate: true,
+            deep: true
         },
-        immediate: true
-    }
+        stocks: {
+            handler(newVal) {
+                if (!this.hasPreloaded && newVal.length > 0) {
+                    this.preloadLogosForStocks(newVal);
+                    this.hasPreloaded = true;
+                }
+            },
+            immediate: true
+        }
     },
     methods: {
         checkIfImageExists(src, callback) {
@@ -160,7 +190,12 @@ export default {
 
                 }
             });
-        }
+        },
+
+        showStockGraph(sym) {
+            this.$emit('show-graph', sym);
+        },
+
     },
     async mounted() {
         try {
@@ -210,6 +245,11 @@ export default {
 .custom-input :deep(.v-input.v-input--focused) .v-input__control {
     background: #1a2238 !important;
     border-color: white !important;
+}
+
+.custom-table :deep(.v-data-table__td),
+.custom-table :deep(.v-data-table__th) {
+    border-bottom: none !important;
 }
 
 /* Fix label color */

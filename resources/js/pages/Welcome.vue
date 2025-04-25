@@ -1,6 +1,6 @@
 <template>
     <MainLayout>
-        <LiveStocksTable></LiveStocksTable>
+
     </MainLayout>
 </template>
 
@@ -8,8 +8,11 @@
 
 import MainLayout from '@/layouts/MainLayout.vue';
 import LiveStocksTable from '@/components/LiveStocksTable.vue';
+
+
 defineProps({
     message: String
 })
+
 
 </script>

@@ -16,12 +16,16 @@ class StreamFakeStockData extends Command
     public function handle()
     {
         $this->info('Starting fake stock data stream... Press Ctrl+C to stop.');
-        $this->symbols = ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA', 'NVDA', 'SPY', 'IWM', 'DIA'];
+        $this->symbols =
+            ['META', 'MSFT', 'AMZN', 'CRM', 'TSLA',
+            'NVDA', 'SPY', 'IWM', 'DIA', 'GOOGL','AAPL','AMD',
+            'MSFT', 'BRK.B','TSMC','AVGO'
+        ];
 
         while (true) {
             $payload = [];
 
-            $symbolsToUpdate = collect($this->symbols)->random(rand(1, 9));
+            $symbolsToUpdate = collect($this->symbols)->random(rand(1, 12));
 
             foreach ($symbolsToUpdate as $symbol) {
                 $price = $this->randomFloat(250, 255);

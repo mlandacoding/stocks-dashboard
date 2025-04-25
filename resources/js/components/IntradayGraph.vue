@@ -59,8 +59,8 @@ export default {
 
                 const isGreen = lastPrice >= prevClosePrice;
 
-                const cutoff = new Date();
-                cutoff.setUTCHours(20, 0, 0, 0);
+                const cutoff = new Date(intradayData[0].timestamp);
+                cutoff.setUTCHours(20, 15, 0, 0);
 
                 const regularHoursData = [];
                 const afterHoursData = [];
