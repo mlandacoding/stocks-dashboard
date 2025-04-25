@@ -112,6 +112,21 @@ class PolygonStockStream extends Command
 
                 $now = now();
 
+                $payload = $aggregatesBuffer;
+                $payloadSize = strlen(json_encode($payload)); // size in bytes
+                $maxPayloadSize = 90000; // 10KB is still a safe upper limit
+
+                if ($payloadSize > $maxPayloadSize) {
+                    Log::warning('Reverb broadcast payload too large', [
+                        'size_bytes' => $payloadSize,
+                        'symbol_count' => count($payload),
+                        'first_symbols' => array_slice(array_column($payload, 'sym'), 0, 5),
+                    ]);
+
+                    // Optional: skip or chunk
+                    return;
+                }
+
                 broadcast(new \App\Events\StockPriceUpdated(array_values($aggregatesBuffer)))->toOthers();
 
                 static $lastCacheTimestamps = [];
