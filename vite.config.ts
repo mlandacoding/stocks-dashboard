@@ -20,6 +20,9 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        minify: false,
+    },
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
