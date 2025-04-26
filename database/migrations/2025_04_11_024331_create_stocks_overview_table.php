@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('stocks_overview', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->nullable();
             $table->char('symbol', 50);
             $table->char('company_name', 100);
             $table->unsignedBigInteger('volume');
