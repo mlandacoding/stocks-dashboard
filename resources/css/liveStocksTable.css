@@ -28,6 +28,11 @@
     border-color: white !important;
 }
 
+.custom-table :deep(.v-data-table__td),
+.custom-table :deep(.v-data-table__th) {
+    border-bottom: none !important;
+}
+
 /* Fix label color */
 .custom-input :deep(.v-label) {
     color: rgba(255, 255, 255, 0.7) !important;

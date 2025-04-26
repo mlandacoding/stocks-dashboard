@@ -72,12 +72,12 @@
                     style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
                 </v-btn>
             </template>
-            <!-- <template v-slot:bottom>
+            <template v-slot:bottom>
                 <v-container class="text-end">
                 Pricing delayed approximately 15 minutes*
                 </v-container>
 
-            </template> -->
+            </template>
         </v-data-table>
     </div>
     <!-- </v-container> -->
@@ -118,7 +118,7 @@ export default {
                 // Update the stocks array based on the incoming formatted stocks
                 this.stocks = (
     await Promise.all(newVal.map(async (stock) => {
-        // if (this.popular_stocks.includes(stock.sym)) {
+        if (this.popular_stocks.includes(stock.sym)) {
             const existing = this.stocks.find(s => s.sym === stock.sym);
             const prevVWAP = existing?.vwap ?? null;
             const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
@@ -143,12 +143,12 @@ export default {
                 percentageChange,
                 priceChange,
             };
-        // }
+        }
 
         // Non-popular stocks return nothing
         return null;
-    }))
-).filter(Boolean);
+            }))
+        ).filter(Boolean);
 
                 // Reset the flash state after a short delay
                 setTimeout(() => {
@@ -218,77 +218,18 @@ export default {
             const symbol = path.split('/').pop().replace('.png', '');
             this.logoStatus[symbol] = { local: true };
         });
+
+        this.popular_stocks.forEach((value) =>{
+            const stock = {
+                symbol: value,
+                vwap: 172.34
+            };
+            this.stocks.push(stock);
+        });
     }
 };
 </script>
 
 <style scoped>
-.gap-2 {
-    gap: 0.5rem;
-}
-
-/* Dark theme styling */
-.custom-card {
-    background-color: #0c1427 !important;
-    color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-}
-
-/* Force Search Bar to Stay Dark */
-.custom-input :deep(.v-input__control) {
-    background: #1a2238 !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-/* Make sure text is visible */
-.custom-input :deep(.v-field__input) {
-    color: rgb(255, 255, 255) !important;
-    background-color: #0c1427 !important;
-}
-
-/* Keep background dark when focused */
-.custom-input :deep(.v-input.v-input--focused) .v-input__control {
-    background: #1a2238 !important;
-    border-color: white !important;
-}
-
-.custom-table :deep(.v-data-table__td),
-.custom-table :deep(.v-data-table__th) {
-    border-bottom: none !important;
-}
-
-/* Fix label color */
-.custom-input :deep(.v-label) {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-/* Table styling */
-.custom-table {
-    background: #0c1427 !important;
-    color: white !important;
-}
-
-/* Table header styling */
-.custom-table .v-data-table-header {
-    background: #1a2238 !important;
-    color: white !important;
-    font-weight: bold;
-}
-
-/* Remove hover effect from table headers */
-.custom-table .v-data-table-header th:hover {
-    background: none !important;
-}
-
-/* Table row hover effect */
-.custom-table .v-data-table__tbody tr:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Thinner Border Lines */
-.custom-table .v-data-table__th,
-.custom-table .v-data-table__td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
+@import '../../css/liveStocksTable.css';
 </style>
