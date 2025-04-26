@@ -213,11 +213,11 @@ export default {
             console.error('Failed to load prevCloseMap:', error);
         }
 
-        const logos = import.meta.glob('/storage/images/logos/*.png');
-        Object.keys(logos).forEach(path => {
-            const symbol = path.split('/').pop().replace('.png', '');
-            this.logoStatus[symbol] = { local: true };
-        });
+        // const logos = import.meta.glob('/storage/images/logos/*.png');
+        // Object.keys(logos).forEach(path => {
+        //     const symbol = path.split('/').pop().replace('.png', '');
+        //     this.logoStatus[symbol] = { local: true };
+        // });
 
         this.popular_stocks.forEach((value) =>{
             const stock = {
