@@ -23,13 +23,20 @@ class UpdateStocksOverview extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
-    {
-        //
+    public function handle(){
         $this->info('Running Python updateStocksOverview.py...');
 
         $scriptPath = base_path('python/updateStocksOverview.py');
-        $pythonPath = base_path('venv/Scripts/python.exe');
+
+        // Detect the platform and set the correct Python path
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            // Windows
+            $pythonPath = base_path('venv/Scripts/python.exe');
+        } else {
+            // Linux or other Unix-like OS
+            $pythonPath = base_path('venv/bin/python');
+        }
+
         $process = new Process([$pythonPath, $scriptPath]);
         $process->run();
 
