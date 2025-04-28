@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/ExamplePage-CYveuMsz.js","assets/MainLayout-C3Lu4Zp2.js","assets/MainLayout-BQg1_Rj1.css","assets/Welcome-yljWfzUY.js","assets/ConfirmPassword-BdGfjAec.js","assets/Label.vue_vue_type_script_setup_true_lang-CwK_2FFq.js","assets/loader-circle--eecBrDj.js","assets/ForgotPassword-CIC5B5Xj.js","assets/TextLink.vue_vue_type_script_setup_true_lang-hJah7sG9.js","assets/Login-DD-oASTX.js","assets/Register-ByP1PKB0.js","assets/ResetPassword-BAKsVfaS.js","assets/VerifyEmail-BsqCCfHK.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/ExamplePage-DAgeVitZ.js","assets/MainLayout-3s5udZvd.js","assets/MainLayout-BQg1_Rj1.css","assets/Welcome-BDMiKKj6.js","assets/ConfirmPassword-DoTkKmCF.js","assets/Label.vue_vue_type_script_setup_true_lang-CCJ1qqJi.js","assets/loader-circle-CVaL2m6p.js","assets/ForgotPassword-DwMjQoo5.js","assets/TextLink.vue_vue_type_script_setup_true_lang-DlOB6UyI.js","assets/Login-C78p51qa.js","assets/Register-B8-KZ_iz.js","assets/ResetPassword-VStDOfSz.js","assets/VerifyEmail-eZlyQqz8.js"])))=>i.map(i=>d[i]);
 var _a;
 const scriptRel = "modulepreload";
 const assetsURL = function(dep) {
@@ -34045,10 +34045,11 @@ window.Pusher = Pusher;
 window.Echo = new Echo({
   broadcaster: "reverb",
   key: "tvaldsihwukqcy3p7odj",
-  wsHost: "127.0.0.1",
-  wsPort: 8080,
+  wsHost: window.location.hostname,
+  // not hardcoded localhost
+  wsPort: 443,
   wssPort: 443,
-  forceTLS: false,
+  forceTLS: true,
   enabledTransports: ["ws"]
 });
 function useToggleScope(source, fn) {
@@ -62150,7 +62151,7 @@ const vuetify = createVuetify({
   }
 });
 L2({
-  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-CYveuMsz.js"), true ? __vite__mapDeps([0,1,2]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-yljWfzUY.js"), true ? __vite__mapDeps([3,1,2]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-BdGfjAec.js"), true ? __vite__mapDeps([4,5,6]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-CIC5B5Xj.js"), true ? __vite__mapDeps([7,5,6,8]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-DD-oASTX.js"), true ? __vite__mapDeps([9,5,6,8]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-ByP1PKB0.js"), true ? __vite__mapDeps([10,5,6,8]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-BAKsVfaS.js"), true ? __vite__mapDeps([11,5,6]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-BsqCCfHK.js"), true ? __vite__mapDeps([12,8,6]) : void 0) })),
+  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-DAgeVitZ.js"), true ? __vite__mapDeps([0,1,2]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-BDMiKKj6.js"), true ? __vite__mapDeps([3,1,2]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-DoTkKmCF.js"), true ? __vite__mapDeps([4,5,6]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-DwMjQoo5.js"), true ? __vite__mapDeps([7,5,6,8]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-C78p51qa.js"), true ? __vite__mapDeps([9,5,6,8]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-B8-KZ_iz.js"), true ? __vite__mapDeps([10,5,6,8]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-VStDOfSz.js"), true ? __vite__mapDeps([11,5,6]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-eZlyQqz8.js"), true ? __vite__mapDeps([12,8,6]) : void 0) })),
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h$1(App, props) }).use(plugin).use(vuetify).mount(el);
   }
@@ -62183,11 +62184,11 @@ export {
   Comment as Y,
   cloneVNode as Z,
   createVNode as a,
-  resolveComponent as b,
+  createElementBlock as b,
   createBlock as c,
-  createElementBlock as d,
-  createCommentVNode as e,
-  createBaseVNode as f,
+  createBaseVNode as d,
+  resolveComponent as e,
+  createCommentVNode as f,
   createTextVNode as g,
   renderList as h,
   computed as i,
