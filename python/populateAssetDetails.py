@@ -1,5 +1,4 @@
 from polygon import RESTClient
-from polygon.rest.models import TickerSnapshot, Agg
 import mysql.connector
 from datetime import datetime, timezone
 import os
