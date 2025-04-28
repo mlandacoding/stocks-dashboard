@@ -113,8 +113,8 @@ class PolygonStockStream extends Command
                 $now = now();
 
                 $payload = $aggregatesBuffer;
-                $payloadSize = strlen(json_encode($payload)); // size in bytes
-                $maxPayloadSize = 70000;
+                $payloadSize = strlen(json_encode($payload));
+                $maxPayloadSize = 50000;
 
                 if ($payloadSize > $maxPayloadSize) {
                     Log::warning('Reverb broadcast payload too large', [
@@ -123,7 +123,7 @@ class PolygonStockStream extends Command
                         'first_symbols' => array_slice(array_column($payload, 'sym'), 0, 5),
                     ]);
 
-                    // Optional: skip or chunk
+
                     return;
                 }
 
@@ -136,17 +136,21 @@ class PolygonStockStream extends Command
                     $path = storage_path("app/public/intraday/$symbol.json");
 
                     $data = [
-                        'timestamp' => $now->toISOString(),
-                        'price' => $entry['vw'],
-                        'volume' => $entry['v'],
+                        $now->toISOString(),
+                        $entry['vw'],
                     ];
+
 
                     $tempArray = file_exists($path)
                         ? json_decode(file_get_contents($path), true) ?? []
                         : [];
 
+
                     $tempArray[] = $data;
+
+
                     file_put_contents($path, json_encode($tempArray, JSON_PRETTY_PRINT));
+
 
                     $last = $lastCacheTimestamps[$symbol] ?? null;
                     if (!$last || $now->diffInMinutes($last) >= 2) {
@@ -156,16 +160,21 @@ class PolygonStockStream extends Command
                             ? json_decode(file_get_contents($path5m), true) ?? []
                             : [];
 
+
                         $fiveMinArray[] = $data;
+
+
                         file_put_contents($path5m, json_encode($fiveMinArray, JSON_PRETTY_PRINT));
+
 
                         $lastCacheTimestamps[$symbol] = $now;
                     }
 
+
                     Cache::put("last_saved_timestamp:$symbol", $now->toISOString(), now()->addMinutes(10));
                 }
 
-                $aggregatesBuffer = []; // Clear buffer
+                $aggregatesBuffer = [];
             });
 
             $conn->on('close', function ($code = null, $reason = null) {
