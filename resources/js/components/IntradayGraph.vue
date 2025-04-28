@@ -46,7 +46,7 @@ export default {
     methods: {
         async loadChartData() {
             try {
-                const intradayRes = await fetch(`/storage/intraday/5mCon2/${this.symbol}.json`);
+                const intradayRes = await fetch(`/storage/intraday/${this.symbol}.json`);
 
 
                 const intradayData = await intradayRes.json();
