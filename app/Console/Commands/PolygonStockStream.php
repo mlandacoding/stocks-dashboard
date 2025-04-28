@@ -114,7 +114,7 @@ class PolygonStockStream extends Command
 
                 $payload = $aggregatesBuffer;
                 $payloadSize = strlen(json_encode($payload));
-                $maxPayloadSize = 50000;
+                $maxPayloadSize = 30000;
 
                 if ($payloadSize > $maxPayloadSize) {
                     Log::warning('Reverb broadcast payload too large', [
