@@ -13,10 +13,16 @@ class PolygonController extends Controller
     {
         $apiKey = config('services.polygon.key');
 
+        // Determine OS and set certificate path accordingly
+        $certificatePath = (PHP_OS_FAMILY === 'Windows')
+            ? 'C:\wamp64\bin\php\php8.2.0\extras\ssl\cacert.pem' // Windows path
+            : '/etc/ssl/certs/ca-certificates.crt'; // Default Linux path
+
+        // Send the request with appropriate SSL verification
         $response = Http::withOptions([
-            'verify' => 'C:\wamp64\bin\php\php8.2.0\extras\ssl\cacert.pem'
+            'verify' => $certificatePath,
         ])->get('https://api.polygon.io/v1/marketstatus/now', [
-            'apiKey' => $apiKey
+            'apiKey' => $apiKey,
         ]);
 
         return response()->json($response->json());
