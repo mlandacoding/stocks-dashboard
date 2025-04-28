@@ -67,7 +67,8 @@
                 </div>
             </template>
             <template #item.chart="{ item }">
-                <v-btn v-if="$vuetify.display.mdAndUp" color="primary" variant="flat" prepend-icon="mdi-chart-line"
+                <!-- <v-btn v-if="$vuetify.display.mdAndUp" color="primary" variant="flat" prepend-icon="mdi-chart-line" -->
+                <v-btn color="primary" variant="flat" prepend-icon="mdi-chart-line"
                     class="text-white text-capitalize font-weight-bold" @click="showStockGraph(item.sym)"
                     style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
                 </v-btn>

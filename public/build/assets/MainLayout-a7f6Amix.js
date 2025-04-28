@@ -1,4 +1,4 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-BDEm5T_R.js";
+import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-CJD2jHJs.js";
 const _sfc_main$6 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -11036,15 +11036,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ]),
       "item.chart": withCtx(({ item }) => [
-        _ctx.$vuetify.display.mdAndUp ? (openBlock(), createBlock(_component_v_btn, {
-          key: 0,
+        createVNode(_component_v_btn, {
           color: "primary",
           variant: "flat",
           "prepend-icon": "mdi-chart-line",
           class: "text-white text-capitalize font-weight-bold",
           onClick: ($event) => $options.showStockGraph(item.sym),
           style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" }
-        }, null, 8, ["onClick"])) : createCommentVNode("", true)
+        }, null, 8, ["onClick"])
       ]),
       bottom: withCtx(() => [
         createVNode(_component_v_container, { class: "text-end" }, {
@@ -11058,7 +11057,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-a2b26685"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-cc1fd731"]]);
 const _hoisted_1 = { class: "custom-width-wrapper" };
 const _sfc_main = {
   __name: "MainLayout",

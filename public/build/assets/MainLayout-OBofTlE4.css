@@ -49,12 +49,12 @@
     transform: scale(1.3);
 }
 }
-.gap-2[data-v-a2b26685] {
+.gap-2[data-v-cc1fd731] {
     gap: 0.5rem;
 }
 
 /* Dark theme styling */
-.custom-card[data-v-a2b26685] {
+.custom-card[data-v-cc1fd731] {
     background-color: #0c1427 !important;
     color: white !important;
     border: 1px solid rgba(255, 255, 255, 0.5);
@@ -62,58 +62,58 @@
 }
 
 /* Force Search Bar to Stay Dark */
-.custom-input[data-v-a2b26685] .v-input__control {
+.custom-input[data-v-cc1fd731] .v-input__control {
     background: #1a2238 !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Make sure text is visible */
-.custom-input[data-v-a2b26685] .v-field__input {
+.custom-input[data-v-cc1fd731] .v-field__input {
     color: rgb(255, 255, 255) !important;
     background-color: #0c1427 !important;
 }
 
 /* Keep background dark when focused */
-.custom-input[data-v-a2b26685] .v-input.v-input--focused .v-input__control {
+.custom-input[data-v-cc1fd731] .v-input.v-input--focused .v-input__control {
     background: #1a2238 !important;
     border-color: white !important;
 }
-.custom-table[data-v-a2b26685] .v-data-table__td,
-.custom-table[data-v-a2b26685] .v-data-table__th {
+.custom-table[data-v-cc1fd731] .v-data-table__td,
+.custom-table[data-v-cc1fd731] .v-data-table__th {
     border-bottom: none !important;
 }
 
 /* Fix label color */
-.custom-input[data-v-a2b26685] .v-label {
+.custom-input[data-v-cc1fd731] .v-label {
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Table styling */
-.custom-table[data-v-a2b26685] {
+.custom-table[data-v-cc1fd731] {
     background: #0c1427 !important;
     color: white !important;
 }
 
 /* Table header styling */
-.custom-table .v-data-table-header[data-v-a2b26685] {
+.custom-table .v-data-table-header[data-v-cc1fd731] {
     background: #1a2238 !important;
     color: white !important;
     font-weight: bold;
 }
 
 /* Remove hover effect from table headers */
-.custom-table .v-data-table-header th[data-v-a2b26685]:hover {
+.custom-table .v-data-table-header th[data-v-cc1fd731]:hover {
     background: none !important;
 }
 
 /* Table row hover effect */
-.custom-table .v-data-table__tbody tr[data-v-a2b26685]:hover {
+.custom-table .v-data-table__tbody tr[data-v-cc1fd731]:hover {
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Thinner Border Lines */
-.custom-table .v-data-table__th[data-v-a2b26685],
-.custom-table .v-data-table__td[data-v-a2b26685] {
+.custom-table .v-data-table__th[data-v-cc1fd731],
+.custom-table .v-data-table__td[data-v-cc1fd731] {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
