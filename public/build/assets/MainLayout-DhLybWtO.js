@@ -1,4 +1,4 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-__lO5Kh9.js";
+import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-BDEm5T_R.js";
 const _sfc_main$6 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -10632,7 +10632,7 @@ const _sfc_main$2 = {
     async loadChartData() {
       var _a2;
       try {
-        const intradayRes = await fetch(`/storage/intraday/5mCon2/${this.symbol}.json`);
+        const intradayRes = await fetch(`/storage/intraday/${this.symbol}.json`);
         const intradayData = await intradayRes.json();
         const pricePoints = intradayData.map((entry) => ({
           x: new Date(entry[0]),
