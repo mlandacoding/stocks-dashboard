@@ -28,8 +28,8 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_REVERB_APP_KEY,
     wsHost: window.location.hostname,  // not hardcoded localhost
     wsPort: 443,
-    // wssPort: 443,
-    // forceTLS: true,
+    wssPort: 443,
+    forceTLS: true,
     enabledTransports: ['ws'],
 });
 
