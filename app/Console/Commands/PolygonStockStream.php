@@ -111,73 +111,32 @@ class PolygonStockStream extends Command
                 if (empty($aggregatesBuffer)) return;
 
                 $now = now();
-
-                $payload = $aggregatesBuffer;
-                $payloadSize = strlen(json_encode($payload));
-                $maxChunkSize = 100;
-
-                if (count($payload) > $maxChunkSize) {
-                    $chunks = array_chunk($payload, $maxChunkSize);
-
-                    foreach ($chunks as $chunk) {
-                        broadcast(new \App\Events\StockPriceUpdated(array_values($chunk)))->toOthers();
-                    }
-
-                    Log::warning('Payload was split into multiple chunks', [
-                        'original_size_bytes' => $payloadSize,
-                        'original_symbol_count' => count($payload),
-                        'chunk_count' => count($chunks),
-                    ]);
-                } else {
-                    broadcast(new \App\Events\StockPriceUpdated(array_values($payload)))->toOthers();
-                }
-
-                broadcast(new \App\Events\StockPriceUpdated(array_values($aggregatesBuffer)))->toOthers();
-
-                static $lastCacheTimestamps = [];
+                $maxPayloadBytes = 20000;
+                $currentChunk = [];
+                $currentSize = 0;
 
                 foreach ($aggregatesBuffer as $entry) {
-                    $symbol = $entry['sym'];
-                    $path = storage_path("app/public/intraday/$symbol.json");
+                    $entryJson = json_encode($entry);
+                    $entrySize = strlen($entryJson);
 
-                    $data = [
-                        $now->toISOString(),
-                        $entry['vw'],
-                    ];
+                    if ($currentSize + $entrySize > $maxPayloadBytes) {
 
-
-                    $tempArray = file_exists($path)
-                        ? json_decode(file_get_contents($path), true) ?? []
-                        : [];
-
-
-                    $tempArray[] = $data;
-
-
-                    file_put_contents($path, json_encode($tempArray, JSON_PRETTY_PRINT));
-
-
-                    $last = $lastCacheTimestamps[$symbol] ?? null;
-                    if (!$last || $now->diffInMinutes($last) >= 2) {
-                        $path5m = storage_path("app/public/intraday/5m/$symbol.json");
-
-                        $fiveMinArray = file_exists($path5m)
-                            ? json_decode(file_get_contents($path5m), true) ?? []
-                            : [];
-
-
-                        $fiveMinArray[] = $data;
-
-
-                        file_put_contents($path5m, json_encode($fiveMinArray, JSON_PRETTY_PRINT));
-
-
-                        $lastCacheTimestamps[$symbol] = $now;
+                        broadcast(new \App\Events\StockPriceUpdated(array_values($currentChunk)))->toOthers();
+                        $currentChunk = [];
+                        $currentSize = 0;
                     }
 
-
-                    Cache::put("last_saved_timestamp:$symbol", $now->toISOString(), now()->addMinutes(10));
+                    $currentChunk[] = $entry;
+                    $currentSize += $entrySize;
                 }
+
+                if (!empty($currentChunk)) {
+                    broadcast(new \App\Events\StockPriceUpdated(array_values($currentChunk)))->toOthers();
+                }
+
+                Log::info('Broadcasted with dynamic chunking', [
+                    'total_symbol_count' => count($aggregatesBuffer),
+                ]);
 
                 $aggregatesBuffer = [];
             });
