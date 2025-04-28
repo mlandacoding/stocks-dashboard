@@ -114,17 +114,22 @@ class PolygonStockStream extends Command
 
                 $payload = $aggregatesBuffer;
                 $payloadSize = strlen(json_encode($payload));
-                $maxPayloadSize = 30000;
+                $maxChunkSize = 100;
 
-                if ($payloadSize > $maxPayloadSize) {
-                    Log::warning('Reverb broadcast payload too large', [
-                        'size_bytes' => $payloadSize,
-                        'symbol_count' => count($payload),
-                        'first_symbols' => array_slice(array_column($payload, 'sym'), 0, 5),
+                if (count($payload) > $maxChunkSize) {
+                    $chunks = array_chunk($payload, $maxChunkSize);
+
+                    foreach ($chunks as $chunk) {
+                        broadcast(new \App\Events\StockPriceUpdated(array_values($chunk)))->toOthers();
+                    }
+
+                    Log::warning('Payload was split into multiple chunks', [
+                        'original_size_bytes' => $payloadSize,
+                        'original_symbol_count' => count($payload),
+                        'chunk_count' => count($chunks),
                     ]);
-
-
-                    return;
+                } else {
+                    broadcast(new \App\Events\StockPriceUpdated(array_values($payload)))->toOthers();
                 }
 
                 broadcast(new \App\Events\StockPriceUpdated(array_values($aggregatesBuffer)))->toOthers();
