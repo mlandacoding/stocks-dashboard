@@ -110,14 +110,46 @@ class PolygonStockStream extends Command
             Loop::get()->addPeriodicTimer(1, function () use (&$aggregatesBuffer) {
                 if (empty($aggregatesBuffer)) return;
 
-                $now = now();
                 $maxPayloadBytes = 20000;
                 $currentChunk = [];
                 $currentSize = 0;
+                static $lastCacheTimestamps = [];
 
                 foreach ($aggregatesBuffer as $entry) {
                     $entryJson = json_encode($entry);
                     $entrySize = strlen($entryJson);
+
+                    $symbol = $entry['sym'];
+                    $path = storage_path("app/public/intraday/$symbol.json");
+                    $now = now();
+                    $data = [
+                        $now->toISOString(),
+                        $entry['vw'],
+                    ];
+
+                    $tempArray = file_exists($path)
+                        ? json_decode(file_get_contents($path), true) ?? []
+                        : [];
+
+                    file_put_contents($path, json_encode($tempArray, JSON_PRETTY_PRINT));
+
+                    $last = $lastCacheTimestamps[$symbol] ?? null;
+                    if (!$last || $now->diffInMinutes($last) >= 5) {
+                        $path5m = storage_path("app/public/intraday/5m/$symbol.json");
+
+                        $fiveMinArray = file_exists($path5m)
+                            ? json_decode(file_get_contents($path5m), true) ?? []
+                            : [];
+
+
+                        $fiveMinArray[] = $data;
+
+
+                        file_put_contents($path5m, json_encode($fiveMinArray, JSON_PRETTY_PRINT));
+
+
+                        $lastCacheTimestamps[$symbol] = $now;
+                    }
 
                     if ($currentSize + $entrySize > $maxPayloadBytes) {
 

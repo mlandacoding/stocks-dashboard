@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 
 export default {
