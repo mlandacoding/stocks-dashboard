@@ -169,9 +169,9 @@ class PolygonStockStream extends Command
                     broadcast(new \App\Events\StockPriceUpdated(array_values($currentChunk)))->toOthers();
                 }
 
-                Log::info('Broadcasted with dynamic chunking', [
-                    'total_symbol_count' => count($aggregatesBuffer),
-                ]);
+                // Log::info('Broadcasted with dynamic chunking', [
+                //     'total_symbol_count' => count($aggregatesBuffer),
+                // ]);
 
                 $aggregatesBuffer = [];
             });
