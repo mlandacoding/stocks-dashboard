@@ -127,12 +127,18 @@ class PolygonStockStream extends Command
                         $entry['vw'],
                     ];
 
+                    // Load existing intraday data or initialize empty array
                     $tempArray = file_exists($path)
                         ? json_decode(file_get_contents($path), true) ?? []
                         : [];
 
+                    // Append new data point
+                    $tempArray[] = $data;
+
+                    // Save updated intraday data
                     file_put_contents($path, json_encode($tempArray, JSON_PRETTY_PRINT));
 
+                    // Save to 5-minute interval file if enough time has passed
                     $last = $lastCacheTimestamps[$symbol] ?? null;
                     if (!$last || $now->diffInMinutes($last) >= 5) {
                         $path5m = storage_path("app/public/intraday/5m/$symbol.json");
@@ -141,18 +147,15 @@ class PolygonStockStream extends Command
                             ? json_decode(file_get_contents($path5m), true) ?? []
                             : [];
 
-
                         $fiveMinArray[] = $data;
 
-
                         file_put_contents($path5m, json_encode($fiveMinArray, JSON_PRETTY_PRINT));
-
 
                         $lastCacheTimestamps[$symbol] = $now;
                     }
 
+                    // Chunking logic for broadcasting
                     if ($currentSize + $entrySize > $maxPayloadBytes) {
-
                         broadcast(new \App\Events\StockPriceUpdated(array_values($currentChunk)))->toOthers();
                         $currentChunk = [];
                         $currentSize = 0;
@@ -172,6 +175,7 @@ class PolygonStockStream extends Command
 
                 $aggregatesBuffer = [];
             });
+
 
             $conn->on('close', function ($code = null, $reason = null) {
                 echo "Connection closed: [$code] $reason\n";
