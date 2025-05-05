@@ -31,15 +31,7 @@ for item in snapshot:
     if item.ticker not in stocks:
         continue
 
-    # if item.day.close == 0:
-    #     continue
-    # else:
-    #     percent_change = ((item.prev_day.close * 100) / item.day.close) - 100
-    #     percent_change *= -1
-
     percentage_change = 0
-
-    print(percentage_change)
 
     row = (
         item.ticker,

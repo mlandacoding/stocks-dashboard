@@ -18,18 +18,18 @@ class SectorController extends Controller
         $sectors = Sector::all(['sector_name', 'symbol']);
         $sectorInfos = [];
 
-        // Loop through sectors and pass only the symbol to get the latest price
+
         foreach ($sectors as $sector) {
-            // Get the latest price and previous close
+
             $latestPrice = LatestPriceHelper::getLatestPriceFromJson($sector->symbol);
             $previousClose = StockOverviewController::previousClose($sector->symbol);
 
-            // If data exists
+
             if ($latestPrice && $previousClose) {
-                // Calculate percentage change
+
                 $percentageChange = (($latestPrice['price'] - $previousClose->prev_day_close) / $previousClose->prev_day_close) * 100;
 
-                // Add data to the array
+
                 $sectorInfos[] = [
                     'symbol' => $sector->symbol,
                     'sector_name' => $sector->sector_name,
@@ -38,7 +38,10 @@ class SectorController extends Controller
             }
         }
 
-        // Return the sector info array as a JSON response
+        usort($sectorInfos, function ($a, $b) {
+            return $b['percentage_change'] <=> $a['percentage_change'];
+        });
+
         return response()->json($sectorInfos);
     }
 
