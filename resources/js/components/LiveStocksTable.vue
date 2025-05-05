@@ -1,14 +1,10 @@
 <template>
     <div style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
-
-
         <v-card-title class="d-flex align-center pe-2">
-            Popular Stocks
-
+            {{ title }}
             <v-spacer></v-spacer>
-
-            <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify" flat
-                hide-details single-line></v-text-field>
+            <!-- <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify" flat
+                hide-details single-line></v-text-field> -->
         </v-card-title>
 
         <v-data-table :headers="headers" :items="stocks" density="compact" :search="search" :items-per-page="10"
@@ -27,10 +23,10 @@
                                 d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </v-avatar>
-
                     <span>{{ item.sym ?? '—' }}</span>
                 </div>
             </template>
+
             <template #item.vwap="{ item }">
                 <span :class="[
                     'font-mono transition-all duration-300',
@@ -44,6 +40,7 @@
                     ${{ item.vwap != null ? item.vwap.toFixed(2) : '—' }}
                 </span>
             </template>
+
             <template #item.percentage_change="{ item }">
                 <div class="d-flex gap-2 text-end justify-end text-end">
                     <span><b>{{ item.priceChange }}</b></span>
@@ -63,32 +60,37 @@
                     ]">
                         {{ item.percentageChange }}%
                     </span>
-
                 </div>
             </template>
+
             <template #item.chart="{ item }">
-                <!-- <v-btn v-if="$vuetify.display.mdAndUp" color="primary" variant="flat" prepend-icon="mdi-chart-line" -->
                 <v-btn color="primary" variant="flat" prepend-icon="mdi-chart-line"
                     class="text-white text-capitalize font-weight-bold" @click="showStockGraph(item.sym)"
                     style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
                 </v-btn>
             </template>
+
             <template v-slot:bottom>
                 <v-container class="text-end">
-                Pricing delayed approximately 15 minutes*
+                    Pricing delayed approximately 15 minutes*
                 </v-container>
-
             </template>
         </v-data-table>
     </div>
-    <!-- </v-container> -->
 </template>
 
 <script>
 import useStockStream from '@/composables/useStockStream';
 
 export default {
-    name: 'LiveStocksTable',
+    props: {
+        title: {
+            type: String,
+        },
+        symbols: {
+            type: Array,
+        },
+    },
     data() {
         return {
             search: '',
@@ -99,14 +101,12 @@ export default {
             headers: [
                 { title: 'Symbol', key: 'sym' },
                 { title: 'Price', key: 'vwap' },
-                { title: '% Change', key: 'percentage_change' , align: 'end'},
+                { title: '% Change', key: 'percentage_change', align: 'end' },
                 { title: 'Chart', key: 'chart' },
             ],
             prevCloseMap: {},
             hasPreloaded: false,
-            popular_stocks: ['META', 'MSFT', 'AMZN','TSLA',
-            'NVDA', 'GOOGL','AAPL','AMD',
-            'MSFT', 'BRK.B','TSMC','AVGO']
+            isReady: false
         };
     },
     setup() {
@@ -115,71 +115,14 @@ export default {
     },
     watch: {
         globalFormattedStocks: {
-            async handler(newVal) {
-                // Update the stocks array based on the incoming formatted stocks
-                this.stocks = (
-    await Promise.all(newVal.map(async (stock) => {
-        if (this.popular_stocks.includes(stock.sym)) {
-            const existing = this.stocks.find(s => s.sym === stock.sym);
-            const prevVWAP = existing?.vwap ?? null;
-            const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
-
-            let percentageChange = null;
-            let priceChange = null;
-
-            const matched = this.prevCloseMap.find(entry => entry.symbol === stock.sym);
-            let prevClose = matched ? matched.prev_day_close : null;
-            let latest_vwap = null;
-
-            if (stock.vwap == null) {
-                if (prevClose == null) {
-                    try{
-                        const prevRes = await axios.get(`/prev_close/${stock.sym}`);
-                        prevClose = parseFloat(prevRes.data['prev_day_close']);
-                    } catch(error){
-                        prevClose = 0;
-                    }
-                }
-
-                try{
-                    const latestRes = await axios.get(`/latest_price/${stock.sym}`);
-                    latest_vwap = parseFloat(latestRes.data['price']);
-                } catch(error){
-                    latest_vwap = -1;
-                }
-
-            }
-
-            const effectiveVWAP = latest_vwap ?? stock.vwap;
-
-            percentageChange = ((effectiveVWAP - prevClose) / prevClose) * 100;
-            percentageChange = percentageChange.toFixed(2);
-            priceChange = (effectiveVWAP - prevClose).toFixed(2);
-
-
-            return {
-                ...stock,
-                previous_vwap: prevVWAP,
-                vwapFlash: vwapChanged,
-                prev_day_close: prevClose,
-                vwap: effectiveVWAP,
-                percentageChange,
-                priceChange,
-            };
-        }
-
-        // Non-popular stocks return nothing
-        return null;
-            }))
-        ).filter(Boolean);
-
-                // Reset the flash state after a short delay
-                setTimeout(() => {
-                    this.stocks.forEach(s => (s.vwapFlash = false));
-                }, 600);
+            async handler() {
+                await this.rebuildStocks();
             },
             immediate: true,
             deep: true
+        },
+        symbols(newSymbols) {
+            this.rebuildStocks();
         },
         stocks: {
             handler(newVal) {
@@ -192,6 +135,64 @@ export default {
         }
     },
     methods: {
+        async rebuildStocks() {
+            if (!this.isReady || !this.symbols.length) return;
+
+            this.stocks = (
+                await Promise.all(this.globalFormattedStocks.map(async (stock) => {
+                    if (!this.symbols.includes(stock.sym)) return null;
+
+                    const existing = this.stocks.find(s => s.sym === stock.sym);
+                    const prevVWAP = existing?.vwap ?? null;
+                    const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+
+                    let percentageChange = null;
+                    let priceChange = null;
+
+                    const matched = this.prevCloseMap.find(entry => entry.symbol === stock.sym);
+                    let prevClose = matched ? matched.prev_day_close : null;
+                    let latest_vwap = null;
+
+                    if (stock.vwap == null) {
+                        if (prevClose == null) {
+                            try {
+                                const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+                                prevClose = parseFloat(prevRes.data['prev_day_close']);
+                            } catch {
+                                prevClose = 0;
+                            }
+                        }
+
+                        try {
+                            const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+                            latest_vwap = parseFloat(latestRes.data['price']);
+                        } catch {
+                            latest_vwap = -1;
+                        }
+                    }
+
+                    const effectiveVWAP = latest_vwap ?? stock.vwap;
+
+                    percentageChange = ((effectiveVWAP - prevClose) / prevClose) * 100;
+                    percentageChange = percentageChange.toFixed(2);
+                    priceChange = (effectiveVWAP - prevClose).toFixed(2);
+
+                    return {
+                        ...stock,
+                        previous_vwap: prevVWAP,
+                        vwapFlash: vwapChanged,
+                        prev_day_close: prevClose,
+                        vwap: effectiveVWAP,
+                        percentageChange,
+                        priceChange,
+                    };
+                }))
+            ).filter(Boolean);
+
+            setTimeout(() => {
+                this.stocks.forEach(s => (s.vwapFlash = false));
+            }, 600);
+        },
         checkIfImageExists(src, callback) {
             const img = new Image();
             img.onload = () => callback(true);
@@ -210,11 +211,9 @@ export default {
                             remote: exists
                         };
                     });
-
                 }
             });
         },
-
         showStockGraph(sym) {
             const stock = this.stocks.find(s => s.sym === sym);
             if (stock) {
@@ -224,17 +223,16 @@ export default {
                 });
             }
         }
-
     },
-    async mounted() {
+    async created() {
         try {
             const prevCloseRes = await fetch('/storage/cache/previous_close.json');
             const previousCloseData = await prevCloseRes.json();
-
             this.prevCloseMap = previousCloseData;
         } catch (error) {
             console.error('Failed to load prevCloseMap:', error);
         }
+        this.isReady = true;
     }
 };
 </script>

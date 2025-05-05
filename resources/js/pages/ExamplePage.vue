@@ -7,7 +7,7 @@
   <script setup>
 
   import MainLayout from '@/layouts/MainLayout.vue';
-  import LiveStocksTable from '@/components/LiveStocksTable.vue';
+  import LiveStocksTable from '@/components/LiveStocksTable1.vue';
   defineProps({
     message: String
   })

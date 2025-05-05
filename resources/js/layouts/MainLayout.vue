@@ -41,7 +41,8 @@
                     <v-row justify="center">
 
                         <v-col cols="12" sm="4">
-                            <LiveStocksTable @show-graph="updateSymbol"></LiveStocksTable>
+                            <LiveStocksTable title="Popular Stocks" :symbols="popular_stocks" @show-graph="updateSymbol"></LiveStocksTable>
+                            <!-- <LiveStocksTable @show-graph="updateSymbol"></LiveStocksTable> -->
                         </v-col>
                         <v-col cols="12" sm="8">
                             <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol">
@@ -55,11 +56,11 @@
                         </v-col>
 
                         <v-col>
-                            <TodaysWinners @show-graph="updateSymbol"></TodaysWinners>
+                            <LiveStocksTable title="Todays Winners" :symbols="winners" @show-graph="updateSymbol"></LiveStocksTable>
                         </v-col>
 
                         <v-col>
-                            <TodaysLosers @show-graph="updateSymbol"></TodaysLosers>
+                            <LiveStocksTable title="Todays Losers" :symbols="losers" @show-graph="updateSymbol"></LiveStocksTable>
                         </v-col>
 
                     </v-row>
@@ -104,12 +105,16 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
-import TodaysWinners from "@/components/TodaysWinners.vue";
-import TodaysLosers from "@/components/TodaysLosers.vue";
+import { onMounted } from 'vue';
+import axios from 'axios';
 
 const drawer = ref(false);
 const symbol = ref('SPY')
 const previousClose = ref('')
+
+const losers = ref([])
+const winners = ref([])
+const popular_stocks = ref(['META', 'MSFT', 'AMZN','TSLA','NVDA', 'GOOGL','AAPL','AMD','MSFT', 'BRK.B','TSMC','AVGO'])
 
 function updateSymbol({ sym, previous_close }) {
     symbol.value = sym;
@@ -119,5 +124,17 @@ function updateSymbol({ sym, previous_close }) {
 const handleDrawerToggle = (value) => {
     drawer.value = value;
 };
+
+
+
+onMounted(async () => {
+    try {
+        const winRes = await axios.get(`winners_and_losers`);
+        losers.value = winRes.data['losers'].map(item => item.symbol);
+        winners.value = winRes.data['winners'].map(item => item.symbol);
+    } catch (error) {
+        console.error('Failed to fetch losers:', error);
+    }
+});
 
 </script>
