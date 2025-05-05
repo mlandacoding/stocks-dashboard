@@ -48,6 +48,13 @@
                                 <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol"></IntradayGraph>
                             </v-col>
                         </v-row>
+
+                        <v-row justify="center" class="mb-4">
+                            <v-col cols="12" sm="7">
+                                <SectorPerformanceGraph></SectorPerformanceGraph>
+                            </v-col>
+
+                        </v-row>
                     </div>
 
                 </v-container>
@@ -69,7 +76,7 @@
 }
 
 .custom-width-wrapper {
-    width: 87%;
+    width: 99%;
     margin: 0 auto;
     /* Center horizontally */
 }
@@ -83,6 +90,7 @@ import StockCard from '@/components/StockCardComponent.vue';
 import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
+import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
 
 const drawer = ref(false);
 

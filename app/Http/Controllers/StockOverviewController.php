@@ -41,6 +41,12 @@ class StockOverviewController extends Controller
         return StockOverview::where('symbol', $symbol)->firstOrFail();
     }
 
+    public static function previousClose($symbol)
+    {
+        //
+        return StockOverview::where('symbol', $symbol)->firstOrFail(['prev_day_close']);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

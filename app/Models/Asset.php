@@ -46,6 +46,11 @@ class Asset extends Model
         return $this->hasOne(AssetDetail::class, 'symbol', 'symbol');
     }
 
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }
+
     public function etfs()
     {
         return $this->belongsToMany(
