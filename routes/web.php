@@ -9,13 +9,10 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\ActiveAssetsHelper;
 use App\Http\Controllers\SectorController;
 use App\Helpers\LatestPriceHelper;
+use App\Http\Controllers\WinnersAndLosersController;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome');
-// })->name('home');
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -49,8 +46,6 @@ Route::get('/stocks_overview/prev_close', function () {
 
 Route::get('/prev_close/{symbol}', [StockOverviewController::class, 'previousClose']);
 Route::get('/latest_price/{symbol}', [LatestPriceHelper::class, 'getLatestPriceFromJson']);
-
-// $latestPrice = LatestPriceHelper::getLatestPriceFromJson($sector->symbol);
-// $previousClose = StockOverviewController::previousClose($sector->symbol);
+Route::get('/winners_and_losers', [WinnersAndLosersController::class, 'winnersAndLosers']);
 
 Route::get('/get_sectors', [SectorController::class, 'index']);

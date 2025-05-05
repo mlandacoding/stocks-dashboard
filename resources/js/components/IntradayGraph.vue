@@ -16,7 +16,6 @@
 
 <script>
 import VueApexCharts from 'vue3-apexcharts';
-import { nullifyTransforms } from 'vuetify/lib/util/animation.mjs';
 
 export default {
     name: 'IntradayChart',

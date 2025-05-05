@@ -50,8 +50,16 @@
                     </v-row>
 
                     <v-row justify="center" class="mb-4">
-                        <v-col cols="12" sm="7">
+                        <v-col>
                             <SectorPerformanceGraph></SectorPerformanceGraph>
+                        </v-col>
+
+                        <v-col>
+                            <TodaysWinners @show-graph="updateSymbol"></TodaysWinners>
+                        </v-col>
+
+                        <v-col>
+                            <TodaysLosers @show-graph="updateSymbol"></TodaysLosers>
                         </v-col>
 
                     </v-row>
@@ -96,6 +104,8 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
+import TodaysWinners from "@/components/TodaysWinners.vue";
+import TodaysLosers from "@/components/TodaysLosers.vue";
 
 const drawer = ref(false);
 const symbol = ref('SPY')
