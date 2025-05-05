@@ -8,6 +8,7 @@ use App\Http\Controllers\PolygonController;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ActiveAssetsHelper;
 use App\Http\Controllers\SectorController;
+use App\Helpers\LatestPriceHelper;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -45,5 +46,11 @@ Route::get('/active-assets', function () {
 Route::get('/stocks_overview/prev_close', function () {
     return \App\Models\StockOverview::pluck('prev_day_close', 'symbol');
 });
+
+Route::get('/prev_close/{symbol}', [StockOverviewController::class, 'previousClose']);
+Route::get('/latest_price/{symbol}', [LatestPriceHelper::class, 'getLatestPriceFromJson']);
+
+// $latestPrice = LatestPriceHelper::getLatestPriceFromJson($sector->symbol);
+// $previousClose = StockOverviewController::previousClose($sector->symbol);
 
 Route::get('/get_sectors', [SectorController::class, 'index']);

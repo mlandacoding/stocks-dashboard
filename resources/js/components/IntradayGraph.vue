@@ -16,6 +16,7 @@
 
 <script>
 import VueApexCharts from 'vue3-apexcharts';
+import { nullifyTransforms } from 'vuetify/lib/util/animation.mjs';
 
 export default {
     name: 'IntradayChart',
@@ -28,7 +29,7 @@ export default {
             default: 'SPY',
         },
         previous_close: {
-            type: String
+            type: String,
         }
     },
     data() {
@@ -41,6 +42,7 @@ export default {
     },
     async mounted() {
         this.loadChartData();
+
     },
     methods: {
         async loadChartData() {
@@ -56,7 +58,17 @@ export default {
                 }));
 
                 const lastPrice = pricePoints[pricePoints.length - 1]?.y;
-                const prevClosePrice = parseFloat(this.previous_close);
+                var prevClosePrice = 0;
+                if (this.previous_close === '') {
+                    try {
+                        const res = await axios.get(`/prev_close/${this.symbol}`);
+                        prevClosePrice = parseFloat(res.data['prev_day_close']);
+                    } catch (error) {
+                        console.error('Error fetching previous close:', error);
+                    }
+                } else {
+                    prevClosePrice = parseFloat(this.previous_close);
+                }
 
                 const isGreen = lastPrice >= prevClosePrice;
 

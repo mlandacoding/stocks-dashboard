@@ -8,8 +8,8 @@ class LatestPriceHelper
 {
     public static function getLatestPriceFromJson($symbol)
     {
-        // Correct path using the 'public' disk
-        $path = "intraday/{$symbol}.json";  // No need to include 'app/public' here, it's handled by Storage
+
+        $path = "intraday/{$symbol}.json";
 
         if (!Storage::disk('public')->exists($path)) {
             return null;
@@ -22,7 +22,7 @@ class LatestPriceHelper
             return null;
         }
 
-        $lastEntry = end($data);  // Get the last entry (latest price)
+        $lastEntry = end($data);
 
         return [
             'timestamp' => $lastEntry[0],

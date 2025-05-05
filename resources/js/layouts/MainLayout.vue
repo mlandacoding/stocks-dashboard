@@ -96,10 +96,8 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
-import { useDisplay } from 'vuetify';
 
 const drawer = ref(false);
-const { smAndDown } = useDisplay();
 const symbol = ref('SPY')
 const previousClose = ref('')
 
