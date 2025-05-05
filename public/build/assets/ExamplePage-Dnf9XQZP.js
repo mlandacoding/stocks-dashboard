@@ -1,5 +1,5 @@
-import { c as createBlock, o as openBlock, w as withCtx, a as createVNode } from "./app-CJD2jHJs.js";
-import { L as LiveStocksTable, M as MainLayout } from "./MainLayout-a7f6Amix.js";
+import { c as createBlock, o as openBlock, w as withCtx, a as createVNode } from "./app-oWvZKKRr.js";
+import { L as LiveStocksTable, M as MainLayout } from "./MainLayout-D4Ul92hl.js";
 const _sfc_main = {
   __name: "ExamplePage",
   props: {

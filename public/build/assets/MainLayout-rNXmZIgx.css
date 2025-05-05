@@ -117,16 +117,16 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-.content-expanded[data-v-7a21cdbc] {
+.content-expanded[data-v-6efc98ba] {
     margin-left: 0;
     transition: margin-left 0.8s ease-in-out;
 }
-.content-shrinked[data-v-7a21cdbc] {
+.content-shrinked[data-v-6efc98ba] {
     margin-left: 5px;
     transition: margin-left 0.8s ease-in-out;
 }
-.custom-width-wrapper[data-v-7a21cdbc] {
-    width: 87%;
+.custom-width-wrapper[data-v-6efc98ba] {
+    width: 99%;
     margin: 0 auto;
     /* Center horizontally */
 }
