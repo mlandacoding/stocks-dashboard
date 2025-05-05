@@ -1,4 +1,4 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick, A as useDisplay } from "./app-B3XQ-6Qn.js";
+import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-7gwx_GVe.js";
 const _sfc_main$7 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -10639,7 +10639,17 @@ const _sfc_main$3 = {
           y: entry[1]
         }));
         const lastPrice = (_a2 = pricePoints[pricePoints.length - 1]) == null ? void 0 : _a2.y;
-        const prevClosePrice = parseFloat(this.previous_close);
+        var prevClosePrice = 0;
+        if (this.previous_close === "") {
+          try {
+            const res = await axios.get(`/prev_close/${this.symbol}`);
+            prevClosePrice = parseFloat(res.data["prev_day_close"]);
+          } catch (error) {
+            console.error("Error fetching previous close:", error);
+          }
+        } else {
+          prevClosePrice = parseFloat(this.previous_close);
+        }
         const isGreen = lastPrice >= prevClosePrice;
         const cutoff = new Date(intradayData[0][0]);
         cutoff.setUTCHours(20, 15, 0, 0);
@@ -10843,11 +10853,15 @@ const _sfc_main$2 = {
             let priceChange = null;
             const matched = this.prevCloseMap.find((entry) => entry.symbol === stock.sym);
             const prevClose = matched ? matched.prev_day_close : null;
-            if (prevClose != null && stock.vwap != null) {
-              percentageChange = (stock.vwap - prevClose) / prevClose * 100;
-              percentageChange = percentageChange.toFixed(2);
-              priceChange = (stock.vwap - prevClose).toFixed(2);
+            if (prevClose == null && stock.vwap == null) {
+              const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+              prevClose = parseFloat(prevRes.data["prev_day_close"]);
+              const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+              stock.vwap = parseFloat(latestRes.data["price"]);
             }
+            percentageChange = (stock.vwap - prevClose) / prevClose * 100;
+            percentageChange = percentageChange.toFixed(2);
+            priceChange = (stock.vwap - prevClose).toFixed(2);
             return {
               ...stock,
               previous_vwap: prevVWAP,
@@ -11057,7 +11071,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-cc1fd731"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-7adba6fe"]]);
 const _sfc_main$1 = {
   name: "StockSectorBarChart",
   components: {
@@ -11205,7 +11219,6 @@ const _sfc_main = {
   __name: "MainLayout",
   setup(__props) {
     const drawer = ref(false);
-    useDisplay();
     const symbol = ref("SPY");
     const previousClose = ref("");
     function updateSymbol({ sym, previous_close }) {
@@ -11377,7 +11390,7 @@ const _sfc_main = {
     };
   }
 };
-const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-1cbc4296"]]);
+const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-990be2fa"]]);
 export {
   LiveStocksTable as L,
   MainLayout as M
