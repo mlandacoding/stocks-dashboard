@@ -130,11 +130,29 @@ export default {
             const matched = this.prevCloseMap.find(entry => entry.symbol === stock.sym);
             const prevClose = matched ? matched.prev_day_close : null;
 
-            if (prevClose != null && stock.vwap != null) {
-                percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
-                percentageChange = percentageChange.toFixed(2);
-                priceChange = (stock.vwap - prevClose).toFixed(2);
+            // if (this.previous_close === '') {
+            //     try {
+            //         const res = await axios.get(`/prev_close/${this.symbol}`);
+            //         prevClosePrice = parseFloat(res.data['prev_day_close']);
+            //     } catch (error) {
+            //         console.error('Error fetching previous close:', error);
+            //     }
+            // } else {
+            //     prevClosePrice = parseFloat(this.previous_close);
+            // }
+
+            if(prevClose == null && stock.vwap == null){
+                const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+                prevClose = parseFloat(prevRes.data['prev_day_close']);
+
+                const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+                stock.vwap = parseFloat(latestRes.data['price']);
             }
+
+            percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
+            percentageChange = percentageChange.toFixed(2);
+            priceChange = (stock.vwap - prevClose).toFixed(2);
+
 
             return {
                 ...stock,
