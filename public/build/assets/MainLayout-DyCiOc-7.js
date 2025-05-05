@@ -1,4 +1,4 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-DcFWbB50.js";
+import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, d as createVNode, a as createElementBlock, f as createCommentVNode, b as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-Bt0eWod6.js";
 const _sfc_main$7 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -10805,7 +10805,14 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const IntradayGraph = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2]]);
 const _sfc_main$2 = {
-  name: "LiveStocksTable",
+  props: {
+    title: {
+      type: String
+    },
+    symbols: {
+      type: Array
+    }
+  },
   data() {
     return {
       search: "",
@@ -10821,20 +10828,7 @@ const _sfc_main$2 = {
       ],
       prevCloseMap: {},
       hasPreloaded: false,
-      popular_stocks: [
-        "META",
-        "MSFT",
-        "AMZN",
-        "TSLA",
-        "NVDA",
-        "GOOGL",
-        "AAPL",
-        "AMD",
-        "MSFT",
-        "BRK.B",
-        "TSMC",
-        "AVGO"
-      ]
+      isReady: false
     };
   },
   setup() {
@@ -10843,55 +10837,14 @@ const _sfc_main$2 = {
   },
   watch: {
     globalFormattedStocks: {
-      async handler(newVal) {
-        this.stocks = (await Promise.all(newVal.map(async (stock) => {
-          if (this.popular_stocks.includes(stock.sym)) {
-            const existing = this.stocks.find((s2) => s2.sym === stock.sym);
-            const prevVWAP = (existing == null ? void 0 : existing.vwap) ?? null;
-            const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
-            let percentageChange = null;
-            let priceChange = null;
-            const matched = this.prevCloseMap.find((entry) => entry.symbol === stock.sym);
-            let prevClose = matched ? matched.prev_day_close : null;
-            let latest_vwap = null;
-            if (stock.vwap == null) {
-              if (prevClose == null) {
-                try {
-                  const prevRes = await axios.get(`/prev_close/${stock.sym}`);
-                  prevClose = parseFloat(prevRes.data["prev_day_close"]);
-                } catch (error) {
-                  prevClose = 0;
-                }
-              }
-              try {
-                const latestRes = await axios.get(`/latest_price/${stock.sym}`);
-                latest_vwap = parseFloat(latestRes.data["price"]);
-              } catch (error) {
-                latest_vwap = -1;
-              }
-            }
-            const effectiveVWAP = latest_vwap ?? stock.vwap;
-            percentageChange = (effectiveVWAP - prevClose) / prevClose * 100;
-            percentageChange = percentageChange.toFixed(2);
-            priceChange = (effectiveVWAP - prevClose).toFixed(2);
-            return {
-              ...stock,
-              previous_vwap: prevVWAP,
-              vwapFlash: vwapChanged,
-              prev_day_close: prevClose,
-              vwap: effectiveVWAP,
-              percentageChange,
-              priceChange
-            };
-          }
-          return null;
-        }))).filter(Boolean);
-        setTimeout(() => {
-          this.stocks.forEach((s2) => s2.vwapFlash = false);
-        }, 600);
+      async handler() {
+        await this.rebuildStocks();
       },
       immediate: true,
       deep: true
+    },
+    symbols(newSymbols) {
+      this.rebuildStocks();
     },
     stocks: {
       handler(newVal) {
@@ -10904,6 +10857,52 @@ const _sfc_main$2 = {
     }
   },
   methods: {
+    async rebuildStocks() {
+      if (!this.isReady || !this.symbols.length) return;
+      this.stocks = (await Promise.all(this.globalFormattedStocks.map(async (stock) => {
+        if (!this.symbols.includes(stock.sym)) return null;
+        const existing = this.stocks.find((s2) => s2.sym === stock.sym);
+        const prevVWAP = (existing == null ? void 0 : existing.vwap) ?? null;
+        const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+        let percentageChange = null;
+        let priceChange = null;
+        const matched = this.prevCloseMap.find((entry) => entry.symbol === stock.sym);
+        let prevClose = matched ? matched.prev_day_close : null;
+        let latest_vwap = null;
+        if (stock.vwap == null) {
+          if (prevClose == null) {
+            try {
+              const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+              prevClose = parseFloat(prevRes.data["prev_day_close"]);
+            } catch {
+              prevClose = 0;
+            }
+          }
+          try {
+            const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+            latest_vwap = parseFloat(latestRes.data["price"]);
+          } catch {
+            latest_vwap = -1;
+          }
+        }
+        const effectiveVWAP = latest_vwap ?? stock.vwap;
+        percentageChange = (effectiveVWAP - prevClose) / prevClose * 100;
+        percentageChange = percentageChange.toFixed(2);
+        priceChange = (effectiveVWAP - prevClose).toFixed(2);
+        return {
+          ...stock,
+          previous_vwap: prevVWAP,
+          vwapFlash: vwapChanged,
+          prev_day_close: prevClose,
+          vwap: effectiveVWAP,
+          percentageChange,
+          priceChange
+        };
+      }))).filter(Boolean);
+      setTimeout(() => {
+        this.stocks.forEach((s2) => s2.vwapFlash = false);
+      }, 600);
+    },
     checkIfImageExists(src, callback) {
       const img = new Image();
       img.onload = () => callback(true);
@@ -10936,7 +10935,7 @@ const _sfc_main$2 = {
       }
     }
   },
-  async mounted() {
+  async created() {
     try {
       const prevCloseRes = await fetch("/storage/cache/previous_close.json");
       const previousCloseData = await prevCloseRes.json();
@@ -10944,6 +10943,7 @@ const _sfc_main$2 = {
     } catch (error) {
       console.error("Failed to load prevCloseMap:", error);
     }
+    this.isReady = true;
   }
 };
 const _hoisted_1$1 = { style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" } };
@@ -10961,7 +10961,6 @@ const _hoisted_5 = {
 const _hoisted_6 = { class: "d-flex gap-2 text-end justify-end text-end" };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_spacer = resolveComponent("v-spacer");
-  const _component_v_text_field = resolveComponent("v-text-field");
   const _component_v_card_title = resolveComponent("v-card-title");
   const _component_v_avatar = resolveComponent("v-avatar");
   const _component_v_btn = resolveComponent("v-btn");
@@ -10970,18 +10969,8 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$1, [
     createVNode(_component_v_card_title, { class: "d-flex align-center pe-2" }, {
       default: withCtx(() => [
-        _cache[1] || (_cache[1] = createTextVNode(" Popular Stocks ")),
-        createVNode(_component_v_spacer),
-        createVNode(_component_v_text_field, {
-          modelValue: $data.search,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $data.search = $event),
-          density: "compact",
-          label: "Search",
-          "prepend-inner-icon": "mdi-magnify",
-          flat: "",
-          "hide-details": "",
-          "single-line": ""
-        }, null, 8, ["modelValue"])
+        createTextVNode(toDisplayString($props.title) + " ", 1),
+        createVNode(_component_v_spacer)
       ]),
       _: 1
     }),
@@ -11013,7 +11002,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                   src: `https://cdn.brandfetch.io/${item.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${$data.apiKey}`,
                   alt: "Brandfetch Logo",
                   class: "w-100 h-100"
-                }, null, 8, _hoisted_4)) : (openBlock(), createElementBlock("svg", _hoisted_5, _cache[2] || (_cache[2] = [
+                }, null, 8, _hoisted_4)) : (openBlock(), createElementBlock("svg", _hoisted_5, _cache[0] || (_cache[0] = [
                   createBaseVNode("path", {
                     "fill-rule": "evenodd",
                     d: "M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"
@@ -11067,7 +11056,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       bottom: withCtx(() => [
         createVNode(_component_v_container, { class: "text-end" }, {
-          default: withCtx(() => _cache[3] || (_cache[3] = [
+          default: withCtx(() => _cache[1] || (_cache[1] = [
             createTextVNode(" Pricing delayed approximately 15 minutes* ")
           ])),
           _: 1
@@ -11077,7 +11066,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-84037800"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-a96e63f0"]]);
 const _sfc_main$1 = {
   name: "StockSectorBarChart",
   components: {
@@ -11227,6 +11216,9 @@ const _sfc_main = {
     const drawer = ref(false);
     const symbol = ref("SPY");
     const previousClose = ref("");
+    const losers = ref([]);
+    const winners = ref([]);
+    const popular_stocks = ref(["META", "MSFT", "AMZN", "TSLA", "NVDA", "GOOGL", "AAPL", "AMD", "MSFT", "BRK.B", "TSMC", "AVGO"]);
     function updateSymbol({ sym, previous_close }) {
       symbol.value = sym;
       previousClose.value = previous_close;
@@ -11234,6 +11226,15 @@ const _sfc_main = {
     const handleDrawerToggle = (value) => {
       drawer.value = value;
     };
+    onMounted(async () => {
+      try {
+        const winRes = await axios$1.get(`winners_and_losers`);
+        losers.value = winRes.data["losers"].map((item) => item.symbol);
+        winners.value = winRes.data["winners"].map((item) => item.symbol);
+      } catch (error) {
+        console.error("Failed to fetch losers:", error);
+      }
+    });
     return (_ctx, _cache) => {
       const _component_v_col = resolveComponent("v-col");
       const _component_v_row = resolveComponent("v-row");
@@ -11343,7 +11344,11 @@ const _sfc_main = {
                               sm: "4"
                             }, {
                               default: withCtx(() => [
-                                createVNode(LiveStocksTable, { onShowGraph: updateSymbol })
+                                createVNode(LiveStocksTable, {
+                                  title: "Popular Stocks",
+                                  symbols: popular_stocks.value,
+                                  onShowGraph: updateSymbol
+                                }, null, 8, ["symbols"])
                               ]),
                               _: 1
                             }),
@@ -11368,12 +11373,29 @@ const _sfc_main = {
                           class: "mb-4"
                         }, {
                           default: withCtx(() => [
-                            createVNode(_component_v_col, {
-                              cols: "12",
-                              sm: "7"
-                            }, {
+                            createVNode(_component_v_col, null, {
                               default: withCtx(() => [
                                 createVNode(SectorPerformanceGraph)
+                              ]),
+                              _: 1
+                            }),
+                            createVNode(_component_v_col, null, {
+                              default: withCtx(() => [
+                                createVNode(LiveStocksTable, {
+                                  title: "Todays Winners",
+                                  symbols: winners.value,
+                                  onShowGraph: updateSymbol
+                                }, null, 8, ["symbols"])
+                              ]),
+                              _: 1
+                            }),
+                            createVNode(_component_v_col, null, {
+                              default: withCtx(() => [
+                                createVNode(LiveStocksTable, {
+                                  title: "Todays Losers",
+                                  symbols: losers.value,
+                                  onShowGraph: updateSymbol
+                                }, null, 8, ["symbols"])
                               ]),
                               _: 1
                             })
@@ -11396,8 +11418,7 @@ const _sfc_main = {
     };
   }
 };
-const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-990be2fa"]]);
+const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-acc4aabd"]]);
 export {
-  LiveStocksTable as L,
   MainLayout as M
 };
