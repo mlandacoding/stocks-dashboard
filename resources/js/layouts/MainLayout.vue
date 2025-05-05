@@ -1,6 +1,6 @@
 <template>
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <v-card>
+    <v-sheet class="custom-width-wrapper">
         <v-layout style="background: #0c1427;">
             <!-- Navbar -->
             <Navbar @toggle-drawer="handleDrawerToggle" />
@@ -11,56 +11,54 @@
             <!-- Main Content -->
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
 
-                <v-container fluid class="pa-5 ma-0">
-                    <div class="custom-width-wrapper">
-                        <v-row justify="end">
+                <v-container fluid class="pa-0 pa-sm-5 ma-0">
+                    <v-row justify="end">
                         <v-col cols="auto">
                             <MarketStatus />
                         </v-col>
-                        </v-row>
-                        <v-row justify="center" class="mb-4" no-gutters>
+                    </v-row>
+                    <v-row justify="center" class="mb-4" no-gutters>
 
 
-                            <v-col cols="12" sm="4">
-                                <v-card class="pa-0" color="primary">
-                                    <stock-card symbol="SPY" />
-                                </v-card>
-                            </v-col>
+                        <v-col cols="12" sm="4">
+                            <v-card class="pa-0" color="primary">
+                                <stock-card symbol="SPY" />
+                            </v-card>
+                        </v-col>
 
-                            <v-col cols="12" sm="4">
-                                <v-card class="pa-0" color="primary">
-                                    <stock-card symbol="IWM" />
-                                </v-card>
-                            </v-col>
+                        <v-col cols="12" sm="4">
+                            <v-card class="pa-0" color="primary">
+                                <stock-card symbol="IWM" />
+                            </v-card>
+                        </v-col>
 
-                            <v-col cols="12" sm="4">
-                                <v-card class="pa-0" color="primary">
-                                    <stock-card symbol="DIA" />
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                        <v-row justify="center">
+                        <v-col cols="12" sm="4">
+                            <v-card class="pa-0" color="primary">
+                                <stock-card symbol="DIA" />
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row justify="center">
 
-                            <v-col cols="12" sm="4">
-                                <LiveStocksTable @show-graph="updateSymbol"></LiveStocksTable>
-                            </v-col>
-                            <v-col cols="12" sm="8">
-                                <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol"></IntradayGraph>
-                            </v-col>
-                        </v-row>
+                        <v-col cols="12" sm="4">
+                            <LiveStocksTable @show-graph="updateSymbol"></LiveStocksTable>
+                        </v-col>
+                        <v-col cols="12" sm="8">
+                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol">
+                            </IntradayGraph>
+                        </v-col>
+                    </v-row>
 
-                        <v-row justify="center" class="mb-4">
-                            <v-col cols="12" sm="7">
-                                <SectorPerformanceGraph></SectorPerformanceGraph>
-                            </v-col>
+                    <v-row justify="center" class="mb-4">
+                        <v-col cols="12" sm="7">
+                            <SectorPerformanceGraph></SectorPerformanceGraph>
+                        </v-col>
 
-                        </v-row>
-                    </div>
-
+                    </v-row>
                 </v-container>
             </v-main>
         </v-layout>
-    </v-card>
+    </v-sheet>
 
 </template>
 
@@ -76,9 +74,16 @@
 }
 
 .custom-width-wrapper {
-    width: 99%;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
-    /* Center horizontally */
+}
+
+@media (max-width: 600px) {
+    .custom-width-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 }
 </style>
 
@@ -91,9 +96,10 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
+import { useDisplay } from 'vuetify';
 
 const drawer = ref(false);
-
+const { smAndDown } = useDisplay();
 const symbol = ref('SPY')
 const previousClose = ref('')
 
