@@ -1,4 +1,4 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-oWvZKKRr.js";
+import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick, A as useDisplay } from "./app-B3XQ-6Qn.js";
 const _sfc_main$7 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -59,7 +59,7 @@ const _sfc_main$7 = {
     };
   }
 };
-const _hoisted_1$6 = { class: "justify-content-center" };
+const _hoisted_1$5 = { class: "justify-content-center" };
 const _hoisted_2$5 = ["href"];
 const _sfc_main$6 = {
   __name: "Sidebar",
@@ -97,7 +97,7 @@ const _sfc_main$6 = {
         default: withCtx(() => [
           createVNode(_component_v_list, { density: "compact" }, {
             default: withCtx(() => [
-              createBaseVNode("div", _hoisted_1$6, [
+              createBaseVNode("div", _hoisted_1$5, [
                 createVNode(_component_v_list_subheader, { style: { "color": "white" } }, {
                   default: withCtx(() => _cache[0] || (_cache[0] = [
                     createTextVNode("REPORTS")
@@ -215,7 +215,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$5 = ["src"];
+const _hoisted_1$4 = ["src"];
 const _hoisted_2$4 = ["src"];
 const _hoisted_3$4 = { class: "d-flex align-center justify-space-between w-150" };
 const _hoisted_4$1 = { class: "text-white text-subtitle-1 font-weight-bold" };
@@ -318,7 +318,7 @@ const _sfc_main$5 = {
                         src: localLogoPath.value,
                         alt: "Local Logo",
                         class: "w-100 h-100"
-                      }, null, 8, _hoisted_1$5)) : logoUrlExists.value ? (openBlock(), createElementBlock("img", {
+                      }, null, 8, _hoisted_1$4)) : logoUrlExists.value ? (openBlock(), createElementBlock("img", {
                         key: 1,
                         src: logoUrl.value,
                         alt: "Brandfetch Logo",
@@ -391,7 +391,7 @@ const _sfc_main$5 = {
   }
 };
 const StockCard = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-6ebed245"]]);
-const _hoisted_1$4 = { class: "content-wrapper" };
+const _hoisted_1$3 = { class: "content-wrapper" };
 const _hoisted_2$3 = {
   key: 0,
   class: "after-hours-text"
@@ -484,7 +484,7 @@ const _sfc_main$4 = {
                     style: { "pointer-events": "none" }
                   }, {
                     default: withCtx(() => [
-                      createBaseVNode("div", _hoisted_1$4, [
+                      createBaseVNode("div", _hoisted_1$3, [
                         afterHours.value ? (openBlock(), createElementBlock("span", _hoisted_2$3, "After Hours")) : createCommentVNode("", true),
                         marketsAreOpen.value && !afterHours.value ? (openBlock(), createElementBlock("span", _hoisted_3$3, "Markets Are Open")) : createCommentVNode("", true),
                         _cache[3] || (_cache[3] = createBaseVNode("span", { class: "dot" }, null, -1))
@@ -10756,7 +10756,7 @@ const _sfc_main$3 = {
     }
   }
 };
-const _hoisted_1$3 = { class: "w-full" };
+const _hoisted_1$2 = { class: "w-full" };
 const _hoisted_2$2 = {
   key: 0,
   class: "flex items-center justify-center h-64"
@@ -10777,7 +10777,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         _: 1
       }),
-      createBaseVNode("div", _hoisted_1$3, [
+      createBaseVNode("div", _hoisted_1$2, [
         $data.loading ? (openBlock(), createElementBlock("div", _hoisted_2$2, _cache[0] || (_cache[0] = [
           createBaseVNode("span", { class: "text-gray-500" }, "Loading chart...", -1)
         ]))) : (openBlock(), createElementBlock("div", _hoisted_3$2, [
@@ -10926,7 +10926,7 @@ const _sfc_main$2 = {
     });
   }
 };
-const _hoisted_1$2 = { style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" } };
+const _hoisted_1$1 = { style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" } };
 const _hoisted_2$1 = { class: "d-flex align-center gap-2" };
 const _hoisted_3$1 = ["src"];
 const _hoisted_4 = ["src"];
@@ -10947,7 +10947,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_btn = resolveComponent("v-btn");
   const _component_v_container = resolveComponent("v-container");
   const _component_v_data_table = resolveComponent("v-data-table");
-  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+  return openBlock(), createElementBlock("div", _hoisted_1$1, [
     createVNode(_component_v_card_title, { class: "d-flex align-center pe-2" }, {
       default: withCtx(() => [
         _cache[1] || (_cache[1] = createTextVNode(" Popular Stocks ")),
@@ -11170,7 +11170,7 @@ const _sfc_main$1 = {
     }
   }
 };
-const _hoisted_1$1 = { class: "w-full" };
+const _hoisted_1 = { class: "w-full" };
 const _hoisted_2 = {
   key: 0,
   class: "flex items-center justify-center h-64"
@@ -11184,7 +11184,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     style: { "border": "1px solid rgba(255, 255, 255, 0.5)" }
   }, {
     default: withCtx(() => [
-      createBaseVNode("div", _hoisted_1$1, [
+      createBaseVNode("div", _hoisted_1, [
         $data.loading ? (openBlock(), createElementBlock("div", _hoisted_2, _cache[0] || (_cache[0] = [
           createBaseVNode("span", { class: "text-gray-500" }, "Loading chart...", -1)
         ]))) : (openBlock(), createElementBlock("div", _hoisted_3, [
@@ -11201,11 +11201,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   });
 }
 const SectorPerformanceGraph = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
-const _hoisted_1 = { class: "custom-width-wrapper" };
 const _sfc_main = {
   __name: "MainLayout",
   setup(__props) {
     const drawer = ref(false);
+    useDisplay();
     const symbol = ref("SPY");
     const previousClose = ref("");
     function updateSymbol({ sym, previous_close }) {
@@ -11222,12 +11222,13 @@ const _sfc_main = {
       const _component_v_container = resolveComponent("v-container");
       const _component_v_main = resolveComponent("v-main");
       const _component_v_layout = resolveComponent("v-layout");
+      const _component_v_sheet = resolveComponent("v-sheet");
       return openBlock(), createElementBlock(Fragment, null, [
         _cache[0] || (_cache[0] = createBaseVNode("link", {
           href: "https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css",
           rel: "stylesheet"
         }, null, -1)),
-        createVNode(_component_v_card, null, {
+        createVNode(_component_v_sheet, { class: "custom-width-wrapper" }, {
           default: withCtx(() => [
             createVNode(_component_v_layout, { style: { "background": "#0c1427" } }, {
               default: withCtx(() => [
@@ -11242,126 +11243,124 @@ const _sfc_main = {
                   default: withCtx(() => [
                     createVNode(_component_v_container, {
                       fluid: "",
-                      class: "pa-5 ma-0"
+                      class: "pa-0 pa-sm-5 ma-0"
                     }, {
                       default: withCtx(() => [
-                        createBaseVNode("div", _hoisted_1, [
-                          createVNode(_component_v_row, { justify: "end" }, {
-                            default: withCtx(() => [
-                              createVNode(_component_v_col, { cols: "auto" }, {
-                                default: withCtx(() => [
-                                  createVNode(MarketStatus)
-                                ]),
-                                _: 1
-                              })
-                            ]),
-                            _: 1
-                          }),
-                          createVNode(_component_v_row, {
-                            justify: "center",
-                            class: "mb-4",
-                            "no-gutters": ""
-                          }, {
-                            default: withCtx(() => [
-                              createVNode(_component_v_col, {
-                                cols: "12",
-                                sm: "4"
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(_component_v_card, {
-                                    class: "pa-0",
-                                    color: "primary"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(StockCard, { symbol: "SPY" })
-                                    ]),
-                                    _: 1
-                                  })
-                                ]),
-                                _: 1
-                              }),
-                              createVNode(_component_v_col, {
-                                cols: "12",
-                                sm: "4"
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(_component_v_card, {
-                                    class: "pa-0",
-                                    color: "primary"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(StockCard, { symbol: "IWM" })
-                                    ]),
-                                    _: 1
-                                  })
-                                ]),
-                                _: 1
-                              }),
-                              createVNode(_component_v_col, {
-                                cols: "12",
-                                sm: "4"
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(_component_v_card, {
-                                    class: "pa-0",
-                                    color: "primary"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(StockCard, { symbol: "DIA" })
-                                    ]),
-                                    _: 1
-                                  })
-                                ]),
-                                _: 1
-                              })
-                            ]),
-                            _: 1
-                          }),
-                          createVNode(_component_v_row, { justify: "center" }, {
-                            default: withCtx(() => [
-                              createVNode(_component_v_col, {
-                                cols: "12",
-                                sm: "4"
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(LiveStocksTable, { onShowGraph: updateSymbol })
-                                ]),
-                                _: 1
-                              }),
-                              createVNode(_component_v_col, {
-                                cols: "12",
-                                sm: "8"
-                              }, {
-                                default: withCtx(() => [
-                                  (openBlock(), createBlock(IntradayGraph, {
-                                    symbol: symbol.value,
-                                    previous_close: previousClose.value,
-                                    key: symbol.value
-                                  }, null, 8, ["symbol", "previous_close"]))
-                                ]),
-                                _: 1
-                              })
-                            ]),
-                            _: 1
-                          }),
-                          createVNode(_component_v_row, {
-                            justify: "center",
-                            class: "mb-4"
-                          }, {
-                            default: withCtx(() => [
-                              createVNode(_component_v_col, {
-                                cols: "12",
-                                sm: "7"
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(SectorPerformanceGraph)
-                                ]),
-                                _: 1
-                              })
-                            ]),
-                            _: 1
-                          })
-                        ])
+                        createVNode(_component_v_row, { justify: "end" }, {
+                          default: withCtx(() => [
+                            createVNode(_component_v_col, { cols: "auto" }, {
+                              default: withCtx(() => [
+                                createVNode(MarketStatus)
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_v_row, {
+                          justify: "center",
+                          class: "mb-4",
+                          "no-gutters": ""
+                        }, {
+                          default: withCtx(() => [
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "4"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(_component_v_card, {
+                                  class: "pa-0",
+                                  color: "primary"
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(StockCard, { symbol: "SPY" })
+                                  ]),
+                                  _: 1
+                                })
+                              ]),
+                              _: 1
+                            }),
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "4"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(_component_v_card, {
+                                  class: "pa-0",
+                                  color: "primary"
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(StockCard, { symbol: "IWM" })
+                                  ]),
+                                  _: 1
+                                })
+                              ]),
+                              _: 1
+                            }),
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "4"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(_component_v_card, {
+                                  class: "pa-0",
+                                  color: "primary"
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(StockCard, { symbol: "DIA" })
+                                  ]),
+                                  _: 1
+                                })
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_v_row, { justify: "center" }, {
+                          default: withCtx(() => [
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "4"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(LiveStocksTable, { onShowGraph: updateSymbol })
+                              ]),
+                              _: 1
+                            }),
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "8"
+                            }, {
+                              default: withCtx(() => [
+                                (openBlock(), createBlock(IntradayGraph, {
+                                  symbol: symbol.value,
+                                  previous_close: previousClose.value,
+                                  key: symbol.value
+                                }, null, 8, ["symbol", "previous_close"]))
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_v_row, {
+                          justify: "center",
+                          class: "mb-4"
+                        }, {
+                          default: withCtx(() => [
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "7"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(SectorPerformanceGraph)
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        })
                       ]),
                       _: 1
                     })
@@ -11378,7 +11377,7 @@ const _sfc_main = {
     };
   }
 };
-const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-6efc98ba"]]);
+const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-1cbc4296"]]);
 export {
   LiveStocksTable as L,
   MainLayout as M

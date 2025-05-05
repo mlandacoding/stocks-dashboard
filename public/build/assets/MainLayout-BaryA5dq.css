@@ -117,16 +117,22 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-.content-expanded[data-v-6efc98ba] {
+.content-expanded[data-v-1cbc4296] {
     margin-left: 0;
     transition: margin-left 0.8s ease-in-out;
 }
-.content-shrinked[data-v-6efc98ba] {
+.content-shrinked[data-v-1cbc4296] {
     margin-left: 5px;
     transition: margin-left 0.8s ease-in-out;
 }
-.custom-width-wrapper[data-v-6efc98ba] {
-    width: 99%;
+.custom-width-wrapper[data-v-1cbc4296] {
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
-    /* Center horizontally */
+}
+@media (max-width: 600px) {
+.custom-width-wrapper[data-v-1cbc4296] {
+        padding: 0 !important;
+        margin: 0 !important;
+}
 }
