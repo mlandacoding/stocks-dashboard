@@ -1,4 +1,4 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-7gwx_GVe.js";
+import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createElementBlock, f as createCommentVNode, d as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-DcFWbB50.js";
 const _sfc_main$7 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -10852,21 +10852,34 @@ const _sfc_main$2 = {
             let percentageChange = null;
             let priceChange = null;
             const matched = this.prevCloseMap.find((entry) => entry.symbol === stock.sym);
-            const prevClose = matched ? matched.prev_day_close : null;
-            if (prevClose == null && stock.vwap == null) {
-              const prevRes = await axios.get(`/prev_close/${stock.sym}`);
-              prevClose = parseFloat(prevRes.data["prev_day_close"]);
-              const latestRes = await axios.get(`/latest_price/${stock.sym}`);
-              stock.vwap = parseFloat(latestRes.data["price"]);
+            let prevClose = matched ? matched.prev_day_close : null;
+            let latest_vwap = null;
+            if (stock.vwap == null) {
+              if (prevClose == null) {
+                try {
+                  const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+                  prevClose = parseFloat(prevRes.data["prev_day_close"]);
+                } catch (error) {
+                  prevClose = 0;
+                }
+              }
+              try {
+                const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+                latest_vwap = parseFloat(latestRes.data["price"]);
+              } catch (error) {
+                latest_vwap = -1;
+              }
             }
-            percentageChange = (stock.vwap - prevClose) / prevClose * 100;
+            const effectiveVWAP = latest_vwap ?? stock.vwap;
+            percentageChange = (effectiveVWAP - prevClose) / prevClose * 100;
             percentageChange = percentageChange.toFixed(2);
-            priceChange = (stock.vwap - prevClose).toFixed(2);
+            priceChange = (effectiveVWAP - prevClose).toFixed(2);
             return {
               ...stock,
               previous_vwap: prevVWAP,
               vwapFlash: vwapChanged,
               prev_day_close: prevClose,
+              vwap: effectiveVWAP,
               percentageChange,
               priceChange
             };
@@ -10931,13 +10944,6 @@ const _sfc_main$2 = {
     } catch (error) {
       console.error("Failed to load prevCloseMap:", error);
     }
-    this.popular_stocks.forEach((value) => {
-      const stock = {
-        symbol: value,
-        vwap: 172.34
-      };
-      this.stocks.push(stock);
-    });
   }
 };
 const _hoisted_1$1 = { style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" } };
@@ -11071,7 +11077,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-7adba6fe"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-84037800"]]);
 const _sfc_main$1 = {
   name: "StockSectorBarChart",
   components: {

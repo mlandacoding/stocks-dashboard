@@ -128,30 +128,33 @@ export default {
             let priceChange = null;
 
             const matched = this.prevCloseMap.find(entry => entry.symbol === stock.sym);
-            const prevClose = matched ? matched.prev_day_close : null;
+            let prevClose = matched ? matched.prev_day_close : null;
+            let latest_vwap = null;
 
-            // if (this.previous_close === '') {
-            //     try {
-            //         const res = await axios.get(`/prev_close/${this.symbol}`);
-            //         prevClosePrice = parseFloat(res.data['prev_day_close']);
-            //     } catch (error) {
-            //         console.error('Error fetching previous close:', error);
-            //     }
-            // } else {
-            //     prevClosePrice = parseFloat(this.previous_close);
-            // }
+            if (stock.vwap == null) {
+                if (prevClose == null) {
+                    try{
+                        const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+                        prevClose = parseFloat(prevRes.data['prev_day_close']);
+                    } catch(error){
+                        prevClose = 0;
+                    }
+                }
 
-            if(prevClose == null && stock.vwap == null){
-                const prevRes = await axios.get(`/prev_close/${stock.sym}`);
-                prevClose = parseFloat(prevRes.data['prev_day_close']);
+                try{
+                    const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+                    latest_vwap = parseFloat(latestRes.data['price']);
+                } catch(error){
+                    latest_vwap = -1;
+                }
 
-                const latestRes = await axios.get(`/latest_price/${stock.sym}`);
-                stock.vwap = parseFloat(latestRes.data['price']);
             }
 
-            percentageChange = ((stock.vwap - prevClose) / prevClose) * 100;
+            const effectiveVWAP = latest_vwap ?? stock.vwap;
+
+            percentageChange = ((effectiveVWAP - prevClose) / prevClose) * 100;
             percentageChange = percentageChange.toFixed(2);
-            priceChange = (stock.vwap - prevClose).toFixed(2);
+            priceChange = (effectiveVWAP - prevClose).toFixed(2);
 
 
             return {
@@ -159,6 +162,7 @@ export default {
                 previous_vwap: prevVWAP,
                 vwapFlash: vwapChanged,
                 prev_day_close: prevClose,
+                vwap: effectiveVWAP,
                 percentageChange,
                 priceChange,
             };
@@ -231,20 +235,6 @@ export default {
         } catch (error) {
             console.error('Failed to load prevCloseMap:', error);
         }
-
-        // const logos = import.meta.glob('/storage/images/logos/*.png');
-        // Object.keys(logos).forEach(path => {
-        //     const symbol = path.split('/').pop().replace('.png', '');
-        //     this.logoStatus[symbol] = { local: true };
-        // });
-
-        this.popular_stocks.forEach((value) =>{
-            const stock = {
-                symbol: value,
-                vwap: 172.34
-            };
-            this.stocks.push(stock);
-        });
     }
 };
 </script>
