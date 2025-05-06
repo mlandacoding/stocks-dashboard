@@ -51,7 +51,7 @@ Schedule::command('cache:previous-close')
 
 
 Schedule::command('intraday:clear')
-    ->dailyAt('03:20')
+    ->dailyAt('03:25')
     ->weekdays()
     ->timezone('America/New_York')
     ->when(function () {
