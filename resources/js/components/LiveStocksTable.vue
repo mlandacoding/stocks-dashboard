@@ -1,6 +1,6 @@
 <template>
-    <div style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
-        <v-card-title class="d-flex align-center pe-2">
+    <div style="border: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: .5em;">
+        <v-card-title v-if="title" class="d-flex align-center pe-2">
             {{ title }}
             <v-spacer></v-spacer>
             <!-- <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify" flat
@@ -71,9 +71,6 @@
             </template>
 
             <template v-slot:bottom>
-                <v-container class="text-end">
-                    Pricing delayed approximately 15 minutes*
-                </v-container>
             </template>
         </v-data-table>
     </div>
@@ -90,6 +87,10 @@ export default {
         symbols: {
             type: Array,
         },
+        chartButton:{
+            type: Boolean,
+            default: true
+        }
     },
     data() {
         return {
@@ -98,12 +99,7 @@ export default {
             flashStates: {},
             logoStatus: {},
             apiKey: import.meta.env.VITE_POLYGON_API_KEY,
-            headers: [
-                { title: 'Symbol', key: 'sym' },
-                { title: 'Price', key: 'vwap' },
-                { title: '% Change', key: 'percentage_change', align: 'end' },
-                { title: 'Chart', key: 'chart' },
-            ],
+            headers: [],
             prevCloseMap: {},
             hasPreloaded: false,
             isReady: false
@@ -233,6 +229,22 @@ export default {
             console.error('Failed to load prevCloseMap:', error);
         }
         this.isReady = true;
+
+        if(this.chartButton){
+            this.headers = [
+                { title: 'Symbol', key: 'sym' },
+                { title: 'Price', key: 'vwap' },
+                { title: '% Change', key: 'percentage_change', align: 'end' },
+                { title: 'Chart', key: 'chart' },
+            ]
+        } else {
+            this.headers = [
+                { title: 'Symbol', key: 'sym' },
+                { title: 'Price', key: 'vwap' },
+                { title: '% Change', key: 'percentage_change', align: 'end' },
+            ]
+        }
+
     }
 };
 </script>

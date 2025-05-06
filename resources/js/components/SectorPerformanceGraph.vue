@@ -6,7 +6,7 @@
             <span class="text-gray-500">Loading chart...</span>
           </div>
           <div v-else>
-            <apexchart type="bar" height="400" :options="chartOptions" :series="chartSeries" />
+            <apexchart type="bar" height="440" :options="chartOptions" :series="chartSeries" />
           </div>
         </div>
       </v-card>

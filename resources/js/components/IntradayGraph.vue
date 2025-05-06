@@ -1,13 +1,13 @@
 <template>
     <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);">
-        <v-card-title>{{ symbol }}</v-card-title>
+        <v-card-title style="text-transform:uppercase">{{ symbol }}</v-card-title>
         <div class="w-full">
             <div v-if="loading" class="flex items-center justify-center h-64">
                 <span class="text-gray-500">Loading chart...</span>
             </div>
 
             <div v-else>
-                <apexchart type="area" height="445" :options="chartOptions" :series="chartSeries"></apexchart>
+                <apexchart type="area" height="390" :options="chartOptions" :series="chartSeries"></apexchart>
             </div>
         </div>
     </v-card>

@@ -126,7 +126,6 @@ onMounted(async () => {
         const apiMarketStatus = await axios.get('/market-status');
         if(apiMarketStatus){
             afterHours.value = apiMarketStatus.data.afterHours;
-            console.log(afterHours.value);
             marketsAreOpen.value = apiMarketStatus.data.market === 'open';
         }
     });

@@ -44,6 +44,12 @@ Route::get('/stocks_overview/prev_close', function () {
     return \App\Models\StockOverview::pluck('prev_day_close', 'symbol');
 });
 
+Route::get('/company_profile/{symbol}', function ($symbol) {
+    return Inertia::render('CompanyProfilePage', [
+        'symbol' => $symbol,
+    ]);
+});
+
 Route::get('/prev_close/{symbol}', [StockOverviewController::class, 'previousClose']);
 Route::get('/latest_price/{symbol}', [LatestPriceHelper::class, 'getLatestPriceFromJson']);
 Route::get('/winners_and_losers', [WinnersAndLosersController::class, 'winnersAndLosers']);
