@@ -2,10 +2,7 @@
 import { defineProps, defineEmits } from "vue";
 
 const items = [
-    { title: 'Indexes', link: '/indexes', value: 'indexes' },
-    { title: 'Dashboard', link: '/', value: 'bar' },
-    { title: 'Fizz', value: 'fizz' },
-    { title: 'Buzz', value: 'buzz' },
+    { title: 'Market Summary', link: '/', value: 'bar' },
 ]
 
 const props = defineProps({
@@ -24,7 +21,7 @@ const toggleDrawer = () => {
     class="outlined-sidebar" style ="border-right: 2px solid #17223f;">
     <v-list density="compact">
       <div class="justify-content-center">
-        <v-list-subheader style="color: white;">REPORTS</v-list-subheader>
+        <v-list-subheader style="color: white;">Stocks</v-list-subheader>
       </div>
 
       <v-divider></v-divider>
