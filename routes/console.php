@@ -64,19 +64,4 @@ Schedule::command('intraday:clear')
     })
     ->sendOutputTo(storage_path('logs/intraday-clear.log'));
 
-Schedule::command('polygon:stream')
-    ->timezone('America/New_York')
-    ->weekdays()
-    ->at('09:31')
-    ->when(function () {
-        $today = Carbon::now('America/New_York')->toDateString();
-
-        return !DB::table('calendars')
-            ->whereDate('date', $today)
-            ->where('status', '=', 'closed')
-            ->exists();
-    })
-    ->withoutOverlapping()
-    ->sendOutputTo(storage_path('logs/polygon-daily.log'));
-
 
