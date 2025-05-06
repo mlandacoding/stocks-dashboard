@@ -1,19 +1,19 @@
 
-.content-expanded[data-v-6efd06d4] {
+.content-expanded[data-v-76c6f50f] {
     margin-left: 0;
     transition: margin-left 0.8s ease-in-out;
 }
-.content-shrinked[data-v-6efd06d4] {
+.content-shrinked[data-v-76c6f50f] {
     margin-left: 5px;
     transition: margin-left 0.8s ease-in-out;
 }
-.custom-width-wrapper[data-v-6efd06d4] {
+.custom-width-wrapper[data-v-76c6f50f] {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
 }
 @media (max-width: 600px) {
-.custom-width-wrapper[data-v-6efd06d4] {
+.custom-width-wrapper[data-v-76c6f50f] {
         padding: 0 !important;
         margin: 0 !important;
 }

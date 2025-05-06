@@ -1,5 +1,5 @@
-import { r as ref, a as resolveComponent, c as createElementBlock, o as openBlock, b as createStaticVNode, d as createVNode, w as withCtx, n as normalizeClass, e as createBlock, F as Fragment } from "./app-Cd52K4uN.js";
-import { _ as _export_sfc, a as _sfc_main$1, b as _sfc_main$2, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph } from "./IntradayGraph-wXBUz1KA.js";
+import { r as ref, a as resolveComponent, c as createElementBlock, o as openBlock, b as createStaticVNode, d as createVNode, w as withCtx, n as normalizeClass, e as createBlock, F as Fragment } from "./app-BBkNXwKj.js";
+import { _ as _export_sfc, a as _sfc_main$1, b as _sfc_main$2, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-zAGaa51D.js";
 const _sfc_main = {
   __name: "CompanyProfilePage",
   props: {
@@ -29,7 +29,7 @@ const _sfc_main = {
       const _component_v_layout = resolveComponent("v-layout");
       const _component_v_sheet = resolveComponent("v-sheet");
       return openBlock(), createElementBlock(Fragment, null, [
-        _cache[0] || (_cache[0] = createStaticVNode('<head data-v-6efd06d4><meta charset="UTF-8" data-v-6efd06d4><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-6efd06d4><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-6efd06d4><title data-v-6efd06d4>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-6efd06d4></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-6efd06d4>', 2)),
+        _cache[0] || (_cache[0] = createStaticVNode('<head data-v-76c6f50f><meta charset="UTF-8" data-v-76c6f50f><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-76c6f50f><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-76c6f50f><title data-v-76c6f50f>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-76c6f50f></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-76c6f50f>', 2)),
         createVNode(_component_v_sheet, { class: "custom-width-wrapper" }, {
           default: withCtx(() => [
             createVNode(_component_v_layout, { style: { "background": "#0c1427" } }, {
@@ -103,12 +103,13 @@ const _sfc_main = {
             })
           ]),
           _: 1
-        })
+        }),
+        createVNode(FooterComponent)
       ], 64);
     };
   }
 };
-const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-6efd06d4"]]);
+const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-76c6f50f"]]);
 export {
   CompanyProfilePage as default
 };

@@ -1,5 +1,5 @@
-import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, j as createCommentVNode, f as createBaseVNode, c as createElementBlock, k as createTextVNode, F as Fragment, p as renderList, t as toDisplayString, g as computed, i as onMounted, m as axios$1, n as normalizeClass, l as normalizeStyle, q as defineComponent, s as h$1, v as onBeforeMount, x as getCurrentInstance, y as onBeforeUnmount, z as toRefs, h as watch, A as nextTick } from "./app-Cd52K4uN.js";
-const _sfc_main$4 = {
+import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, j as createCommentVNode, f as createBaseVNode, c as createElementBlock, k as createTextVNode, F as Fragment, p as renderList, t as toDisplayString, g as computed, i as onMounted, m as axios$1, n as normalizeClass, l as normalizeStyle, q as defineComponent, s as h$1, v as onBeforeMount, x as getCurrentInstance, y as onBeforeUnmount, z as toRefs, h as watch, A as nextTick } from "./app-BBkNXwKj.js";
+const _sfc_main$5 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
   setup(__props, { emit: __emit }) {
@@ -52,7 +52,7 @@ const _sfc_main$4 = {
 };
 const _hoisted_1$3 = { class: "justify-content-center" };
 const _hoisted_2$3 = ["href"];
-const _sfc_main$3 = {
+const _sfc_main$4 = {
   __name: "Sidebar",
   props: {
     drawer: Boolean
@@ -203,7 +203,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$2 = {
+const _sfc_main$3 = {
   props: {
     title: {
       type: String
@@ -371,7 +371,7 @@ const _hoisted_5 = {
   viewBox: "0 0 16 16"
 };
 const _hoisted_6 = { class: "d-flex gap-2 text-end justify-end text-end" };
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_spacer = resolveComponent("v-spacer");
   const _component_v_card_title = resolveComponent("v-card-title");
   const _component_v_avatar = resolveComponent("v-avatar");
@@ -473,7 +473,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-f39ba224"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-f39ba224"]]);
 const _hoisted_1$1 = { class: "content-wrapper" };
 const _hoisted_2$1 = {
   key: 0,
@@ -483,7 +483,7 @@ const _hoisted_3$1 = {
   key: 1,
   class: "after-hours-text"
 };
-const _sfc_main$1 = {
+const _sfc_main$2 = {
   __name: "MarketStatus",
   setup(__props) {
     const holiday = ref("");
@@ -613,7 +613,7 @@ const _sfc_main$1 = {
     };
   }
 };
-const MarketStatus = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-c5f99dfa"]]);
+const MarketStatus = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-c5f99dfa"]]);
 /*!
  * ApexCharts v4.5.0
  * (c) 2018-2025 ApexCharts
@@ -10685,7 +10685,7 @@ const A = [
   a2.component(m.name, m);
 };
 m.install = J;
-const _sfc_main = {
+const _sfc_main$1 = {
   name: "IntradayChart",
   components: {
     apexchart: m
@@ -10855,7 +10855,7 @@ const _hoisted_2 = {
   class: "flex items-center justify-center h-64"
 };
 const _hoisted_3 = { key: 1 };
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_card_title = resolveComponent("v-card-title");
   const _component_apexchart = resolveComponent("apexchart");
   const _component_v_card = resolveComponent("v-card");
@@ -10886,14 +10886,29 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IntradayGraph = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+const IntradayGraph = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const _sfc_main = {};
+function _sfc_render(_ctx, _cache) {
+  const _component_v_footer = resolveComponent("v-footer");
+  return openBlock(), createBlock(_component_v_footer, {
+    border: "",
+    color: "primary"
+  }, {
+    default: withCtx(() => _cache[0] || (_cache[0] = [
+      createTextVNode("* Data is delayed by at least 15 minutes")
+    ])),
+    _: 1
+  });
+}
+const FooterComponent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 export {
+  FooterComponent as F,
   IntradayGraph as I,
   LiveStocksTable as L,
   MarketStatus as M,
   _export_sfc as _,
-  _sfc_main$4 as a,
-  _sfc_main$3 as b,
+  _sfc_main$5 as a,
+  _sfc_main$4 as b,
   m,
   useStockStream as u
 };
