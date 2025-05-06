@@ -1,4 +1,4 @@
-import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, j as createCommentVNode, f as createBaseVNode, c as createElementBlock, k as createTextVNode, F as Fragment, p as renderList, t as toDisplayString, g as computed, i as onMounted, m as axios$1, n as normalizeClass, l as normalizeStyle, q as defineComponent, s as h$1, v as onBeforeMount, x as getCurrentInstance, y as onBeforeUnmount, z as toRefs, h as watch, A as nextTick } from "./app-DNcKzKqo.js";
+import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, j as createCommentVNode, f as createBaseVNode, c as createElementBlock, k as createTextVNode, F as Fragment, p as renderList, t as toDisplayString, g as computed, i as onMounted, m as axios$1, n as normalizeClass, l as normalizeStyle, q as defineComponent, s as h$1, v as onBeforeMount, x as getCurrentInstance, y as onBeforeUnmount, z as toRefs, h as watch, A as nextTick } from "./app-Cd52K4uN.js";
 const _sfc_main$4 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -10712,15 +10712,16 @@ const _sfc_main = {
   },
   methods: {
     async loadChartData() {
-      var _a2;
+      var _a2, _b;
       try {
-        const intradayRes = await fetch(`/storage/intraday/${this.symbol}.json`);
+        const normalizedSymbol = ((_a2 = this.symbol) == null ? void 0 : _a2.toUpperCase()) ?? "";
+        const intradayRes = await fetch(`/storage/intraday/${normalizedSymbol}.json`);
         const intradayData = await intradayRes.json();
         const pricePoints = intradayData.map((entry) => ({
           x: new Date(entry[0]),
           y: entry[1]
         }));
-        const lastPrice = (_a2 = pricePoints[pricePoints.length - 1]) == null ? void 0 : _a2.y;
+        const lastPrice = (_b = pricePoints[pricePoints.length - 1]) == null ? void 0 : _b.y;
         var prevClosePrice = 0;
         if (this.previous_close === "") {
           try {
