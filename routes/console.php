@@ -18,11 +18,11 @@ Schedule::command('python:update-calendars')
 
 Schedule::command('cache:active-assets')
     ->timezone('America/New_York')
-    ->dailyAt('03:20')
+    ->dailyAt('04:20')
     ->sendOutputTo(storage_path('logs/active-assets.log'));
 
 Schedule::command('python:update-stocks-overview')
-    ->dailyAt('03:45')
+    ->dailyAt('04:45')
     ->weekdays()
     ->timezone('America/New_York')
     ->when(function () {
@@ -36,7 +36,7 @@ Schedule::command('python:update-stocks-overview')
     ->sendOutputTo(storage_path('logs/update-stocks.log'));
 
 Schedule::command('cache:previous-close')
-    ->dailyAt('03:55')
+    ->dailyAt('05:55')
     ->weekdays()
     ->timezone('America/New_York')
     ->when(function () {
@@ -51,7 +51,7 @@ Schedule::command('cache:previous-close')
 
 
 Schedule::command('intraday:clear')
-    ->dailyAt('03:25')
+    ->dailyAt('05:25')
     ->weekdays()
     ->timezone('America/New_York')
     ->when(function () {
