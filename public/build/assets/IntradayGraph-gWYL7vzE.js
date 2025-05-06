@@ -1,5 +1,5 @@
-import { r as ref, e as resolveComponent, c as createBlock, o as openBlock, w as withCtx, d as createVNode, a as createElementBlock, f as createCommentVNode, b as createBaseVNode, F as Fragment, g as createTextVNode, h as renderList, t as toDisplayString, i as computed, j as onMounted, k as axios$1, u as useTheme, l as watch, n as normalizeClass, m as normalizeStyle, p as defineComponent, q as h$1, s as onBeforeMount, v as getCurrentInstance, x as onBeforeUnmount, y as toRefs, z as nextTick } from "./app-Bt0eWod6.js";
-const _sfc_main$7 = {
+import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, j as createCommentVNode, f as createBaseVNode, c as createElementBlock, k as createTextVNode, F as Fragment, p as renderList, t as toDisplayString, g as computed, i as onMounted, m as axios$1, n as normalizeClass, l as normalizeStyle, q as defineComponent, s as h$1, v as onBeforeMount, x as getCurrentInstance, y as onBeforeUnmount, z as toRefs, h as watch, A as nextTick } from "./app-DNcKzKqo.js";
+const _sfc_main$4 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
   setup(__props, { emit: __emit }) {
@@ -39,29 +39,20 @@ const _sfc_main$7 = {
             ])),
             _: 1
           }),
-          _ctx.$vuetify.display.mdAndUp ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-            createVNode(_component_v_btn, {
-              icon: "mdi-magnify",
-              variant: "text"
-            }),
-            createVNode(_component_v_btn, {
-              icon: "mdi-filter",
-              variant: "text"
-            })
-          ], 64)) : createCommentVNode("", true),
-          createVNode(_component_v_btn, {
-            icon: "mdi-dots-vertical",
+          _ctx.$vuetify.display.mdAndUp ? (openBlock(), createBlock(_component_v_btn, {
+            key: 0,
+            icon: "mdi-magnify",
             variant: "text"
-          })
+          })) : createCommentVNode("", true)
         ]),
         _: 1
       });
     };
   }
 };
-const _hoisted_1$5 = { class: "justify-content-center" };
-const _hoisted_2$5 = ["href"];
-const _sfc_main$6 = {
+const _hoisted_1$3 = { class: "justify-content-center" };
+const _hoisted_2$3 = ["href"];
+const _sfc_main$3 = {
   __name: "Sidebar",
   props: {
     drawer: Boolean
@@ -70,10 +61,7 @@ const _sfc_main$6 = {
   emits: ["update:drawer"],
   setup(__props, { emit: __emit }) {
     const items = [
-      { title: "Indexes", link: "/indexes", value: "indexes" },
-      { title: "Dashboard", link: "/", value: "bar" },
-      { title: "Fizz", value: "fizz" },
-      { title: "Buzz", value: "buzz" }
+      { title: "Market Summary", link: "/", value: "bar" }
     ];
     const props = __props;
     const emit = __emit;
@@ -97,10 +85,10 @@ const _sfc_main$6 = {
         default: withCtx(() => [
           createVNode(_component_v_list, { density: "compact" }, {
             default: withCtx(() => [
-              createBaseVNode("div", _hoisted_1$5, [
+              createBaseVNode("div", _hoisted_1$3, [
                 createVNode(_component_v_list_subheader, { style: { "color": "white" } }, {
                   default: withCtx(() => _cache[0] || (_cache[0] = [
-                    createTextVNode("REPORTS")
+                    createTextVNode("Stocks")
                   ])),
                   _: 1
                 })
@@ -116,7 +104,7 @@ const _sfc_main$6 = {
                     createBaseVNode("a", {
                       href: item.link,
                       style: { "color": "white", "text-decoration": "none" }
-                    }, toDisplayString(item.title), 9, _hoisted_2$5)
+                    }, toDisplayString(item.title), 9, _hoisted_2$3)
                   ]),
                   _: 2
                 }, 1032, ["value"]);
@@ -215,192 +203,287 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$4 = ["src"];
-const _hoisted_2$4 = ["src"];
-const _hoisted_3$4 = { class: "d-flex align-center justify-space-between w-150" };
-const _hoisted_4$1 = { class: "text-white text-subtitle-1 font-weight-bold" };
-const _hoisted_5$1 = { class: "text-medium-emphasis" };
-const _hoisted_6$1 = { class: "d-flex align-center gap-2" };
-const _sfc_main$5 = {
-  __name: "StockCardComponent",
+const _sfc_main$2 = {
   props: {
-    symbol: String
-  },
-  setup(__props) {
-    const props = __props;
-    const companyName = ref("");
-    const prev_day_close = ref(0);
-    const currentPrice = ref(0);
-    const percentageChange = ref(0);
-    const isUp = ref(true);
-    const priceFlash = ref(false);
-    const { current } = useTheme();
-    const cardStyle = computed(() => ({
-      backgroundColor: current.value.colors.primary,
-      border: "2px solid grey"
-    }));
-    const apiKey = "1id5h3veZCsdF5IKj8C";
-    const logoUrl = computed(() => `https://cdn.brandfetch.io/${props.symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`);
-    const localLogoPath = computed(() => `/storage/images/logos/${props.symbol}.png`);
-    const localImageExists = ref(false);
-    const logoUrlExists = ref(false);
-    function checkIfImageExists(pathRef, targetRef) {
-      const img = new Image();
-      img.src = pathRef.value;
-      img.onload = () => targetRef.value = true;
-      img.onerror = () => targetRef.value = false;
+    title: {
+      type: String
+    },
+    symbols: {
+      type: Array
+    },
+    chartButton: {
+      type: Boolean,
+      default: true
     }
-    const priceClass = computed(() => {
-      return priceFlash.value ? isUp.value ? "text-green--light" : "text-red--light" : "";
-    });
-    watch(
-      () => currentPrice.value,
-      (newPrice, oldPrice) => {
-        if (newPrice !== oldPrice) {
-          priceFlash.value = true;
-          setTimeout(() => priceFlash.value = false, 500);
-        }
-      }
-    );
-    const stockStream = useStockStream();
-    watch(
-      () => stockStream.formattedStocks.value.find((s2) => s2.sym === props.symbol),
-      (stockUpdate) => {
-        if (stockUpdate && stockUpdate.vwap !== null) {
-          const newPrice = stockUpdate.vwap;
-          percentageChange.value = prev_day_close.value ? (newPrice - prev_day_close.value) / prev_day_close.value * 100 : 0;
-          isUp.value = newPrice > currentPrice.value;
-          currentPrice.value = newPrice;
+  },
+  data() {
+    return {
+      search: "",
+      stocks: [],
+      flashStates: {},
+      logoStatus: {},
+      apiKey: "1id5h3veZCsdF5IKj8C",
+      headers: [],
+      prevCloseMap: {},
+      hasPreloaded: false,
+      isReady: false
+    };
+  },
+  setup() {
+    const { formattedStocks: globalFormattedStocks } = useStockStream();
+    return { globalFormattedStocks };
+  },
+  watch: {
+    globalFormattedStocks: {
+      async handler() {
+        await this.rebuildStocks();
+      },
+      immediate: true,
+      deep: true
+    },
+    symbols(newSymbols) {
+      this.rebuildStocks();
+    },
+    stocks: {
+      handler(newVal) {
+        if (!this.hasPreloaded && newVal.length > 0) {
+          this.preloadLogosForStocks(newVal);
+          this.hasPreloaded = true;
         }
       },
-      { immediate: true }
-    );
-    onMounted(async () => {
-      try {
-        const response = await axios.get(`/stocks_overview/company_name/${props.symbol}`);
-        companyName.value = response.data.name;
-        prev_day_close.value = response.data.prev_day_close;
-      } catch (error) {
-        console.error("Error fetching company name:", error);
-        companyName.value = "Unknown Company";
+      immediate: true
+    }
+  },
+  methods: {
+    async rebuildStocks() {
+      if (!this.isReady || !this.symbols.length) return;
+      this.stocks = (await Promise.all(this.globalFormattedStocks.map(async (stock) => {
+        if (!this.symbols.includes(stock.sym)) return null;
+        const existing = this.stocks.find((s2) => s2.sym === stock.sym);
+        const prevVWAP = (existing == null ? void 0 : existing.vwap) ?? null;
+        const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
+        let percentageChange = null;
+        let priceChange = null;
+        const matched = this.prevCloseMap.find((entry) => entry.symbol === stock.sym);
+        let prevClose = matched ? matched.prev_day_close : null;
+        let latest_vwap = null;
+        if (stock.vwap == null) {
+          if (prevClose == null) {
+            try {
+              const prevRes = await axios.get(`/prev_close/${stock.sym}`);
+              prevClose = parseFloat(prevRes.data["prev_day_close"]);
+            } catch {
+              prevClose = 0;
+            }
+          }
+          try {
+            const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+            latest_vwap = parseFloat(latestRes.data["price"]);
+          } catch {
+            latest_vwap = -1;
+          }
+        }
+        const effectiveVWAP = latest_vwap ?? stock.vwap;
+        percentageChange = (effectiveVWAP - prevClose) / prevClose * 100;
+        percentageChange = percentageChange.toFixed(2);
+        priceChange = (effectiveVWAP - prevClose).toFixed(2);
+        return {
+          ...stock,
+          previous_vwap: prevVWAP,
+          vwapFlash: vwapChanged,
+          prev_day_close: prevClose,
+          vwap: effectiveVWAP,
+          percentageChange,
+          priceChange
+        };
+      }))).filter(Boolean);
+      setTimeout(() => {
+        this.stocks.forEach((s2) => s2.vwapFlash = false);
+      }, 600);
+    },
+    checkIfImageExists(src, callback) {
+      const img = new Image();
+      img.onload = () => callback(true);
+      img.onerror = () => callback(false);
+      img.src = src;
+    },
+    preloadLogosForStocks(stocks2) {
+      stocks2.forEach((stock) => {
+        var _a2;
+        const symbol = stock.sym;
+        if ((_a2 = this.logoStatus[symbol]) == null ? void 0 : _a2.local) return;
+        if (!this.logoStatus[symbol]) {
+          const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
+          this.checkIfImageExists(remote, (exists) => {
+            this.logoStatus[symbol] = {
+              ...this.logoStatus[symbol] || {},
+              remote: exists
+            };
+          });
+        }
+      });
+    },
+    showStockGraph(sym) {
+      const stock = this.stocks.find((s2) => s2.sym === sym);
+      if (stock) {
+        this.$emit("show-graph", {
+          sym: stock.sym,
+          previous_close: stock.prev_day_close
+        });
       }
-      checkIfImageExists(logoUrl, logoUrlExists);
-      checkIfImageExists(localLogoPath, localImageExists);
-    });
-    return (_ctx, _cache) => {
-      const _component_v_avatar = resolveComponent("v-avatar");
-      const _component_v_col = resolveComponent("v-col");
-      const _component_v_icon = resolveComponent("v-icon");
-      const _component_v_row = resolveComponent("v-row");
-      const _component_v_card = resolveComponent("v-card");
-      return openBlock(), createBlock(_component_v_card, {
-        class: "pa-3",
-        rounded: "lg",
-        elevation: "0",
-        style: normalizeStyle({ ...cardStyle.value, margin: "0 4px" })
-      }, {
-        default: withCtx(() => [
-          createVNode(_component_v_row, {
-            align: "center",
-            "no-gutters": ""
-          }, {
-            default: withCtx(() => [
-              createVNode(_component_v_col, { cols: "auto" }, {
-                default: withCtx(() => [
-                  localImageExists.value || logoUrlExists.value ? (openBlock(), createBlock(_component_v_avatar, {
-                    key: 0,
-                    size: "40",
-                    class: "d-flex align-center justify-space-around"
-                  }, {
-                    default: withCtx(() => [
-                      localImageExists.value ? (openBlock(), createElementBlock("img", {
-                        key: 0,
-                        src: localLogoPath.value,
-                        alt: "Local Logo",
-                        class: "w-100 h-100"
-                      }, null, 8, _hoisted_1$4)) : logoUrlExists.value ? (openBlock(), createElementBlock("img", {
-                        key: 1,
-                        src: logoUrl.value,
-                        alt: "Brandfetch Logo",
-                        class: "w-100 h-100"
-                      }, null, 8, _hoisted_2$4)) : createCommentVNode("", true)
-                    ]),
-                    _: 1
-                  })) : (openBlock(), createBlock(_component_v_avatar, {
-                    key: 1,
-                    rounded: "0"
-                  }, {
-                    default: withCtx(() => _cache[0] || (_cache[0] = [
-                      createBaseVNode("svg", {
-                        xmlns: "http://www.w3.org/2000/svg",
-                        width: "90%",
-                        height: "90%",
-                        fill: "currentColor",
-                        class: "bi bi-graph-up-arrow",
-                        viewBox: "0 0 16 16"
-                      }, [
-                        createBaseVNode("path", {
-                          "fill-rule": "evenodd",
-                          d: "M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"
-                        })
-                      ], -1)
-                    ])),
-                    _: 1
-                  }))
-                ]),
-                _: 1
-              }),
-              createVNode(_component_v_col, { class: "ms-4" }, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_3$4, [
-                    createBaseVNode("div", null, [
-                      createBaseVNode("div", _hoisted_4$1, toDisplayString(__props.symbol), 1),
-                      createBaseVNode("div", _hoisted_5$1, [
-                        createBaseVNode("h6", null, toDisplayString(companyName.value), 1)
-                      ])
-                    ]),
-                    createBaseVNode("div", _hoisted_6$1, [
-                      createVNode(_component_v_icon, {
-                        color: percentageChange.value >= 0 ? "green" : "red",
-                        size: "20",
-                        class: "me-1"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(percentageChange.value >= 0 ? "mdi-arrow-up-bold" : "mdi-arrow-down-bold"), 1)
-                        ]),
-                        _: 1
-                      }, 8, ["color"]),
-                      createBaseVNode("div", {
-                        class: normalizeClass([percentageChange.value >= 0 ? "text-green" : "text-red", "text-subtitle-1 font-weight-bold"])
-                      }, toDisplayString(percentageChange.value.toFixed(2)) + "% ", 3)
-                    ]),
-                    createBaseVNode("div", {
-                      class: normalizeClass([priceClass.value, "text-subtitle-1 font-weight-bold"])
-                    }, " $" + toDisplayString(currentPrice.value.toFixed(2)), 3)
-                  ])
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      }, 8, ["style"]);
-    };
+    }
+  },
+  async created() {
+    try {
+      const prevCloseRes = await fetch("/storage/cache/previous_close.json");
+      const previousCloseData = await prevCloseRes.json();
+      this.prevCloseMap = previousCloseData;
+    } catch (error) {
+      console.error("Failed to load prevCloseMap:", error);
+    }
+    this.isReady = true;
+    if (this.chartButton) {
+      this.headers = [
+        { title: "Symbol", key: "sym" },
+        { title: "Price", key: "vwap" },
+        { title: "% Change", key: "percentage_change", align: "end" },
+        { title: "Chart", key: "chart" }
+      ];
+    } else {
+      this.headers = [
+        { title: "Symbol", key: "sym" },
+        { title: "Price", key: "vwap" },
+        { title: "% Change", key: "percentage_change", align: "end" }
+      ];
+    }
   }
 };
-const StockCard = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-6ebed245"]]);
-const _hoisted_1$3 = { class: "content-wrapper" };
-const _hoisted_2$3 = {
+const _hoisted_1$2 = { style: { "border": "1px solid rgba(255, 255, 255, 0.5)", "padding-bottom": ".5em" } };
+const _hoisted_2$2 = { class: "d-flex align-center gap-2" };
+const _hoisted_3$2 = ["src"];
+const _hoisted_4 = ["src"];
+const _hoisted_5 = {
+  key: 2,
+  xmlns: "http://www.w3.org/2000/svg",
+  width: "60%",
+  height: "60%",
+  class: "bi bi-graph-up-arrow",
+  viewBox: "0 0 16 16"
+};
+const _hoisted_6 = { class: "d-flex gap-2 text-end justify-end text-end" };
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_v_spacer = resolveComponent("v-spacer");
+  const _component_v_card_title = resolveComponent("v-card-title");
+  const _component_v_avatar = resolveComponent("v-avatar");
+  const _component_v_btn = resolveComponent("v-btn");
+  const _component_v_data_table = resolveComponent("v-data-table");
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+    $props.title ? (openBlock(), createBlock(_component_v_card_title, {
+      key: 0,
+      class: "d-flex align-center pe-2"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(toDisplayString($props.title) + " ", 1),
+        createVNode(_component_v_spacer)
+      ]),
+      _: 1
+    })) : createCommentVNode("", true),
+    createVNode(_component_v_data_table, {
+      headers: $data.headers,
+      items: $data.stocks,
+      density: "compact",
+      search: $data.search,
+      "items-per-page": 10,
+      class: "custom-table"
+    }, {
+      "item.sym": withCtx(({ item }) => [
+        createBaseVNode("div", _hoisted_2$2, [
+          createVNode(_component_v_avatar, {
+            size: "32",
+            rounded: "1",
+            class: "bg-white"
+          }, {
+            default: withCtx(() => {
+              var _a2, _b;
+              return [
+                ((_a2 = $data.logoStatus[item.sym]) == null ? void 0 : _a2.local) ? (openBlock(), createElementBlock("img", {
+                  key: 0,
+                  src: `/storage/images/logos/${item.sym}.png`,
+                  alt: "Local Logo",
+                  class: "w-100 h-100"
+                }, null, 8, _hoisted_3$2)) : ((_b = $data.logoStatus[item.sym]) == null ? void 0 : _b.remote) ? (openBlock(), createElementBlock("img", {
+                  key: 1,
+                  src: `https://cdn.brandfetch.io/${item.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${$data.apiKey}`,
+                  alt: "Brandfetch Logo",
+                  class: "w-100 h-100"
+                }, null, 8, _hoisted_4)) : (openBlock(), createElementBlock("svg", _hoisted_5, _cache[0] || (_cache[0] = [
+                  createBaseVNode("path", {
+                    "fill-rule": "evenodd",
+                    d: "M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"
+                  }, null, -1)
+                ])))
+              ];
+            }),
+            _: 2
+          }, 1024),
+          createBaseVNode("span", null, toDisplayString(item.sym ?? "—"), 1)
+        ])
+      ]),
+      "item.vwap": withCtx(({ item }) => [
+        createBaseVNode("span", {
+          class: normalizeClass([
+            "font-mono transition-all duration-300",
+            {
+              "text-red": item.previous_vwap !== null && item.vwap < item.previous_vwap,
+              "text-green": item.previous_vwap !== null && item.vwap > item.previous_vwap,
+              "bg-green-lighten-4": $data.flashStates[item.sym] && item.vwap > item.previous_vwap,
+              "bg-red-lighten-4": $data.flashStates[item.sym] && item.vwap < item.previous_vwap
+            }
+          ])
+        }, " $" + toDisplayString(item.vwap != null ? item.vwap.toFixed(2) : "—"), 3)
+      ]),
+      "item.percentage_change": withCtx(({ item }) => [
+        createBaseVNode("div", _hoisted_6, [
+          createBaseVNode("span", null, [
+            createBaseVNode("b", null, toDisplayString(item.priceChange), 1)
+          ]),
+          createBaseVNode("span", {
+            style: normalizeStyle({
+              backgroundColor: item.percentageChange < 0 ? "rgba(244, 67, 54, 0.2)" : item.percentageChange > 0 ? "rgba(76, 175, 80, 0.2)" : "transparent"
+            }),
+            class: normalizeClass([
+              "font-mono px-2 py-1 rounded",
+              item.percentageChange < 0 ? "text-red" : item.percentageChange > 0 ? "text-green" : "text-grey"
+            ])
+          }, toDisplayString(item.percentageChange) + "% ", 7)
+        ])
+      ]),
+      "item.chart": withCtx(({ item }) => [
+        createVNode(_component_v_btn, {
+          color: "primary",
+          variant: "flat",
+          "prepend-icon": "mdi-chart-line",
+          class: "text-white text-capitalize font-weight-bold",
+          onClick: ($event) => $options.showStockGraph(item.sym),
+          style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" }
+        }, null, 8, ["onClick"])
+      ]),
+      bottom: withCtx(() => _cache[1] || (_cache[1] = [])),
+      _: 1
+    }, 8, ["headers", "items", "search"])
+  ]);
+}
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-f39ba224"]]);
+const _hoisted_1$1 = { class: "content-wrapper" };
+const _hoisted_2$1 = {
   key: 0,
   class: "after-hours-text"
 };
-const _hoisted_3$3 = {
+const _hoisted_3$1 = {
   key: 1,
   class: "after-hours-text"
 };
-const _sfc_main$4 = {
+const _sfc_main$1 = {
   __name: "MarketStatus",
   setup(__props) {
     const holiday = ref("");
@@ -424,7 +507,6 @@ const _sfc_main$4 = {
       const apiMarketStatus = await axios.get("/market-status");
       if (apiMarketStatus) {
         afterHours.value = apiMarketStatus.data.afterHours;
-        console.log(afterHours.value);
         marketsAreOpen.value = apiMarketStatus.data.market === "open";
       }
     });
@@ -484,9 +566,9 @@ const _sfc_main$4 = {
                     style: { "pointer-events": "none" }
                   }, {
                     default: withCtx(() => [
-                      createBaseVNode("div", _hoisted_1$3, [
-                        afterHours.value ? (openBlock(), createElementBlock("span", _hoisted_2$3, "After Hours")) : createCommentVNode("", true),
-                        marketsAreOpen.value && !afterHours.value ? (openBlock(), createElementBlock("span", _hoisted_3$3, "Markets Are Open")) : createCommentVNode("", true),
+                      createBaseVNode("div", _hoisted_1$1, [
+                        afterHours.value ? (openBlock(), createElementBlock("span", _hoisted_2$1, "After Hours")) : createCommentVNode("", true),
+                        marketsAreOpen.value && !afterHours.value ? (openBlock(), createElementBlock("span", _hoisted_3$1, "Markets Are Open")) : createCommentVNode("", true),
                         _cache[3] || (_cache[3] = createBaseVNode("span", { class: "dot" }, null, -1))
                       ])
                     ]),
@@ -531,7 +613,7 @@ const _sfc_main$4 = {
     };
   }
 };
-const MarketStatus = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-14d9eb08"]]);
+const MarketStatus = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-c5f99dfa"]]);
 /*!
  * ApexCharts v4.5.0
  * (c) 2018-2025 ApexCharts
@@ -10603,7 +10685,7 @@ const A = [
   a2.component(m.name, m);
 };
 m.install = J;
-const _sfc_main$3 = {
+const _sfc_main = {
   name: "IntradayChart",
   components: {
     apexchart: m
@@ -10766,419 +10848,6 @@ const _sfc_main$3 = {
     }
   }
 };
-const _hoisted_1$2 = { class: "w-full" };
-const _hoisted_2$2 = {
-  key: 0,
-  class: "flex items-center justify-center h-64"
-};
-const _hoisted_3$2 = { key: 1 };
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_v_card_title = resolveComponent("v-card-title");
-  const _component_apexchart = resolveComponent("apexchart");
-  const _component_v_card = resolveComponent("v-card");
-  return openBlock(), createBlock(_component_v_card, {
-    color: "primary",
-    style: { "border": "1px solid rgba(255, 255, 255, 0.5)" }
-  }, {
-    default: withCtx(() => [
-      createVNode(_component_v_card_title, null, {
-        default: withCtx(() => [
-          createTextVNode(toDisplayString($props.symbol), 1)
-        ]),
-        _: 1
-      }),
-      createBaseVNode("div", _hoisted_1$2, [
-        $data.loading ? (openBlock(), createElementBlock("div", _hoisted_2$2, _cache[0] || (_cache[0] = [
-          createBaseVNode("span", { class: "text-gray-500" }, "Loading chart...", -1)
-        ]))) : (openBlock(), createElementBlock("div", _hoisted_3$2, [
-          createVNode(_component_apexchart, {
-            type: "area",
-            height: "445",
-            options: $data.chartOptions,
-            series: $data.chartSeries
-          }, null, 8, ["options", "series"])
-        ]))
-      ])
-    ]),
-    _: 1
-  });
-}
-const IntradayGraph = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2]]);
-const _sfc_main$2 = {
-  props: {
-    title: {
-      type: String
-    },
-    symbols: {
-      type: Array
-    }
-  },
-  data() {
-    return {
-      search: "",
-      stocks: [],
-      flashStates: {},
-      logoStatus: {},
-      apiKey: "1id5h3veZCsdF5IKj8C",
-      headers: [
-        { title: "Symbol", key: "sym" },
-        { title: "Price", key: "vwap" },
-        { title: "% Change", key: "percentage_change", align: "end" },
-        { title: "Chart", key: "chart" }
-      ],
-      prevCloseMap: {},
-      hasPreloaded: false,
-      isReady: false
-    };
-  },
-  setup() {
-    const { formattedStocks: globalFormattedStocks } = useStockStream();
-    return { globalFormattedStocks };
-  },
-  watch: {
-    globalFormattedStocks: {
-      async handler() {
-        await this.rebuildStocks();
-      },
-      immediate: true,
-      deep: true
-    },
-    symbols(newSymbols) {
-      this.rebuildStocks();
-    },
-    stocks: {
-      handler(newVal) {
-        if (!this.hasPreloaded && newVal.length > 0) {
-          this.preloadLogosForStocks(newVal);
-          this.hasPreloaded = true;
-        }
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    async rebuildStocks() {
-      if (!this.isReady || !this.symbols.length) return;
-      this.stocks = (await Promise.all(this.globalFormattedStocks.map(async (stock) => {
-        if (!this.symbols.includes(stock.sym)) return null;
-        const existing = this.stocks.find((s2) => s2.sym === stock.sym);
-        const prevVWAP = (existing == null ? void 0 : existing.vwap) ?? null;
-        const vwapChanged = prevVWAP !== null && stock.vwap !== prevVWAP;
-        let percentageChange = null;
-        let priceChange = null;
-        const matched = this.prevCloseMap.find((entry) => entry.symbol === stock.sym);
-        let prevClose = matched ? matched.prev_day_close : null;
-        let latest_vwap = null;
-        if (stock.vwap == null) {
-          if (prevClose == null) {
-            try {
-              const prevRes = await axios.get(`/prev_close/${stock.sym}`);
-              prevClose = parseFloat(prevRes.data["prev_day_close"]);
-            } catch {
-              prevClose = 0;
-            }
-          }
-          try {
-            const latestRes = await axios.get(`/latest_price/${stock.sym}`);
-            latest_vwap = parseFloat(latestRes.data["price"]);
-          } catch {
-            latest_vwap = -1;
-          }
-        }
-        const effectiveVWAP = latest_vwap ?? stock.vwap;
-        percentageChange = (effectiveVWAP - prevClose) / prevClose * 100;
-        percentageChange = percentageChange.toFixed(2);
-        priceChange = (effectiveVWAP - prevClose).toFixed(2);
-        return {
-          ...stock,
-          previous_vwap: prevVWAP,
-          vwapFlash: vwapChanged,
-          prev_day_close: prevClose,
-          vwap: effectiveVWAP,
-          percentageChange,
-          priceChange
-        };
-      }))).filter(Boolean);
-      setTimeout(() => {
-        this.stocks.forEach((s2) => s2.vwapFlash = false);
-      }, 600);
-    },
-    checkIfImageExists(src, callback) {
-      const img = new Image();
-      img.onload = () => callback(true);
-      img.onerror = () => callback(false);
-      img.src = src;
-    },
-    preloadLogosForStocks(stocks2) {
-      stocks2.forEach((stock) => {
-        var _a2;
-        const symbol = stock.sym;
-        if ((_a2 = this.logoStatus[symbol]) == null ? void 0 : _a2.local) return;
-        if (!this.logoStatus[symbol]) {
-          const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
-          this.checkIfImageExists(remote, (exists) => {
-            this.logoStatus[symbol] = {
-              ...this.logoStatus[symbol] || {},
-              remote: exists
-            };
-          });
-        }
-      });
-    },
-    showStockGraph(sym) {
-      const stock = this.stocks.find((s2) => s2.sym === sym);
-      if (stock) {
-        this.$emit("show-graph", {
-          sym: stock.sym,
-          previous_close: stock.prev_day_close
-        });
-      }
-    }
-  },
-  async created() {
-    try {
-      const prevCloseRes = await fetch("/storage/cache/previous_close.json");
-      const previousCloseData = await prevCloseRes.json();
-      this.prevCloseMap = previousCloseData;
-    } catch (error) {
-      console.error("Failed to load prevCloseMap:", error);
-    }
-    this.isReady = true;
-  }
-};
-const _hoisted_1$1 = { style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" } };
-const _hoisted_2$1 = { class: "d-flex align-center gap-2" };
-const _hoisted_3$1 = ["src"];
-const _hoisted_4 = ["src"];
-const _hoisted_5 = {
-  key: 2,
-  xmlns: "http://www.w3.org/2000/svg",
-  width: "75%",
-  height: "75%",
-  class: "bi bi-graph-up-arrow",
-  viewBox: "0 0 16 16"
-};
-const _hoisted_6 = { class: "d-flex gap-2 text-end justify-end text-end" };
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_v_spacer = resolveComponent("v-spacer");
-  const _component_v_card_title = resolveComponent("v-card-title");
-  const _component_v_avatar = resolveComponent("v-avatar");
-  const _component_v_btn = resolveComponent("v-btn");
-  const _component_v_container = resolveComponent("v-container");
-  const _component_v_data_table = resolveComponent("v-data-table");
-  return openBlock(), createElementBlock("div", _hoisted_1$1, [
-    createVNode(_component_v_card_title, { class: "d-flex align-center pe-2" }, {
-      default: withCtx(() => [
-        createTextVNode(toDisplayString($props.title) + " ", 1),
-        createVNode(_component_v_spacer)
-      ]),
-      _: 1
-    }),
-    createVNode(_component_v_data_table, {
-      headers: $data.headers,
-      items: $data.stocks,
-      density: "compact",
-      search: $data.search,
-      "items-per-page": 10,
-      class: "custom-table"
-    }, {
-      "item.sym": withCtx(({ item }) => [
-        createBaseVNode("div", _hoisted_2$1, [
-          createVNode(_component_v_avatar, {
-            size: "32",
-            rounded: "1",
-            class: "bg-white"
-          }, {
-            default: withCtx(() => {
-              var _a2, _b;
-              return [
-                ((_a2 = $data.logoStatus[item.sym]) == null ? void 0 : _a2.local) ? (openBlock(), createElementBlock("img", {
-                  key: 0,
-                  src: `/storage/images/logos/${item.sym}.png`,
-                  alt: "Local Logo",
-                  class: "w-100 h-100"
-                }, null, 8, _hoisted_3$1)) : ((_b = $data.logoStatus[item.sym]) == null ? void 0 : _b.remote) ? (openBlock(), createElementBlock("img", {
-                  key: 1,
-                  src: `https://cdn.brandfetch.io/${item.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${$data.apiKey}`,
-                  alt: "Brandfetch Logo",
-                  class: "w-100 h-100"
-                }, null, 8, _hoisted_4)) : (openBlock(), createElementBlock("svg", _hoisted_5, _cache[0] || (_cache[0] = [
-                  createBaseVNode("path", {
-                    "fill-rule": "evenodd",
-                    d: "M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"
-                  }, null, -1)
-                ])))
-              ];
-            }),
-            _: 2
-          }, 1024),
-          createBaseVNode("span", null, toDisplayString(item.sym ?? "—"), 1)
-        ])
-      ]),
-      "item.vwap": withCtx(({ item }) => [
-        createBaseVNode("span", {
-          class: normalizeClass([
-            "font-mono transition-all duration-300",
-            {
-              "text-red": item.previous_vwap !== null && item.vwap < item.previous_vwap,
-              "text-green": item.previous_vwap !== null && item.vwap > item.previous_vwap,
-              "bg-green-lighten-4": $data.flashStates[item.sym] && item.vwap > item.previous_vwap,
-              "bg-red-lighten-4": $data.flashStates[item.sym] && item.vwap < item.previous_vwap
-            }
-          ])
-        }, " $" + toDisplayString(item.vwap != null ? item.vwap.toFixed(2) : "—"), 3)
-      ]),
-      "item.percentage_change": withCtx(({ item }) => [
-        createBaseVNode("div", _hoisted_6, [
-          createBaseVNode("span", null, [
-            createBaseVNode("b", null, toDisplayString(item.priceChange), 1)
-          ]),
-          createBaseVNode("span", {
-            style: normalizeStyle({
-              backgroundColor: item.percentageChange < 0 ? "rgba(244, 67, 54, 0.2)" : item.percentageChange > 0 ? "rgba(76, 175, 80, 0.2)" : "transparent"
-            }),
-            class: normalizeClass([
-              "font-mono px-2 py-1 rounded",
-              item.percentageChange < 0 ? "text-red" : item.percentageChange > 0 ? "text-green" : "text-grey"
-            ])
-          }, toDisplayString(item.percentageChange) + "% ", 7)
-        ])
-      ]),
-      "item.chart": withCtx(({ item }) => [
-        createVNode(_component_v_btn, {
-          color: "primary",
-          variant: "flat",
-          "prepend-icon": "mdi-chart-line",
-          class: "text-white text-capitalize font-weight-bold",
-          onClick: ($event) => $options.showStockGraph(item.sym),
-          style: { "border": "1px solid rgba(255, 255, 255, 0.2) !important", "border-radius": "1px" }
-        }, null, 8, ["onClick"])
-      ]),
-      bottom: withCtx(() => [
-        createVNode(_component_v_container, { class: "text-end" }, {
-          default: withCtx(() => _cache[1] || (_cache[1] = [
-            createTextVNode(" Pricing delayed approximately 15 minutes* ")
-          ])),
-          _: 1
-        })
-      ]),
-      _: 1
-    }, 8, ["headers", "items", "search"])
-  ]);
-}
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-a96e63f0"]]);
-const _sfc_main$1 = {
-  name: "StockSectorBarChart",
-  components: {
-    apexchart: m
-  },
-  data() {
-    return {
-      loading: true,
-      chartOptions: {},
-      chartSeries: [
-        {
-          name: "Percentage Change",
-          data: []
-        }
-      ],
-      categories: []
-    };
-  },
-  async mounted() {
-    await this.loadData();
-  },
-  methods: {
-    async loadData() {
-      try {
-        const response = await axios$1.get(`/get_sectors`);
-        const sectorData = response.data;
-        this.categories = sectorData.map((item) => item.sector_name);
-        this.chartSeries[0].data = sectorData.map((item) => item.percentage_change);
-        this.chartOptions = {
-          chart: {
-            type: "bar",
-            height: 400,
-            toolbar: { show: false },
-            zoom: { enabled: false }
-          },
-          plotOptions: {
-            bar: {
-              horizontal: true,
-              barHeight: "70%",
-              borderRadius: 4,
-              colors: {
-                ranges: [
-                  {
-                    from: -100,
-                    to: -1e-4,
-                    color: "#FF3B30"
-                  },
-                  {
-                    from: 0,
-                    to: 100,
-                    color: "#00C076"
-                  }
-                ]
-              }
-            }
-          },
-          dataLabels: {
-            enabled: false
-          },
-          xaxis: {
-            categories: this.categories,
-            labels: {
-              style: {
-                colors: "#ffffff",
-                fontSize: "14px"
-              }
-            },
-            axisBorder: { show: false },
-            axisTicks: { show: false },
-            offsetX: 50
-          },
-          yaxis: {
-            labels: {
-              style: {
-                colors: "grey",
-                fontSize: "11px"
-              }
-            }
-          },
-          grid: {
-            show: false
-          },
-          title: {
-            text: "Sector Performance",
-            align: "left",
-            style: {
-              color: "#ffffff",
-              fontSize: "18px"
-            }
-          },
-          tooltip: {
-            theme: "dark",
-            custom: ({ series, seriesIndex, dataPointIndex, w: w2 }) => {
-              const sectorName = this.categories[dataPointIndex];
-              const value = series[seriesIndex][dataPointIndex].toFixed(2);
-              return `
-                  <div style="padding: 8px;">
-                    <strong>${sectorName}</strong><br/>
-                    ${value}%
-                  </div>
-                `;
-            }
-          }
-        };
-        this.loading = false;
-      } catch (error) {
-        console.error("Error loading sector data:", error);
-        this.loading = false;
-      }
-    }
-  }
-};
 const _hoisted_1 = { class: "w-full" };
 const _hoisted_2 = {
   key: 0,
@@ -11186,6 +10855,7 @@ const _hoisted_2 = {
 };
 const _hoisted_3 = { key: 1 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_v_card_title = resolveComponent("v-card-title");
   const _component_apexchart = resolveComponent("apexchart");
   const _component_v_card = resolveComponent("v-card");
   return openBlock(), createBlock(_component_v_card, {
@@ -11193,13 +10863,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     style: { "border": "1px solid rgba(255, 255, 255, 0.5)" }
   }, {
     default: withCtx(() => [
+      createVNode(_component_v_card_title, { style: { "text-transform": "uppercase" } }, {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString($props.symbol), 1)
+        ]),
+        _: 1
+      }),
       createBaseVNode("div", _hoisted_1, [
         $data.loading ? (openBlock(), createElementBlock("div", _hoisted_2, _cache[0] || (_cache[0] = [
           createBaseVNode("span", { class: "text-gray-500" }, "Loading chart...", -1)
         ]))) : (openBlock(), createElementBlock("div", _hoisted_3, [
           createVNode(_component_apexchart, {
-            type: "bar",
-            height: "400",
+            type: "area",
+            height: "390",
             options: $data.chartOptions,
             series: $data.chartSeries
           }, null, 8, ["options", "series"])
@@ -11209,216 +10885,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const SectorPerformanceGraph = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
-const _sfc_main = {
-  __name: "MainLayout",
-  setup(__props) {
-    const drawer = ref(false);
-    const symbol = ref("SPY");
-    const previousClose = ref("");
-    const losers = ref([]);
-    const winners = ref([]);
-    const popular_stocks = ref(["META", "MSFT", "AMZN", "TSLA", "NVDA", "GOOGL", "AAPL", "AMD", "MSFT", "BRK.B", "TSMC", "AVGO"]);
-    function updateSymbol({ sym, previous_close }) {
-      symbol.value = sym;
-      previousClose.value = previous_close;
-    }
-    const handleDrawerToggle = (value) => {
-      drawer.value = value;
-    };
-    onMounted(async () => {
-      try {
-        const winRes = await axios$1.get(`winners_and_losers`);
-        losers.value = winRes.data["losers"].map((item) => item.symbol);
-        winners.value = winRes.data["winners"].map((item) => item.symbol);
-      } catch (error) {
-        console.error("Failed to fetch losers:", error);
-      }
-    });
-    return (_ctx, _cache) => {
-      const _component_v_col = resolveComponent("v-col");
-      const _component_v_row = resolveComponent("v-row");
-      const _component_v_card = resolveComponent("v-card");
-      const _component_v_container = resolveComponent("v-container");
-      const _component_v_main = resolveComponent("v-main");
-      const _component_v_layout = resolveComponent("v-layout");
-      const _component_v_sheet = resolveComponent("v-sheet");
-      return openBlock(), createElementBlock(Fragment, null, [
-        _cache[0] || (_cache[0] = createBaseVNode("link", {
-          href: "https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css",
-          rel: "stylesheet"
-        }, null, -1)),
-        createVNode(_component_v_sheet, { class: "custom-width-wrapper" }, {
-          default: withCtx(() => [
-            createVNode(_component_v_layout, { style: { "background": "#0c1427" } }, {
-              default: withCtx(() => [
-                createVNode(_sfc_main$7, { onToggleDrawer: handleDrawerToggle }),
-                createVNode(_sfc_main$6, {
-                  drawer: drawer.value,
-                  "onUpdate:drawer": handleDrawerToggle
-                }, null, 8, ["drawer"]),
-                createVNode(_component_v_main, {
-                  class: normalizeClass({ "content-expanded": !drawer.value, "content-shrinked": drawer.value })
-                }, {
-                  default: withCtx(() => [
-                    createVNode(_component_v_container, {
-                      fluid: "",
-                      class: "pa-0 pa-sm-5 ma-0"
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(_component_v_row, { justify: "end" }, {
-                          default: withCtx(() => [
-                            createVNode(_component_v_col, { cols: "auto" }, {
-                              default: withCtx(() => [
-                                createVNode(MarketStatus)
-                              ]),
-                              _: 1
-                            })
-                          ]),
-                          _: 1
-                        }),
-                        createVNode(_component_v_row, {
-                          justify: "center",
-                          class: "mb-4",
-                          "no-gutters": ""
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(_component_v_col, {
-                              cols: "12",
-                              sm: "4"
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(_component_v_card, {
-                                  class: "pa-0",
-                                  color: "primary"
-                                }, {
-                                  default: withCtx(() => [
-                                    createVNode(StockCard, { symbol: "SPY" })
-                                  ]),
-                                  _: 1
-                                })
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(_component_v_col, {
-                              cols: "12",
-                              sm: "4"
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(_component_v_card, {
-                                  class: "pa-0",
-                                  color: "primary"
-                                }, {
-                                  default: withCtx(() => [
-                                    createVNode(StockCard, { symbol: "IWM" })
-                                  ]),
-                                  _: 1
-                                })
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(_component_v_col, {
-                              cols: "12",
-                              sm: "4"
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(_component_v_card, {
-                                  class: "pa-0",
-                                  color: "primary"
-                                }, {
-                                  default: withCtx(() => [
-                                    createVNode(StockCard, { symbol: "DIA" })
-                                  ]),
-                                  _: 1
-                                })
-                              ]),
-                              _: 1
-                            })
-                          ]),
-                          _: 1
-                        }),
-                        createVNode(_component_v_row, { justify: "center" }, {
-                          default: withCtx(() => [
-                            createVNode(_component_v_col, {
-                              cols: "12",
-                              sm: "4"
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(LiveStocksTable, {
-                                  title: "Popular Stocks",
-                                  symbols: popular_stocks.value,
-                                  onShowGraph: updateSymbol
-                                }, null, 8, ["symbols"])
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(_component_v_col, {
-                              cols: "12",
-                              sm: "8"
-                            }, {
-                              default: withCtx(() => [
-                                (openBlock(), createBlock(IntradayGraph, {
-                                  symbol: symbol.value,
-                                  previous_close: previousClose.value,
-                                  key: symbol.value
-                                }, null, 8, ["symbol", "previous_close"]))
-                              ]),
-                              _: 1
-                            })
-                          ]),
-                          _: 1
-                        }),
-                        createVNode(_component_v_row, {
-                          justify: "center",
-                          class: "mb-4"
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(_component_v_col, null, {
-                              default: withCtx(() => [
-                                createVNode(SectorPerformanceGraph)
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(_component_v_col, null, {
-                              default: withCtx(() => [
-                                createVNode(LiveStocksTable, {
-                                  title: "Todays Winners",
-                                  symbols: winners.value,
-                                  onShowGraph: updateSymbol
-                                }, null, 8, ["symbols"])
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(_component_v_col, null, {
-                              default: withCtx(() => [
-                                createVNode(LiveStocksTable, {
-                                  title: "Todays Losers",
-                                  symbols: losers.value,
-                                  onShowGraph: updateSymbol
-                                }, null, 8, ["symbols"])
-                              ]),
-                              _: 1
-                            })
-                          ]),
-                          _: 1
-                        })
-                      ]),
-                      _: 1
-                    })
-                  ]),
-                  _: 1
-                }, 8, ["class"])
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ], 64);
-    };
-  }
-};
-const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-acc4aabd"]]);
+const IntradayGraph = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 export {
-  MainLayout as M
+  IntradayGraph as I,
+  LiveStocksTable as L,
+  MarketStatus as M,
+  _export_sfc as _,
+  _sfc_main$4 as a,
+  _sfc_main$3 as b,
+  m,
+  useStockStream as u
 };
