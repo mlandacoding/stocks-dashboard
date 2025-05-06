@@ -69,6 +69,7 @@
         </v-layout>
     </v-sheet>
 
+    <FooterComponent></FooterComponent>
 </template>
 
 <style scoped>
@@ -105,6 +106,7 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
+import FooterComponent from "@/components/FooterComponent.vue";
 import { onMounted } from 'vue';
 import axios from 'axios';
 
@@ -114,7 +116,7 @@ const previousClose = ref('')
 
 const losers = ref([])
 const winners = ref([])
-const popular_stocks = ref(['META', 'MSFT', 'AMZN','TSLA','NVDA', 'GOOGL','AAPL','AMD','MSFT', 'BRK.B','TSMC','AVGO'])
+const popular_stocks = ref(['META', 'MSFT', 'AMZN','TSLA','NVDA', 'GOOGL','AAPL','AMD','MSFT', 'BRK.B','TSMC','PLTR'])
 
 function updateSymbol({ sym, previous_close }) {
     symbol.value = sym;

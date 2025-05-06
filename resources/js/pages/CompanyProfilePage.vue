@@ -42,6 +42,8 @@
             </v-main>
         </v-layout>
     </v-sheet>
+
+    <FooterComponent></FooterComponent>
 </template>
 
 <style scoped>
@@ -76,6 +78,7 @@ import Sidebar from '@/components/Sidebar.vue';
 import LiveStocksTable from '@/components/LiveStocksTable.vue';
 import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
+import FooterComponent from '@/components/FooterComponent.vue';
 
 
 const props = defineProps({
