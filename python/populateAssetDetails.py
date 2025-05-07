@@ -37,6 +37,15 @@ for symbol in stocks:
             ticket_details.weighted_shares_outstanding,
             datetime.now(timezone.utc),
             datetime.now(timezone.utc),
+            ticket_details.name,
+            ticket_details.cik,
+            ticket_details.composite_figi,
+            ticket_details.share_class_figi,
+            ticket_details.description,
+            ticket_details.sic_code,
+            ticket_details.sic_description,
+            ticket_details.ticker_root,
+            ticket_details.total_employees
         )
         data_to_insert.append(row)
     except:
@@ -45,9 +54,11 @@ for symbol in stocks:
 cursor = connection.cursor()
 insert_query = """
 INSERT INTO asset_details (
-    symbol, marketcap, share_class_shares_outstanding, weighted_shares_outstanding, updated_at, created_at
+    symbol, marketcap, share_class_shares_outstanding, weighted_shares_outstanding, created_at, updated_at,
+    name,cik, composite_figi, share_class_figi, description, sic_code, sic_description,
+    ticker_root, total_employees
 ) VALUES (
-    %s, %s, %s, %s, %s, %s
+    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
 )
 """
 

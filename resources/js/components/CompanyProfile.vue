@@ -24,6 +24,7 @@
     data() {
       return {
         company: null,
+        company_name: null
       };
     },
     mounted() {
