@@ -65,11 +65,13 @@
 
                     </v-row>
                 </v-container>
+
+                <FooterComponent></FooterComponent>
             </v-main>
         </v-layout>
     </v-sheet>
 
-    <FooterComponent></FooterComponent>
+
 </template>
 
 <style scoped>

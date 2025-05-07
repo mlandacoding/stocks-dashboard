@@ -28,15 +28,25 @@
                         </v-col>
                     </v-row>
                     <v-row justify="center" class="mb-4" no-gutters>
-                        <LiveStocksTable title="" :symbols="symbol_array" @show-graph="updateSymbol" :chartButton=false></LiveStocksTable>
+                        <LiveStocksTable :title="asset_details.name" :symbols="symbol_array" @show-graph="updateSymbol" :chartButton=false></LiveStocksTable>
                     </v-row>
-                    <v-row justify="center">
+                    <v-divider class="my-3"></v-divider>
+                    <v-row dense>
+                        <v-col cols="3"><strong>Description:</strong></v-col>
+                        <v-col cols="9">{{ asset_details.description }}</v-col>
+                        <v-divider class="my-3"></v-divider>
+                        <v-col cols="3"><strong>Total Employees:</strong></v-col>
+                        <v-col cols="9">{{ asset_details.total_employees }}</v-col>
+                    </v-row>
+                    <v-divider class="my-3"></v-divider>
+                    <v-row justify="left">
                         <v-col cols="12" sm="8">
                             <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol">
                             </IntradayGraph>
                         </v-col>
                     </v-row>
 
+                    {{ asset_details }}
 
                 </v-container>
             </v-main>
@@ -82,9 +92,9 @@ import FooterComponent from '@/components/FooterComponent.vue';
 
 
 const props = defineProps({
-  symbol: String
+  symbol: String,
+  asset_details: Array
 });
-
 
 const symbol = ref(props.symbol);
 const normalizedSymbol = props.symbol?.toUpperCase() ?? '';

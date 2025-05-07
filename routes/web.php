@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\StockOverviewController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\PolygonController;
+use App\Http\Controllers\AssetDetailsController;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ActiveAssetsHelper;
 use App\Http\Controllers\SectorController;
@@ -47,6 +48,7 @@ Route::get('/stocks_overview/prev_close', function () {
 Route::get('/company_profile/{symbol}', function ($symbol) {
     return Inertia::render('CompanyProfilePage', [
         'symbol' => $symbol,
+        'asset_details' => AssetDetailsController::show($symbol)
     ]);
 });
 
