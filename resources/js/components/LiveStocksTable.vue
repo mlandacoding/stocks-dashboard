@@ -3,12 +3,10 @@
         <v-card-title v-if="title" class="d-flex align-center pe-2">
             {{ title }}
             <v-spacer></v-spacer>
-            <!-- <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify" flat
-                hide-details single-line></v-text-field> -->
         </v-card-title>
 
         <v-data-table :headers="headers" :items="stocks" density="compact" :search="search" :items-per-page="10"
-            class="custom-table">
+            class="custom-table" @click:row="goToProfile" :hover=true>
             <template #item.sym="{ item }">
                 <div class="d-flex align-center gap-2">
                     <v-avatar size="32" rounded="1" class="bg-white">
@@ -78,6 +76,8 @@
 
 <script>
 import useStockStream from '@/composables/useStockStream';
+
+
 
 export default {
     props: {
@@ -218,6 +218,9 @@ export default {
                     previous_close: stock.prev_day_close
                 });
             }
+        },
+        goToProfile(event, row){
+            window.location.href = `/company_profile/${row.item.sym}`;
         }
     },
     async created() {
