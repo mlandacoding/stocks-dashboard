@@ -114,7 +114,6 @@ def insert_metrics(cursor, statement_id, metrics_dict, symbol, filing_date, cik)
 stocks = getActiveAssets()
 
 for symbol in stocks:
-    print(f'processing {symbol}')
     cik = None
     data = []
     for f in client.vx.list_stock_financials(
@@ -133,6 +132,8 @@ for symbol in stocks:
         if filing_id == 'EXISTS':
             print(f'Filing - {filing.timeframe} for {symbol} already exists')
             continue
+
+        print(f'processing {symbol}')
         # Convert the nested object structure to a dict for your insert_metrics function
         statement_map = {
             "balance_sheet": filing.financials.balance_sheet,

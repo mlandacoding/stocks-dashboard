@@ -21,39 +21,49 @@
             <!-- Main Content -->
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
 
-                <v-container fluid class="pa-0 pa-sm-5 ma-0">
+                <v-container fluid class="pa-0 pa-sm-5 ma-0" no-gutters>
                     <v-row justify="end">
                         <v-col cols="auto">
                             <MarketStatus />
                         </v-col>
                     </v-row>
-                    <v-row justify="center" class="mb-4" no-gutters>
-                        <LiveStocksTable :title="asset_details.name" :symbols="symbol_array" @show-graph="updateSymbol" :chartButton=false></LiveStocksTable>
-                    </v-row>
-                    <v-divider class="my-3"></v-divider>
-                    <v-row dense>
-                        <v-col cols="3"><strong>Description:</strong></v-col>
-                        <v-col cols="9">{{ asset_details.description }}</v-col>
-                        <v-divider class="my-3"></v-divider>
-                        <v-col cols="3"><strong>Total Employees:</strong></v-col>
-                        <v-col cols="9">{{ asset_details.total_employees }}</v-col>
-                    </v-row>
-                    <v-divider class="my-3"></v-divider>
-                    <v-row justify="left">
-                        <v-col cols="12" sm="8">
-                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol">
-                            </IntradayGraph>
+
+                    <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
+
+                        <v-col cols="12" sm="3">
+
+                        <LiveStocksTable :title="asset_details.name" :symbols="symbol_array" @show-graph="updateSymbol" :chartButton="false"/>
+
+                        <template v-if="smAndDown">
+                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
+                        </template>
+
+                        <v-card
+                            style="border: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: .5em;"
+                            color="primary"
+                        >
+                            <v-col cols="3"><strong>Description:</strong></v-col>
+                            <v-col cols="12">{{ asset_details.description }}</v-col>
+                            <v-divider class="my-3"></v-divider>
+                            <v-col cols="3"><strong>Total Employees:</strong></v-col>
+                            <v-col cols="9">{{ asset_details.total_employees }}</v-col>
+                        </v-card>
+                        </v-col>
+
+                        <v-col v-if="!smAndDown" cols="12" sm="8">
+                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
                         </v-col>
                     </v-row>
-
                     {{ asset_details }}
 
                 </v-container>
+                <FooterComponent></FooterComponent>
             </v-main>
         </v-layout>
+
     </v-sheet>
 
-    <FooterComponent></FooterComponent>
+
 </template>
 
 <style scoped>
@@ -89,11 +99,13 @@ import LiveStocksTable from '@/components/LiveStocksTable.vue';
 import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import FooterComponent from '@/components/FooterComponent.vue';
+import { useDisplay } from 'vuetify'
 
+const { smAndDown } = useDisplay()
 
 const props = defineProps({
   symbol: String,
-  asset_details: Array
+  asset_details: Object
 });
 
 const symbol = ref(props.symbol);

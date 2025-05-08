@@ -12,8 +12,8 @@
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
 
                 <v-container fluid class="pa-0 pa-sm-5 ma-0">
-                    <v-row justify="end">
-                        <v-col cols="auto">
+                    <v-row justify="center" class="mb-4" no-gutters>
+                        <v-col cols="12" sm="4">
                             <MarketStatus />
                         </v-col>
                     </v-row>
