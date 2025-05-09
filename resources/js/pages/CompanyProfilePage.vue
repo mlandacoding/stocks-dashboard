@@ -54,7 +54,6 @@
                             <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
                         </v-col>
                     </v-row>
-                    {{ asset_details }}
 
                 </v-container>
                 <FooterComponent></FooterComponent>

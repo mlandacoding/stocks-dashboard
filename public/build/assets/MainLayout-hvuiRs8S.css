@@ -6,21 +6,21 @@
     color: #dc3545 !important;
 }
 
-.content-expanded[data-v-80f09dc1] {
+.content-expanded[data-v-7e8acaca] {
     margin-left: 0;
     transition: margin-left 0.8s ease-in-out;
 }
-.content-shrinked[data-v-80f09dc1] {
+.content-shrinked[data-v-7e8acaca] {
     margin-left: 5px;
     transition: margin-left 0.8s ease-in-out;
 }
-.custom-width-wrapper[data-v-80f09dc1] {
+.custom-width-wrapper[data-v-7e8acaca] {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
 }
 @media (max-width: 600px) {
-.custom-width-wrapper[data-v-80f09dc1] {
+.custom-width-wrapper[data-v-7e8acaca] {
         padding: 0 !important;
         margin: 0 !important;
 }

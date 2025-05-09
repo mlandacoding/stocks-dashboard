@@ -1,5 +1,5 @@
-import { r as ref, u as useTheme, g as computed, h as watch, i as onMounted, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, c as createElementBlock, j as createCommentVNode, f as createBaseVNode, t as toDisplayString, k as createTextVNode, n as normalizeClass, l as normalizeStyle, m as axios$1, F as Fragment } from "./app-BBkNXwKj.js";
-import { _ as _export_sfc, u as useStockStream, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-zAGaa51D.js";
+import { r as ref, j as useTheme, k as computed, l as watch, m as onMounted, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, c as createElementBlock, f as createCommentVNode, h as createBaseVNode, t as toDisplayString, i as createTextVNode, n as normalizeClass, p as normalizeStyle, q as axios$1, F as Fragment } from "./app-COAw10yy.js";
+import { _ as _export_sfc, u as useStockStream, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-nNKdLpgl.js";
 const _hoisted_1$1 = ["src"];
 const _hoisted_2$1 = ["src"];
 const _hoisted_3$1 = { class: "d-flex align-center justify-space-between w-150" };
@@ -375,9 +375,16 @@ const _sfc_main = {
                       class: "pa-0 pa-sm-5 ma-0"
                     }, {
                       default: withCtx(() => [
-                        createVNode(_component_v_row, { justify: "end" }, {
+                        createVNode(_component_v_row, {
+                          justify: "center",
+                          class: "mb-4",
+                          "no-gutters": ""
+                        }, {
                           default: withCtx(() => [
-                            createVNode(_component_v_col, { cols: "auto" }, {
+                            createVNode(_component_v_col, {
+                              cols: "12",
+                              sm: "4"
+                            }, {
                               default: withCtx(() => [
                                 createVNode(MarketStatus)
                               ]),
@@ -513,7 +520,8 @@ const _sfc_main = {
                         })
                       ]),
                       _: 1
-                    })
+                    }),
+                    createVNode(FooterComponent)
                   ]),
                   _: 1
                 }, 8, ["class"])
@@ -522,13 +530,12 @@ const _sfc_main = {
             })
           ]),
           _: 1
-        }),
-        createVNode(FooterComponent)
+        })
       ], 64);
     };
   }
 };
-const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-80f09dc1"]]);
+const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-7e8acaca"]]);
 export {
   MainLayout as M
 };

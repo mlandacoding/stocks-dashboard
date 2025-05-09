@@ -1,4 +1,4 @@
-import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, j as createCommentVNode, f as createBaseVNode, c as createElementBlock, k as createTextVNode, F as Fragment, p as renderList, t as toDisplayString, g as computed, i as onMounted, m as axios$1, n as normalizeClass, l as normalizeStyle, q as defineComponent, s as h$1, v as onBeforeMount, x as getCurrentInstance, y as onBeforeUnmount, z as toRefs, h as watch, A as nextTick } from "./app-BBkNXwKj.js";
+import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, f as createCommentVNode, h as createBaseVNode, c as createElementBlock, i as createTextVNode, F as Fragment, s as renderList, t as toDisplayString, k as computed, m as onMounted, q as axios$1, n as normalizeClass, p as normalizeStyle, v as defineComponent, x as h$1, y as onBeforeMount, z as getCurrentInstance, A as onBeforeUnmount, B as toRefs, l as watch, C as nextTick } from "./app-COAw10yy.js";
 const _sfc_main$5 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -331,6 +331,9 @@ const _sfc_main$3 = {
           previous_close: stock.prev_day_close
         });
       }
+    },
+    goToProfile(event, row) {
+      window.location.href = `/company_profile/${row.item.sym}`;
     }
   },
   async created() {
@@ -394,7 +397,9 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       density: "compact",
       search: $data.search,
       "items-per-page": 10,
-      class: "custom-table"
+      class: "custom-table",
+      "onClick:row": $options.goToProfile,
+      hover: true
     }, {
       "item.sym": withCtx(({ item }) => [
         createBaseVNode("div", _hoisted_2$2, [
@@ -470,10 +475,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       bottom: withCtx(() => _cache[1] || (_cache[1] = [])),
       _: 1
-    }, 8, ["headers", "items", "search"])
+    }, 8, ["headers", "items", "search", "onClick:row"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-f39ba224"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-d0595238"]]);
 const _hoisted_1$1 = { class: "content-wrapper" };
 const _hoisted_2$1 = {
   key: 0,
@@ -10890,15 +10895,32 @@ const IntradayGraph = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_
 const _sfc_main = {};
 function _sfc_render(_ctx, _cache) {
   const _component_v_footer = resolveComponent("v-footer");
-  return openBlock(), createBlock(_component_v_footer, {
-    border: "",
-    color: "primary"
-  }, {
-    default: withCtx(() => _cache[0] || (_cache[0] = [
-      createTextVNode("* Data is delayed by at least 15 minutes")
-    ])),
-    _: 1
-  });
+  const _component_v_alert = resolveComponent("v-alert");
+  return openBlock(), createElementBlock(Fragment, null, [
+    createVNode(_component_v_footer, {
+      border: "",
+      color: "primary"
+    }, {
+      default: withCtx(() => _cache[0] || (_cache[0] = [
+        createTextVNode("* Data is delayed by at least 15 minutes")
+      ])),
+      _: 1
+    }),
+    createBaseVNode("div", null, [
+      createVNode(_component_v_alert, {
+        type: "info",
+        variant: "tonal",
+        border: "start",
+        icon: "mdi-shield-alert"
+      }, {
+        default: withCtx(() => _cache[1] || (_cache[1] = [
+          createBaseVNode("strong", null, "Disclaimer:", -1),
+          createTextVNode(" The information provided on this page is for informational purposes only and does not constitute financial, investment, or legal advice. We do not make any guarantees about the completeness, reliability, or accuracy of this data. Always consult with a qualified financial advisor before making any investment decisions. ")
+        ])),
+        _: 1
+      })
+    ])
+  ], 64);
 }
 const FooterComponent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 export {

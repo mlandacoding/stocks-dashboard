@@ -1,19 +1,19 @@
 
-.content-expanded[data-v-76c6f50f] {
+.content-expanded[data-v-616d8775] {
     margin-left: 0;
     transition: margin-left 0.8s ease-in-out;
 }
-.content-shrinked[data-v-76c6f50f] {
+.content-shrinked[data-v-616d8775] {
     margin-left: 5px;
     transition: margin-left 0.8s ease-in-out;
 }
-.custom-width-wrapper[data-v-76c6f50f] {
+.custom-width-wrapper[data-v-616d8775] {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
 }
 @media (max-width: 600px) {
-.custom-width-wrapper[data-v-76c6f50f] {
+.custom-width-wrapper[data-v-616d8775] {
         padding: 0 !important;
         margin: 0 !important;
 }

@@ -8,14 +8,11 @@ class FinancialStatement extends Model
 {
     public function filing()
     {
-        return $this->belongsTo(Filing::class, 'cik', 'cik')
-                    ->where('symbol', $this->symbol);
+        return $this->hasMany(Filing::class, 'filing_date', 'filing_date')->where('filing.symbol', 'financial_statements.symbol')->get();
     }
 
     public function metrics()
     {
-        return $this->hasMany(FinancialMetric::class, [
-            'cik', 'symbol', 'filing_date'
-        ]);
+        return $this->hasMany(FinancialMetric::class, 'cik', 'cik');
     }
 }

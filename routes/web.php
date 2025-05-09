@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\ActiveAssetsHelper;
 use App\Http\Controllers\SectorController;
 use App\Helpers\LatestPriceHelper;
+use App\Http\Controllers\FinancialStatements;
 use App\Http\Controllers\WinnersAndLosersController;
+use App\Http\Controllers\FinancialStatementsController;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -57,3 +59,6 @@ Route::get('/latest_price/{symbol}', [LatestPriceHelper::class, 'getLatestPriceF
 Route::get('/winners_and_losers', [WinnersAndLosersController::class, 'winnersAndLosers']);
 
 Route::get('/get_sectors', [SectorController::class, 'index']);
+
+Route::get('/financial_statements/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbol'] );
+Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbolWithFiling'] );

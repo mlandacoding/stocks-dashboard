@@ -8,7 +8,6 @@ class Filing extends Model
 {
     public function financialStatements()
     {
-        return $this->hasMany(FinancialStatement::class, 'cik', 'cik')
-                    ->where('symbol', $this->symbol);
+        return $this->hasMany(FinancialStatement::class, 'cik', 'cik');
     }
 }

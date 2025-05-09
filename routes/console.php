@@ -22,7 +22,7 @@ Schedule::command('cache:active-assets')
     ->sendOutputTo(storage_path('logs/active-assets.log'));
 
 Schedule::command('python:update-stocks-overview')
-    ->dailyAt('04:45')
+    ->dailyAt('05:35')
     ->weekdays()
     ->timezone('America/New_York')
     ->when(function () {

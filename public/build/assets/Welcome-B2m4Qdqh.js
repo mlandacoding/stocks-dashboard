@@ -1,6 +1,6 @@
-import { c as createElementBlock, o as openBlock, f as createBaseVNode, d as createVNode, F as Fragment } from "./app-BBkNXwKj.js";
-import { M as MainLayout } from "./MainLayout-Dd6L8udZ.js";
-import "./FooterComponent-zAGaa51D.js";
+import { c as createElementBlock, o as openBlock, h as createBaseVNode, d as createVNode, F as Fragment } from "./app-COAw10yy.js";
+import { M as MainLayout } from "./MainLayout-CEGPn_AH.js";
+import "./FooterComponent-nNKdLpgl.js";
 const _sfc_main = {
   __name: "Welcome",
   props: {
