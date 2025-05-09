@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import json
 
 load_dotenv(dotenv_path='./.env')
-client = RESTClient(os.getenv("POLYGON_API_KEY"))
+client = RESTClient(os.getenv('POLYGON_API_KEY'))
 
 connection = mysql.connector.connect(
     host=os.getenv('DB_HOST'),
@@ -118,7 +118,7 @@ for symbol in stocks:
     data = []
     for f in client.vx.list_stock_financials(
         ticker=symbol,
-        filing_date_gte="2024-09-01",
+        filing_date_gte="2025-01-01",
         order="asc",
         limit="100",
         sort="filing_date",
@@ -137,7 +137,7 @@ for symbol in stocks:
         # Convert the nested object structure to a dict for your insert_metrics function
         statement_map = {
             "balance_sheet": filing.financials.balance_sheet,
-            "cash_flow_statement": filing.financials.cash_flow_statement,
+            "cash_flow": filing.financials.cash_flow_statement,
             "comprehensive_income": filing.financials.comprehensive_income,
             "income_statement": getattr(filing.financials, "income_statement", None),
         }
