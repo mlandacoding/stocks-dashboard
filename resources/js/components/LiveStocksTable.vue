@@ -102,7 +102,8 @@ export default {
             headers: [],
             prevCloseMap: {},
             hasPreloaded: false,
-            isReady: false
+            isReady: false,
+            stockGraphLoading: false
         };
     },
     setup() {
@@ -213,6 +214,7 @@ export default {
         showStockGraph(sym) {
             const stock = this.stocks.find(s => s.sym === sym);
             if (stock) {
+                this.stockGraphLoading = true;
                 this.$emit('show-graph', {
                     sym: stock.sym,
                     previous_close: stock.prev_day_close
@@ -220,7 +222,11 @@ export default {
             }
         },
         goToProfile(event, row){
-            window.location.href = `/company_profile/${row.item.sym}`;
+            if(!this.stockGraphLoading){
+                window.location.href = `/company_profile/${row.item.sym}`;
+            }
+            this.stockGraphLoading = false;
+            //
         }
     },
     async created() {

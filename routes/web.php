@@ -13,6 +13,7 @@ use App\Helpers\LatestPriceHelper;
 use App\Http\Controllers\FinancialStatements;
 use App\Http\Controllers\WinnersAndLosersController;
 use App\Http\Controllers\FinancialStatementsController;
+use App\Http\Controllers\FinancialMetricsController;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -64,4 +65,7 @@ Route::get('/financial_statements/{symbol}/{statement_type}',[FinancialStatement
 Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbolWithFiling'] );
 Route::get('/get_last_five_filings_quarterly/{symbol}', [FinancialStatementsController::class, 'getLastContiguousFiveStatementsBySymbolQuarterly']);
 Route::get('/get_last_four_filings_yearly/{symbol}', [FinancialStatementsController::class, 'getContiguousAnnualFilings']);
+
+Route::get('/getMetricsForLastFive/{symbol}', [FinancialMetricsController::class, 'getMetricsForLastFive']);
+
 

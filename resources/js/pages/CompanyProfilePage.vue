@@ -42,11 +42,13 @@
                             style="border: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: .5em;"
                             color="primary"
                         >
-                            <v-col cols="3"><strong>Description:</strong></v-col>
+                            <!-- <v-col cols="3"><strong>Description:</strong></v-col>
                             <v-col cols="12">{{ asset_details.description }}</v-col>
                             <v-divider class="my-3"></v-divider>
                             <v-col cols="3"><strong>Total Employees:</strong></v-col>
-                            <v-col cols="9">{{ asset_details.total_employees }}</v-col>
+                            <v-col cols="9">{{ asset_details.total_employees }}</v-col> -->
+
+                            <FinancialMetricsGraph :symbol="symbol"></FinancialMetricsGraph>
                         </v-card>
                         </v-col>
 
@@ -99,6 +101,7 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import FooterComponent from '@/components/FooterComponent.vue';
 import { useDisplay } from 'vuetify'
+import FinancialMetricsGraph from '@/components/FinancialMetricsGraph.vue';
 
 const { smAndDown } = useDisplay()
 

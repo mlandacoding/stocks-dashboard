@@ -12,7 +12,7 @@
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
 
                 <v-container fluid class="pa-0 pa-sm-5 ma-0">
-                    <v-row justify="center" class="mb-4" no-gutters>
+                    <v-row justify="end" class="mb-4" no-gutters>
                         <v-col cols="12" sm="4">
                             <MarketStatus />
                         </v-col>
@@ -45,7 +45,7 @@
                             <!-- <LiveStocksTable @show-graph="updateSymbol"></LiveStocksTable> -->
                         </v-col>
                         <v-col cols="12" sm="8">
-                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol">
+                            <IntradayGraph ref="graphRef" :symbol="symbol" :previous_close="previousClose" :key="symbol">
                             </IntradayGraph>
                         </v-col>
                     </v-row>
@@ -100,7 +100,7 @@
 </style>
 
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import Navbar from '@/components/Navbar.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import StockCard from '@/components/StockCardComponent.vue';
@@ -109,12 +109,14 @@ import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-import { onMounted } from 'vue';
+
 import axios from 'axios';
 
 const drawer = ref(false);
 const symbol = ref('SPY')
 const previousClose = ref('')
+
+const graphRef = ref(null);
 
 const losers = ref([])
 const winners = ref([])
@@ -123,6 +125,10 @@ const popular_stocks = ref(['META', 'MSFT', 'AMZN','TSLA','NVDA', 'GOOGL','AAPL'
 function updateSymbol({ sym, previous_close }) {
     symbol.value = sym;
     previousClose.value = previous_close;
+
+    nextTick(() => {
+        graphRef.value?.$el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 }
 
 const handleDrawerToggle = (value) => {

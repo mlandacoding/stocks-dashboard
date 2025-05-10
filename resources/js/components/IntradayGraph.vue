@@ -3,7 +3,11 @@
         <v-card-title style="text-transform:uppercase">{{ symbol }}</v-card-title>
         <div class="w-full">
             <div v-if="loading" class="flex items-center justify-center h-64">
-                <span class="text-gray-500">Loading chart...</span>
+                <v-card color="primary">
+                    <br> <br>
+                    <span class="text-gray-500"><h3>  Loading chart...</h3></span>
+                </v-card>
+
             </div>
 
             <div v-else>

@@ -31,7 +31,7 @@ class FinancialStatementsController extends Controller
         return response()->json($financial_statements);
     }
 
-    function getLastContiguousFiveStatementsBySymbolQuarterly($symbol){
+    public static function getLastContiguousFiveStatementsBySymbolQuarterly($symbol){
         $filings = DB::table('filings')
         ->where('symbol', strtoupper($symbol))
         ->orderByDesc('filing_date')
@@ -84,15 +84,11 @@ class FinancialStatementsController extends Controller
                 $next->fiscal_year != $expected['year'] ||
                 $next->fiscal_period != $expected['period']
             ) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Filings are not contiguous',
-                ]);
+                return False;
             }
         }
 
         return response()->json([
-            'status' => 'ok',
             'symbol' => strtoupper($symbol),
             'filing_dates' => $filtered->pluck('filing_date'),
         ]);
@@ -109,39 +105,30 @@ class FinancialStatementsController extends Controller
         }
     }
 
-    function getContiguousAnnualFilings($symbol){
+    public static function getContiguousAnnualFilings($symbol){
         $filings = DB::table('filings')
             ->where('symbol', strtoupper($symbol))
             ->where('timeframe', 'annual')
             ->orderByDesc('filing_date')
-            ->limit(4)
+            ->limit(5)
             ->get();
 
-        if ($filings->count() < 4) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Not enough annual filings',
-            ]);
+        if ($filings->count() < 5) {
+            return False;
         }
 
-        // Sort ascending by fiscal_year
         $sorted = $filings->sortBy('fiscal_year')->values();
 
-        // Check contiguous fiscal_years
         for ($i = 0; $i < $sorted->count() - 1; $i++) {
             $currentYear = (int) $sorted[$i]->fiscal_year;
             $nextYear = (int) $sorted[$i + 1]->fiscal_year;
 
             if ($nextYear !== $currentYear + 1) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Annual filings are not contiguous',
-                ]);
+                return False;
             }
         }
 
         return response()->json([
-            'status' => 'ok',
             'symbol' => strtoupper($symbol),
             'filing_dates' => $sorted->pluck('filing_date'),
         ]);
