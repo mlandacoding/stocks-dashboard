@@ -63,8 +63,6 @@ Route::get('/get_sectors', [SectorController::class, 'index']);
 
 Route::get('/financial_statements/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbol'] );
 Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbolWithFiling'] );
-Route::get('/get_last_five_filings_quarterly/{symbol}', [FinancialStatementsController::class, 'getLastContiguousFiveStatementsBySymbolQuarterly']);
-Route::get('/get_last_four_filings_yearly/{symbol}', [FinancialStatementsController::class, 'getContiguousAnnualFilings']);
 
 Route::get('/getMetricsForLastFive/{symbol}', [FinancialMetricsController::class, 'getMetricsForLastFive']);
 

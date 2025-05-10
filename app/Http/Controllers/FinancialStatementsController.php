@@ -35,8 +35,8 @@ class FinancialStatementsController extends Controller
         $filings = DB::table('filings')
         ->where('symbol', strtoupper($symbol))
         ->orderByDesc('filing_date')
-        ->limit(5)
-        ->get();
+        ->limit(10)
+        ->get(['symbol','start_date','end_date','filing_date','timeframe','fiscal_period','fiscal_year']);
 
 
         $filings = $filings->map(function ($filing) {
@@ -52,6 +52,7 @@ class FinancialStatementsController extends Controller
             return [$a->fiscal_year, $order[$a->fiscal_period]]
                 <=> [$b->fiscal_year, $order[$b->fiscal_period]];
         })->values();
+
 
 
         $seen = [];
@@ -88,10 +89,7 @@ class FinancialStatementsController extends Controller
             }
         }
 
-        return response()->json([
-            'symbol' => strtoupper($symbol),
-            'filing_dates' => $filtered->pluck('filing_date'),
-        ]);
+        return response()->json($filings);
     }
 
     function nextQuarter($year, $quarter)
@@ -128,9 +126,6 @@ class FinancialStatementsController extends Controller
             }
         }
 
-        return response()->json([
-            'symbol' => strtoupper($symbol),
-            'filing_dates' => $sorted->pluck('filing_date'),
-        ]);
+        return response()->json($filings);
     }
 }
