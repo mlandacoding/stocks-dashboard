@@ -32,7 +32,7 @@ def get_timeframe(filing):
         return None
 
 def getActiveAssets():
-    with open('../storage/app/public/cache/active_assets.json', 'r') as f:
+    with open('./storage/app/public/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
     return {stock['symbol']: stock['company_name'] for stock in stocks}
 
@@ -93,7 +93,7 @@ def insert_statement(cursor, filing, symbol, cik, statement_type):
     return cursor.lastrowid
 
 
-def insert_metrics(cursor, statement_id, metrics_dict, symbol, filing_date, cik):
+def insert_metrics(cursor, statement_id, metrics_dict, symbol, filing_date, cik, statement_type):
     for key, data in metrics_dict.items():
         if data:
             value = data.get('value')
@@ -187,7 +187,7 @@ for symbol in stocks:
                 if data_point is not None
             }
 
-            insert_metrics(cursor, statement_id, metrics_dict, symbol, filing.filing_date, cik)
+            insert_metrics(cursor, statement_id, metrics_dict, symbol, filing.filing_date, cik, statement_type)
 
             connection.commit()
 
