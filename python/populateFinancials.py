@@ -134,7 +134,6 @@ for symbol in stocks:
 
 
     for filing in data:
-        print(filing)
         cik = filing.cik
         filing_id = insert_filing(cursor, filing, symbol, cik)
         if filing_id == 'EXISTS' or filing_id == 'ERROR':
