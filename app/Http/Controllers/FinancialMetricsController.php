@@ -61,7 +61,7 @@ class FinancialMetricsController extends Controller
         ->whereIn('metric_key', $metric_keys)
         ->whereIn('filing_date', $filings)
         ->orderBy('filing_date')
-        ->get(['label', 'value', 'filing_date']);
+        ->get(['label', 'value', 'filing_date', 'metric_key']);
 
         if($timeframe == 'annual'){
             return $metrics->groupBy('label');

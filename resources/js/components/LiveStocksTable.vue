@@ -1,12 +1,16 @@
 <template>
     <div style="border: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: .5em;">
-        <v-card-title v-if="title" class="d-flex align-center pe-2">
+        <v-card-title v-if="title && chartButton" class="d-flex align-center pe-2">
             {{ title }}
             <v-spacer></v-spacer>
         </v-card-title>
 
         <v-data-table :headers="headers" :items="stocks" density="compact" :search="search" :items-per-page="10"
             class="custom-table" @click:row="goToProfile" :hover=true>
+            <template #item.company_name="{ item }">
+                {{ title }}
+            </template>
+
             <template #item.sym="{ item }">
                 <div class="d-flex align-center gap-2">
                     <v-avatar size="32" rounded="1" class="bg-white">
@@ -21,7 +25,8 @@
                                 d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </v-avatar>
-                    <span>{{ item.sym ?? '—' }}</span>
+                    <span v-if="!this.chartButton">{{ title }} <span style="color: #5E75E8;">[{{ item.sym ?? '—' }}]</span></span>
+                    <span v-else>[{{ item.sym ?? '—' }}]</span>
                 </div>
             </template>
 
@@ -248,9 +253,10 @@ export default {
             ]
         } else {
             this.headers = [
-                { title: 'Symbol', key: 'sym' },
+                { title: 'Data Delayed', key: 'sym' },
                 { title: 'Price', key: 'vwap' },
                 { title: '% Change', key: 'percentage_change', align: 'end' },
+
             ]
         }
 

@@ -11,7 +11,7 @@
             </div>
 
             <div v-else>
-                <apexchart type="area" height="390" :options="chartOptions" :series="chartSeries"></apexchart>
+                <apexchart type="area" :height="height" :options="chartOptions" :series="chartSeries"></apexchart>
             </div>
         </div>
     </v-card>
@@ -33,6 +33,10 @@ export default {
         },
         previous_close: {
             type: String,
+        },
+        height:{
+            type: Number,
+            default: 390
         }
     },
     data() {

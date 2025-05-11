@@ -32,32 +32,38 @@
 
                         <v-col cols="12" sm="3">
 
-                        <LiveStocksTable :title="asset_details.name" :symbols="symbol_array" @show-graph="updateSymbol" :chartButton="false"/>
+                            <LiveStocksTable :title="asset_details.name" :symbols="symbol_array"
+                                @show-graph="updateSymbol" :chartButton="false" />
 
-                        <template v-if="smAndDown">
-                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
-                        </template>
+                            <template v-if="smAndDown">
+                                <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
+                            </template>
 
-                        <v-card
-                            style="border: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: .5em;"
-                            color="primary"
-                        >
-                            <!-- <v-col cols="3"><strong>Description:</strong></v-col>
-                            <v-col cols="12">{{ asset_details.description }}</v-col>
-                            <v-divider class="my-3"></v-divider>
-                            <v-col cols="3"><strong>Total Employees:</strong></v-col>
-                            <v-col cols="9">{{ asset_details.total_employees }}</v-col> -->
-
-                            <FinancialMetricsGraph :symbol="symbol"></FinancialMetricsGraph>
-                        </v-card>
+                            <FinancialMetricsGraph :symbol="symbol" first_metric="basic_earnings_per_share"
+                                second_metric="net_cash_flow_from_operating_activities" title="Earnings Per Share"></FinancialMetricsGraph>
                         </v-col>
 
                         <v-col v-if="!smAndDown" cols="12" sm="8">
-                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
+                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" height="485"/>
+                        </v-col>
+                    </v-row>
+
+                    <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
+
+
+                        <v-col cols="12" sm="8">
+                            <FinancialMetricsGraph :symbol="symbol" first_metric="net_income_loss"
+                                second_metric="net_cash_flow_from_operating_activities"></FinancialMetricsGraph>
                         </v-col>
                     </v-row>
 
                 </v-container>
+
+                <!-- <v-col cols="3"><strong>Description:</strong></v-col>
+                                <v-col cols="12" style="font-size: .75rem;">{{ asset_details.description }}</v-col>
+                                <v-divider class="my-1"></v-divider>
+                                <v-col cols="3"><strong>Total Employees:</strong></v-col>
+                                <v-col cols="8" style="font-size: .85rem;">{{ asset_details.total_employees }}</v-col> -->
                 <FooterComponent></FooterComponent>
             </v-main>
         </v-layout>
@@ -106,8 +112,8 @@ import FinancialMetricsGraph from '@/components/FinancialMetricsGraph.vue';
 const { smAndDown } = useDisplay()
 
 const props = defineProps({
-  symbol: String,
-  asset_details: Object
+    symbol: String,
+    asset_details: Object
 });
 
 const symbol = ref(props.symbol);
@@ -117,13 +123,13 @@ const previousClose = ref('');
 const drawer = ref(false);
 
 const handleDrawerToggle = (value) => {
-  drawer.value = value;
+    drawer.value = value;
 };
 
 // Update symbol on user interaction
 function updateSymbol({ sym, previous_close }) {
-  symbol.value = sym;
-  symbol_array.value = [sym];
-  previousClose.value = previous_close;
+    symbol.value = sym;
+    symbol_array.value = [sym];
+    previousClose.value = previous_close;
 }
 </script>

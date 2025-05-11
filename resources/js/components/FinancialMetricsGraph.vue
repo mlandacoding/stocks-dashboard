@@ -1,12 +1,18 @@
 <template>
-    <div>
-        <br>
-        <center>
-            <h2 class="text-xl font-semibold mb-4">Financial Metrics - {{ this.timeframe }}</h2>
-        </center>
+    <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);">
+        <v-card-title class="d-flex" style="text-align: center;">
+            <span v-if="!title">
+                {{ this.barLabel }} vs {{ this.lineLabel }}
+            </span>
+            <span v-else>
+                {{ title }}
+            </span>
+
+        </v-card-title>
+            <!-- data[keys[1]][0]['label'] + ' (Bar) ' + 'vs ' + data[keys[0]][1]['label'] + ' (Line) - ' + timeframe.value -->
 
         <apexchart v-if="series.length" type="line" height="400" :options="chartOptions" :series="series" />
-    </div>
+    </v-card>
 </template>
 
 <script>
@@ -24,44 +30,66 @@ export default defineComponent({
             type: String,
             required: true,
         },
+        first_metric: {
+            type: String,
+            required: true,
+        },
+        second_metric: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String
+        }
     },
     setup(props) {
         const series = ref([]);
         const chartOptions = ref({});
         const timeframe = ref();
 
+        const barLabel = ref();
+        const lineLabel = ref();
+
         onMounted(async () => {
             try {
                 const response = await axios.get(
-                    `/getMetricsForLastFive/${props.symbol}?metrics=gross_profit,net_cash_flow`
+                    `/getMetricsForLastFive/${props.symbol}?metrics=${props.first_metric},${props.second_metric}`
                 );
 
                 const data = response.data['metrics'];
                 console.log(data);
                 timeframe.value = response.data['timeframe'];
 
-                const categories = data['Gross Profit'].map(entry =>
+
+
+                const keys = Object.keys(data);
+
+                barLabel.value = data[keys[1]][0]['label'];
+                lineLabel.value = data[keys[0]][1]['label'];
+
+                const categories = data[keys[1]].map(entry =>
                     new Date(entry.filing_date).toLocaleDateString()
                 );
 
-                const grossProfitData = data['Gross Profit'].map(entry =>
+                const firstMetricData = data[keys[1]].map(entry =>
                     parseFloat(entry.value)
                 );
 
-                const netCashFlowData = data['Net Cash Flow'].map(entry =>
+                const secondMetricData = data[keys[0]].map(entry =>
                     parseFloat(entry.value)
                 );
 
                 series.value = [
                     {
-                        name: 'Gross Profit',
+                        name: data[keys[1]][0]['label'],
                         type: 'column',
-                        data: grossProfitData,
+                        data: firstMetricData,
                     },
                     {
-                        name: 'Net Cash Flow',
+
+                        name: data[keys[0]][1]['label'],
                         type: 'line',
-                        data: netCashFlowData,
+                        data: secondMetricData,
                     },
                 ];
 
@@ -75,16 +103,6 @@ export default defineComponent({
 
                     stroke: {
                         width: [0, 3],
-                    },
-                    title: {
-                        text: 'Gross Profit (Bar) vs Net Cash Flow (Line)',
-                        align: 'center',
-                        style: {
-                            fontSize:  '14px',
-                            fontWeight:  'bold',
-                            fontFamily:  undefined,
-                            color:  'white'
-                        },
                     },
                     dataLabels: {
                         enabled: true,
@@ -104,7 +122,7 @@ export default defineComponent({
                     yaxis: [
                         {
                             labels: {
-                                show: false,
+                                show: true,
                             },
                             axisTicks: {
                                 show: false,
@@ -135,7 +153,9 @@ export default defineComponent({
         return {
             series,
             chartOptions,
-            timeframe
+            timeframe,
+            barLabel,
+            lineLabel
         };
     },
 });
