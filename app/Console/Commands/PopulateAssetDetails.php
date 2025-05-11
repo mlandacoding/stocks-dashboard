@@ -32,6 +32,7 @@ class PopulateAssetDetails extends Command
         $pythonPath = base_path('venv/Scripts/python.exe');
         $process = new Process([$pythonPath, $scriptPath]);
         $process->run();
+        echo $process->getOutput();
 
         if ($process->isSuccessful()) {
             $this->info('Script finished successfully');

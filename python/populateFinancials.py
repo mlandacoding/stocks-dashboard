@@ -146,7 +146,7 @@ for symbol in stocks:
     data = []
     for f in client.vx.list_stock_financials(
         ticker=symbol,
-        filing_date_gte="2010-01-01",
+        filing_date_gte="2025-01-01",
         order="asc",
         limit="100",
         sort="filing_date",
@@ -164,7 +164,6 @@ for symbol in stocks:
             print(f'Filing - {filing.timeframe} for {symbol} already exists')
             continue
 
-        print(f'processing {symbol}')
         # Convert the nested object structure to a dict for your insert_metrics function
         statement_map = {
             "balance_sheet": filing.financials.balance_sheet,
