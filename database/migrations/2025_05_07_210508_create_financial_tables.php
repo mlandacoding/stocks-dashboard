@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string('metric_key');
             $table->string('label')->nullable();
             $table->decimal('value', 20, 2)->nullable();
-            $table->string('unit', 10)->nullable();
+            $table->string('unit', 32)->nullable();
             $table->integer('metric_order')->nullable();
             $table->string('source')->nullable();
             $table->string('derived_from')->nullable();
