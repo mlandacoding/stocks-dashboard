@@ -96,39 +96,49 @@ def insert_statement(cursor, filing, symbol, cik, statement_type):
 def insert_metrics(cursor, statement_id, metrics_dict, symbol, filing_date, cik):
     for key, data in metrics_dict.items():
         if data:
-            value = data['value']
-            label = data['label']
-            unit = data['unit']
-            order = data['order']
-            source = data['source']
-            xpath = data['xpath']
-            print(xpath)
-            formula = data['formula']
+            value = data.get('value')
+            label = data.get('label')
+            unit = data.get('unit')
+            order = data.get('order')
+            source = data.get('source')
+            xpath = data.get('xpath')
+            formula = data.get('formula')
+            statement_type = data.get('statement_type')  # Add this if you're pulling from the data
 
-            cursor.execute("""
-                INSERT INTO financial_metrics (
-                    symbol, cik, filing_date, statement_type,
-                    metric_key, label, value, unit, metric_order,
-                    source, xpath, formula, created_at, updated_at
-                ) VALUES (
-                    %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s,
-                    %s, %s, %s, NOW(), NOW()
-                )
-            """, (
-                symbol,
-                cik,
-                filing_date,
-                statement_type,
-                key,
-                label,
-                value,
-                unit,
-                order,
-                source,
-                xpath,
-                formula
-            ))
+            try:
+                cursor.execute("""
+                    INSERT INTO financial_metrics (
+                        symbol, cik, filing_date, statement_type,
+                        metric_key, label, value, unit, metric_order,
+                        source, xpath, formula, created_at, updated_at
+                    ) VALUES (
+                        %s, %s, %s, %s,
+                        %s, %s, %s, %s, %s,
+                        %s, %s, %s, NOW(), NOW()
+                    )
+                """, (
+                    symbol,
+                    cik,
+                    filing_date,
+                    statement_type,
+                    key,
+                    label,
+                    value,
+                    unit,
+                    order,
+                    source,
+                    xpath,
+                    formula
+                ))
+            except Exception as e:
+                print(" Failed to insert metric:")
+                print(f"  Metric key: {key}")
+                print(f"  XPath length: {len(xpath) if xpath else 0}")
+                print(f"  XPath: {xpath}")
+                print(f"  Unit: {unit}")
+                print(f"  Error: {e}")
+                continue
+
 
 stocks = getActiveAssets()
 
