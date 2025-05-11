@@ -103,7 +103,6 @@ def insert_metrics(cursor, statement_id, metrics_dict, symbol, filing_date, cik)
             source = data.get('source')
             xpath = data.get('xpath')
             formula = data.get('formula')
-            statement_type = data.get('statement_type')  # Add this if you're pulling from the data
 
             try:
                 cursor.execute("""
