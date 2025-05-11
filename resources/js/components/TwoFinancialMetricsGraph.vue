@@ -57,7 +57,6 @@ export default defineComponent({
                 );
 
                 const data = response.data['metrics'];
-                console.log(data);
                 timeframe.value = response.data['timeframe'];
 
 
@@ -122,7 +121,7 @@ export default defineComponent({
                     yaxis: [
                         {
                             labels: {
-                                show: true,
+                                show: false,
                             },
                             axisTicks: {
                                 show: false,
@@ -131,7 +130,7 @@ export default defineComponent({
                         {
                             opposite: true,
                             labels: {
-                                show: false,
+                                show: true,
                             },
                             axisTicks: {
                                 show: false,

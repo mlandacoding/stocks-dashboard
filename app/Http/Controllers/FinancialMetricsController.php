@@ -29,8 +29,6 @@ class FinancialMetricsController extends Controller
             ];
         }, $statements);
 
-
-
         $metric_keys = explode(',', $request->query('metrics', ''));
 
         $metrics = FinancialMetricsController::getMetricUsingFilings(
@@ -65,6 +63,14 @@ class FinancialMetricsController extends Controller
 
         if($timeframe == 'annual'){
             return $metrics->groupBy('label');
+        }
+
+        if(in_array('liabilities_and_equity',  $metric_keys)){
+            $groupedMetrics = $metrics->groupBy('label');
+            foreach ($groupedMetrics as $label => $collection) {
+                $groupedMetrics[$label] = $collection->sortBy('filing_date')->values()->take(-5);
+            }
+            return $groupedMetrics;
         }
 
         $filingDateToTimeframe = collect($filingInfo)->pluck('timeframe', 'filing_date');

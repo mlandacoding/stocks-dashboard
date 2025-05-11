@@ -39,31 +39,49 @@
                                 <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
                             </template>
 
-                            <FinancialMetricsGraph :symbol="symbol" first_metric="basic_earnings_per_share"
-                                second_metric="net_cash_flow_from_operating_activities" title="Earnings Per Share"></FinancialMetricsGraph>
+                            <FinancialMetricGraph :symbol="symbol" metric="basic_earnings_per_share" title="Earnings Per Share" chart-type="bar"></FinancialMetricGraph>
                         </v-col>
 
-                        <v-col v-if="!smAndDown" cols="12" sm="8">
-                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" height="485"/>
+                        <v-col v-if="!smAndDown" cols="12" sm="9">
+                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" height="486" />
                         </v-col>
                     </v-row>
 
                     <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
+                        <v-col cols="12" sm="6" >
+                            <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);" >
+                                <v-col cols="3"><strong>Company Description:</strong></v-col>
+                                <v-col cols="12" style="font-size: .85rem;">{{ asset_details.description }}</v-col>
+                                <v-divider class="my-1"></v-divider>
+                                <v-row class="pa-2">
+                                    <v-col cols="4">
+                                        <strong>Total Employees:</strong>
+                                        <br>
+                                        {{ asset_details.total_employees }}
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <strong>Industry:</strong>
+                                        <br>
+                                        {{ asset_details.sic_description }}
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <strong>Shares Outstanding:</strong>
+                                        <br>
+                                        {{ asset_details.share_class_shares_outstanding }}
+                                    </v-col>
+                                </v-row>
 
+                            </v-card>
 
-                        <v-col cols="12" sm="8">
-                            <FinancialMetricsGraph :symbol="symbol" first_metric="net_income_loss"
-                                second_metric="net_cash_flow_from_operating_activities"></FinancialMetricsGraph>
+                        </v-col>
+
+                        <v-col cols="12" sm="6">
+                            <TwoFinancialMetricsGraph :symbol="symbol" first_metric="net_income_loss"
+                                second_metric="net_cash_flow_from_operating_activities"></TwoFinancialMetricsGraph>
                         </v-col>
                     </v-row>
 
                 </v-container>
-
-                <!-- <v-col cols="3"><strong>Description:</strong></v-col>
-                                <v-col cols="12" style="font-size: .75rem;">{{ asset_details.description }}</v-col>
-                                <v-divider class="my-1"></v-divider>
-                                <v-col cols="3"><strong>Total Employees:</strong></v-col>
-                                <v-col cols="8" style="font-size: .85rem;">{{ asset_details.total_employees }}</v-col> -->
                 <FooterComponent></FooterComponent>
             </v-main>
         </v-layout>
@@ -107,7 +125,8 @@ import MarketStatus from "@/components/MarketStatus.vue";
 import IntradayGraph from "@/components/IntradayGraph.vue";
 import FooterComponent from '@/components/FooterComponent.vue';
 import { useDisplay } from 'vuetify'
-import FinancialMetricsGraph from '@/components/FinancialMetricsGraph.vue';
+import TwoFinancialMetricsGraph from '@/components/TwoFinancialMetricsGraph.vue';
+import FinancialMetricGraph from '@/components/FinancialMetricGraph.vue';
 
 const { smAndDown } = useDisplay()
 
