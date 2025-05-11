@@ -20,6 +20,16 @@ connection = mysql.connector.connect(
 )
 cursor = connection.cursor()
 
+def get_timeframe(filing):
+    try:
+        start = datetime.strptime(filing.start_date, '%Y-%m-%d')
+        end = datetime.strptime(filing.end_date, '%Y-%m-%d')
+        diff_days = (end - start).days
+
+        return 'annual' if diff_days > 95 else 'quarterly'
+    except Exception as e:
+        print(f"Error determining timeframe: {e}")
+        return None
 
 def getActiveAssets():
     with open('../storage/app/public/cache/active_assets.json', 'r') as f:
@@ -138,11 +148,10 @@ for symbol in stocks:
     for filing in data:
         cik = filing.cik
         filing_id = insert_filing(cursor, filing, symbol, cik)
-        if filing_id == 'EXISTS' or filing_id == 'ERROR':
-            if filing_id == 'ERROR':
-                print(f'Filing for {symbol} has no timeframe')
-            else:
-                print(f'Filing - {filing.timeframe} for {symbol} already exists')
+        filing.timeframe = get_timeframe(filing)
+
+        if filing_id == 'EXISTS':
+            print(f'Filing - {filing.timeframe} for {symbol} already exists')
             continue
 
         print(f'processing {symbol}')
