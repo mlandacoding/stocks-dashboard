@@ -102,6 +102,7 @@ def insert_metrics(cursor, statement_id, metrics_dict, symbol, filing_date, cik)
             order = data['order']
             source = data['source']
             xpath = data['xpath']
+            print(xpath)
             formula = data['formula']
 
             cursor.execute("""
