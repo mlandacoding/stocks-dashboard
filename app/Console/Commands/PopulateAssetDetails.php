@@ -28,8 +28,16 @@ class PopulateAssetDetails extends Command
         //
         $this->info('Running Python populate asset details.py...');
 
+
+
         $scriptPath = base_path('python/populateAssetDetails.py');
-        $pythonPath = base_path('venv/Scripts/python.exe');
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            // Windows
+            $pythonPath = base_path('venv/Scripts/python.exe');
+        } else {
+            // Linux or other Unix-like OS
+            $pythonPath = base_path('venv/bin/python');
+        }
         $process = new Process([$pythonPath, $scriptPath]);
         $process->run();
         echo $process->getOutput();
