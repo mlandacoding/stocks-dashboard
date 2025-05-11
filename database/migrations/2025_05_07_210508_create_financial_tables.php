@@ -55,7 +55,7 @@ return new class extends Migration
             $table->string('source')->nullable();
             $table->string('derived_from')->nullable();
             $table->text('xpath')->nullable();
-            $table->string('formula', 32)->nullable();
+            $table->text('formula')->nullable();
             $table->timestamps();
         });
     }
