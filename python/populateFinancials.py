@@ -137,7 +137,7 @@ for symbol in stocks:
         print(filing)
         cik = filing.cik
         filing_id = insert_filing(cursor, filing, symbol, cik)
-        if(filing_id == 'EXISTS' or filing_id == 'ERROR':
+        if filing_id == 'EXISTS' or filing_id == 'ERROR':
             print(f'Filing - {filing.timeframe} for {symbol} already exists or contains no timeframe')
             continue
 
