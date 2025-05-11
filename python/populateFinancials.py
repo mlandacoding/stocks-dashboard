@@ -26,35 +26,40 @@ def getActiveAssets():
 
 
 def insert_filing(cursor, filing, symbol, cik):
-    cursor.execute("""
-        SELECT id FROM filings
-        WHERE cik = %s AND symbol = %s AND filing_date = %s
-    """, (cik, symbol, filing.filing_date))
-    existing = cursor.fetchone()
-    if existing:
-        return 'EXISTS'
+    try:
+        cursor.execute("""
+            SELECT id FROM filings
+            WHERE cik = %s AND symbol = %s AND filing_date = %s
+        """, (cik, symbol, filing.filing_date))
+        existing = cursor.fetchone()
+        if existing:
+            return 'EXISTS'
 
-    cursor.execute("""
-        INSERT INTO filings (
-            `cik`, `symbol`, `filing_date`,
-            `source_filing_url`, `source_filing_file_url`,
-            `fiscal_period`, `fiscal_year`, `timeframe`,
-            `start_date`, `end_date`, `created_at`, `updated_at`
-        )
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
-    """, (
-        cik,
-        symbol,
-        filing.filing_date,
-        filing.source_filing_url,
-        filing.source_filing_file_url,
-        filing.fiscal_period,
-        filing.fiscal_year,
-        filing.timeframe,
-        filing.start_date,
-        filing.end_date
-    ))
-    return cursor.lastrowid
+        cursor.execute("""
+            INSERT INTO filings (
+                `cik`, `symbol`, `filing_date`,
+                `source_filing_url`, `source_filing_file_url`,
+                `fiscal_period`, `fiscal_year`, `timeframe`,
+                `start_date`, `end_date`, `created_at`, `updated_at`
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+        """, (
+            cik,
+            symbol,
+            filing.filing_date,
+            filing.source_filing_url,
+            filing.source_filing_file_url,
+            getattr(filing, 'fiscal_period', None),
+            getattr(filing, 'fiscal_year', None),
+            getattr(filing, 'timeframe', None),
+            getattr(filing, 'start_date', None),
+            getattr(filing, 'end_date', None)
+        ))
+        return cursor.lastrowid
+
+    except Exception as e:
+        print(f"Skipping filing due to error: {e}")
+        return 'ERROR'
 
 
 def insert_statement(cursor, filing, symbol, cik, statement_type):
@@ -132,8 +137,8 @@ for symbol in stocks:
         print(filing)
         cik = filing.cik
         filing_id = insert_filing(cursor, filing, symbol, cik)
-        if filing_id == 'EXISTS':
-            print(f'Filing - {filing.timeframe} for {symbol} already exists')
+        if(filing_id == 'EXISTS' or filing_id == 'ERROR':
+            print(f'Filing - {filing.timeframe} for {symbol} already exists or contains no timeframe')
             continue
 
         print(f'processing {symbol}')
