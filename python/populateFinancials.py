@@ -26,7 +26,7 @@ def get_timeframe(filing):
         end = datetime.strptime(filing.end_date, '%Y-%m-%d')
         diff_days = (end - start).days
 
-        return 'annual' if diff_days > 95 else 'quarterly'
+        return 'annual' if diff_days > 360 else 'quarterly'
     except Exception as e:
         print(f"Error determining timeframe: {e}")
         return None
