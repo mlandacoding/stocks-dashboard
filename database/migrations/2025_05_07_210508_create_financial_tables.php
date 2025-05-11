@@ -54,8 +54,8 @@ return new class extends Migration
             $table->integer('metric_order')->nullable();
             $table->string('source')->nullable();
             $table->string('derived_from')->nullable();
-            $table->string('xpath')->nullable();
-            $table->string('formula')->nullable();
+            $table->string('xpath', 32)->nullable();
+            $table->string('formula', 32)->nullable();
             $table->timestamps();
         });
     }
