@@ -39,6 +39,8 @@ class UpdateFinancials extends Command
         $process = new Process([$pythonPath, $scriptPath]);
         $process->run();
 
+        echo $process->getOutput();
+
         if ($process->isSuccessful()) {
             $this->info('Script finished successfully');
             $this->line($process->getOutput());
