@@ -46,7 +46,6 @@ return new class extends Migration
             $table->string('cik', 20)->index();
             $table->string('symbol', 10)->index();
             $table->date('filing_date')->index();
-            $table->enum('statement_type', ['income_statement', 'balance_sheet', 'cash_flow', 'comprehensive_income']);
             $table->string('metric_key');
             $table->string('label')->nullable();
             $table->decimal('value', 20, 2)->nullable();
@@ -54,7 +53,7 @@ return new class extends Migration
             $table->integer('metric_order')->nullable();
             $table->string('source')->nullable();
             $table->string('derived_from')->nullable();
-            $table->string('xpath', 64)->nullable();
+            $table->text('xpath')->nullable()->change();
             $table->string('formula', 32)->nullable();
             $table->timestamps();
         });
