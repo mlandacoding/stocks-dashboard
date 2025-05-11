@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 import json
 
 load_dotenv(dotenv_path='./.env')
-client = RESTClient(os.getenv('POLYGON_API_KEY'))
+api_key = os.getenv("POLYGON_API_KEY")
+client = RESTClient(api_key)
 
 connection = mysql.connector.connect(
     host=os.getenv('DB_HOST'),
