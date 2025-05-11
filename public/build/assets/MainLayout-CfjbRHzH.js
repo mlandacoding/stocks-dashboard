@@ -1,5 +1,5 @@
-import { r as ref, j as useTheme, k as computed, l as watch, m as onMounted, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, c as createElementBlock, f as createCommentVNode, h as createBaseVNode, t as toDisplayString, i as createTextVNode, n as normalizeClass, p as normalizeStyle, q as axios$1, F as Fragment } from "./app-COAw10yy.js";
-import { _ as _export_sfc, u as useStockStream, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-nNKdLpgl.js";
+import { f as ref, m as useTheme, p as computed, q as watch, g as onMounted, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createElementBlock, b as createCommentVNode, k as createBaseVNode, t as toDisplayString, l as createTextVNode, n as normalizeClass, s as normalizeStyle, h as axios$1, F as Fragment, v as nextTick } from "./app-SrF9nZdD.js";
+import { _ as _export_sfc, u as useStockStream, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-DoiZLpyN.js";
 const _hoisted_1$1 = ["src"];
 const _hoisted_2$1 = ["src"];
 const _hoisted_3$1 = { class: "d-flex align-center justify-space-between w-150" };
@@ -325,12 +325,17 @@ const _sfc_main = {
     const drawer = ref(false);
     const symbol = ref("SPY");
     const previousClose = ref("");
+    const graphRef = ref(null);
     const losers = ref([]);
     const winners = ref([]);
     const popular_stocks = ref(["META", "MSFT", "AMZN", "TSLA", "NVDA", "GOOGL", "AAPL", "AMD", "MSFT", "BRK.B", "TSMC", "PLTR"]);
     function updateSymbol({ sym, previous_close }) {
       symbol.value = sym;
       previousClose.value = previous_close;
+      nextTick(() => {
+        var _a, _b;
+        (_b = (_a = graphRef.value) == null ? void 0 : _a.$el) == null ? void 0 : _b.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
     }
     const handleDrawerToggle = (value) => {
       drawer.value = value;
@@ -376,7 +381,7 @@ const _sfc_main = {
                     }, {
                       default: withCtx(() => [
                         createVNode(_component_v_row, {
-                          justify: "center",
+                          justify: "end",
                           class: "mb-4",
                           "no-gutters": ""
                         }, {
@@ -474,6 +479,8 @@ const _sfc_main = {
                             }, {
                               default: withCtx(() => [
                                 (openBlock(), createBlock(IntradayGraph, {
+                                  ref_key: "graphRef",
+                                  ref: graphRef,
                                   symbol: symbol.value,
                                   previous_close: previousClose.value,
                                   key: symbol.value
@@ -535,7 +542,7 @@ const _sfc_main = {
     };
   }
 };
-const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-7e8acaca"]]);
+const MainLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-02e92fd2"]]);
 export {
   MainLayout as M
 };

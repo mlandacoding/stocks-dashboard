@@ -1,4 +1,4 @@
-import { r as ref, a as resolveComponent, e as createBlock, o as openBlock, w as withCtx, d as createVNode, f as createCommentVNode, h as createBaseVNode, c as createElementBlock, i as createTextVNode, F as Fragment, s as renderList, t as toDisplayString, k as computed, m as onMounted, q as axios$1, n as normalizeClass, p as normalizeStyle, v as defineComponent, x as h$1, y as onBeforeMount, z as getCurrentInstance, A as onBeforeUnmount, B as toRefs, l as watch, C as nextTick } from "./app-COAw10yy.js";
+import { f as ref, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, k as createBaseVNode, e as createElementBlock, l as createTextVNode, F as Fragment, x as renderList, t as toDisplayString, p as computed, g as onMounted, h as axios$1, n as normalizeClass, s as normalizeStyle, d as defineComponent, y as h$1, z as onBeforeMount, A as getCurrentInstance, B as onBeforeUnmount, C as toRefs, q as watch, v as nextTick } from "./app-SrF9nZdD.js";
 const _sfc_main$5 = {
   __name: "Navbar",
   emits: ["toggle-drawer"],
@@ -226,7 +226,8 @@ const _sfc_main$3 = {
       headers: [],
       prevCloseMap: {},
       hasPreloaded: false,
-      isReady: false
+      isReady: false,
+      stockGraphLoading: false
     };
   },
   setup() {
@@ -326,6 +327,7 @@ const _sfc_main$3 = {
     showStockGraph(sym) {
       const stock = this.stocks.find((s2) => s2.sym === sym);
       if (stock) {
+        this.stockGraphLoading = true;
         this.$emit("show-graph", {
           sym: stock.sym,
           previous_close: stock.prev_day_close
@@ -333,7 +335,10 @@ const _sfc_main$3 = {
       }
     },
     goToProfile(event, row) {
-      window.location.href = `/company_profile/${row.item.sym}`;
+      if (!this.stockGraphLoading) {
+        window.location.href = `/company_profile/${row.item.sym}`;
+      }
+      this.stockGraphLoading = false;
     }
   },
   async created() {
@@ -354,7 +359,7 @@ const _sfc_main$3 = {
       ];
     } else {
       this.headers = [
-        { title: "Symbol", key: "sym" },
+        { title: "Data Delayed", key: "sym" },
         { title: "Price", key: "vwap" },
         { title: "% Change", key: "percentage_change", align: "end" }
       ];
@@ -364,7 +369,7 @@ const _sfc_main$3 = {
 const _hoisted_1$2 = { style: { "border": "1px solid rgba(255, 255, 255, 0.5)", "padding-bottom": ".5em" } };
 const _hoisted_2$2 = { class: "d-flex align-center gap-2" };
 const _hoisted_3$2 = ["src"];
-const _hoisted_4 = ["src"];
+const _hoisted_4$1 = ["src"];
 const _hoisted_5 = {
   key: 2,
   xmlns: "http://www.w3.org/2000/svg",
@@ -373,7 +378,10 @@ const _hoisted_5 = {
   class: "bi bi-graph-up-arrow",
   viewBox: "0 0 16 16"
 };
-const _hoisted_6 = { class: "d-flex gap-2 text-end justify-end text-end" };
+const _hoisted_6 = { key: 0 };
+const _hoisted_7 = { style: { "color": "#5E75E8" } };
+const _hoisted_8 = { key: 1 };
+const _hoisted_9 = { class: "d-flex gap-2 text-end justify-end text-end" };
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_spacer = resolveComponent("v-spacer");
   const _component_v_card_title = resolveComponent("v-card-title");
@@ -381,7 +389,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_btn = resolveComponent("v-btn");
   const _component_v_data_table = resolveComponent("v-data-table");
   return openBlock(), createElementBlock("div", _hoisted_1$2, [
-    $props.title ? (openBlock(), createBlock(_component_v_card_title, {
+    $props.title && $props.chartButton ? (openBlock(), createBlock(_component_v_card_title, {
       key: 0,
       class: "d-flex align-center pe-2"
     }, {
@@ -401,6 +409,9 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       "onClick:row": $options.goToProfile,
       hover: true
     }, {
+      "item.company_name": withCtx(({ item }) => [
+        createTextVNode(toDisplayString($props.title), 1)
+      ]),
       "item.sym": withCtx(({ item }) => [
         createBaseVNode("div", _hoisted_2$2, [
           createVNode(_component_v_avatar, {
@@ -421,7 +432,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                   src: `https://cdn.brandfetch.io/${item.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${$data.apiKey}`,
                   alt: "Brandfetch Logo",
                   class: "w-100 h-100"
-                }, null, 8, _hoisted_4)) : (openBlock(), createElementBlock("svg", _hoisted_5, _cache[0] || (_cache[0] = [
+                }, null, 8, _hoisted_4$1)) : (openBlock(), createElementBlock("svg", _hoisted_5, _cache[0] || (_cache[0] = [
                   createBaseVNode("path", {
                     "fill-rule": "evenodd",
                     d: "M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"
@@ -431,7 +442,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 2
           }, 1024),
-          createBaseVNode("span", null, toDisplayString(item.sym ?? "—"), 1)
+          !this.chartButton ? (openBlock(), createElementBlock("span", _hoisted_6, [
+            createTextVNode(toDisplayString($props.title) + " ", 1),
+            createBaseVNode("span", _hoisted_7, "[" + toDisplayString(item.sym ?? "—") + "]", 1)
+          ])) : (openBlock(), createElementBlock("span", _hoisted_8, "[" + toDisplayString(item.sym ?? "—") + "]", 1))
         ])
       ]),
       "item.vwap": withCtx(({ item }) => [
@@ -448,7 +462,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         }, " $" + toDisplayString(item.vwap != null ? item.vwap.toFixed(2) : "—"), 3)
       ]),
       "item.percentage_change": withCtx(({ item }) => [
-        createBaseVNode("div", _hoisted_6, [
+        createBaseVNode("div", _hoisted_9, [
           createBaseVNode("span", null, [
             createBaseVNode("b", null, toDisplayString(item.priceChange), 1)
           ]),
@@ -478,7 +492,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search", "onClick:row"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-d0595238"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-7be37ef4"]]);
 const _hoisted_1$1 = { class: "content-wrapper" };
 const _hoisted_2$1 = {
   key: 0,
@@ -10702,6 +10716,10 @@ const _sfc_main$1 = {
     },
     previous_close: {
       type: String
+    },
+    height: {
+      type: Number,
+      default: 390
     }
   },
   data() {
@@ -10854,37 +10872,49 @@ const _sfc_main$1 = {
     }
   }
 };
-const _hoisted_1 = { class: "w-full" };
-const _hoisted_2 = {
+const _hoisted_1 = { style: { "text-transform": "uppercase" } };
+const _hoisted_2 = { class: "w-full" };
+const _hoisted_3 = {
   key: 0,
   class: "flex items-center justify-center h-64"
 };
-const _hoisted_3 = { key: 1 };
+const _hoisted_4 = { key: 1 };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_card_title = resolveComponent("v-card-title");
-  const _component_apexchart = resolveComponent("apexchart");
   const _component_v_card = resolveComponent("v-card");
+  const _component_apexchart = resolveComponent("apexchart");
   return openBlock(), createBlock(_component_v_card, {
     color: "primary",
     style: { "border": "1px solid rgba(255, 255, 255, 0.5)" }
   }, {
     default: withCtx(() => [
-      createVNode(_component_v_card_title, { style: { "text-transform": "uppercase" } }, {
+      createVNode(_component_v_card_title, null, {
         default: withCtx(() => [
-          createTextVNode(toDisplayString($props.symbol), 1)
+          createBaseVNode("span", _hoisted_1, toDisplayString($props.symbol), 1),
+          _cache[0] || (_cache[0] = createTextVNode(" - Intraday"))
         ]),
         _: 1
       }),
-      createBaseVNode("div", _hoisted_1, [
-        $data.loading ? (openBlock(), createElementBlock("div", _hoisted_2, _cache[0] || (_cache[0] = [
-          createBaseVNode("span", { class: "text-gray-500" }, "Loading chart...", -1)
-        ]))) : (openBlock(), createElementBlock("div", _hoisted_3, [
+      createBaseVNode("div", _hoisted_2, [
+        $data.loading ? (openBlock(), createElementBlock("div", _hoisted_3, [
+          createVNode(_component_v_card, { color: "primary" }, {
+            default: withCtx(() => _cache[1] || (_cache[1] = [
+              createBaseVNode("br", null, null, -1),
+              createTextVNode(),
+              createBaseVNode("br", null, null, -1),
+              createBaseVNode("span", { class: "text-gray-500" }, [
+                createBaseVNode("h3", null, " Loading chart...")
+              ], -1)
+            ])),
+            _: 1
+          })
+        ])) : (openBlock(), createElementBlock("div", _hoisted_4, [
           createVNode(_component_apexchart, {
             type: "area",
-            height: "390",
+            height: $props.height,
             options: $data.chartOptions,
             series: $data.chartSeries
-          }, null, 8, ["options", "series"])
+          }, null, 8, ["height", "options", "series"])
         ]))
       ])
     ]),
