@@ -42,8 +42,6 @@ const goToProfile = (symbol) => {
 };
 </script>
 
-
-
 <template>
     <v-app-bar color="primary" class="outlined-navbar" style="border-bottom: .5px solid #17223f;">
         <v-app-bar-nav-icon variant="text" @click="updateDrawer"></v-app-bar-nav-icon>
@@ -57,37 +55,10 @@ const goToProfile = (symbol) => {
             </div>
         </v-toolbar-title>
 
-        <template v-if="mdAndUp">
-            <v-btn icon="mdi-magnify" variant="text" @click="showDesktopSearch = true" />
-            <v-autocomplete v-if="showDesktopSearch" v-model="search" :items="symbols" item-title="name"
-                item-value="symbol" label="Search companies" hide-details density="compact" clearable solo flat
-                color="primary" :menu-props="{ contentClass: 'primary-dropdown' }" style="max-width: 400px; margin-left: 16px;"
-                @update:model-value="goToProfile" return-object>
-                <template #item="{ item }">
-                    <v-list-item v-bind="item" :title="null" @click="goToProfile(item.value)">
-                        <template #title>
-                            <div class="d-flex align-center">
-                                <span class="text-white">{{ item.title }}</span>
-                                <span style="color: #5E75E8; margin-left: 6px;">[{{ item.value }}]</span>
-                            </div>
-                        </template>
-                    </v-list-item>
-                </template>
+        <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
 
-                <template #selection="{ item }">
-                    <div class="d-flex align-center">
-                        <span>{{ item.name }}</span>
-                        <span style="color: #5E75E8; margin-left: 6px;">[{{ item.symbol }}]</span>
-                    </div>
-                </template>
-            </v-autocomplete>
-        </template>
-        <template v-else>
-            <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
-        </template>
-
-        <v-dialog v-model="showSearchDialog" fullscreen transition="dialog-bottom-transition" >
-            <v-card style="background-color: #0c1427">
+        <v-dialog v-model="showSearchDialog" transition="dialog-bottom-transition">
+            <v-card class="search-dialog-card" :style="mdAndUp ? 'width: 30vw; height: 85vh;' : ''">
                 <v-toolbar color="primary" dark>
                     <v-btn icon @click="showSearchDialog = false">
                         <v-icon>mdi-close</v-icon>
@@ -100,7 +71,7 @@ const goToProfile = (symbol) => {
                         prepend-inner-icon="mdi-magnify" clearable hide-details density="compact" solo flat
                         color="primary" />
 
-                    <v-list class="mt-4" style="max-height: 70vh; overflow-y: auto; background-color: #0c1427">
+                    <v-list class="mt-4" style="max-height: 70vh; overflow-y: auto; background-color: #0c1427;">
                         <v-list-item v-for="item in filteredSymbols" :key="item.symbol"
                             @click="goToProfile(item.symbol)">
                             <v-list-item-title>
@@ -132,5 +103,10 @@ const goToProfile = (symbol) => {
 
 .primary-dropdown .v-list-item:hover {
     background-color: rgba(94, 117, 232, 0.1) !important;
+}
+
+.search-dialog-card {
+  background-color: #0c1427;
+  margin: auto;
 }
 </style>
