@@ -44,6 +44,12 @@ Route::get('/active-assets', function () {
     ]);
 });
 
+Route::get('/active-assets-with_companyname', function () {
+    return response()->json([
+        'symbols' => ActiveAssetsHelper::map(),
+    ]);
+});
+
 Route::get('/stocks_overview/prev_close', function () {
     return \App\Models\StockOverview::pluck('prev_day_close', 'symbol');
 });
