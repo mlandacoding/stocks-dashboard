@@ -1,47 +1,44 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { useDisplay } from 'vuetify';
+import { ref, computed, onMounted } from "vue";
 import axios from "axios";
+import { useDisplay } from "vuetify";
 
-const drawer = ref(false);
-const emit = defineEmits(["toggle-drawer"]);
+const showSearchDialog = ref(false);
+const searchTerm = ref("");
+const symbols = ref([]);
+const { mdAndUp } = useDisplay();
+
+const showDesktopSearch = ref(false);
+
 const updateDrawer = () => {
     drawer.value = !drawer.value;
     emit("toggle-drawer", drawer.value);
 };
 
-const showSearch = ref(false);
-const symbols = ref([]);
-const search = ref(null);
-
-const { mdAndUp } = useDisplay();
-
-const menuProps = {
-  contentClass: 'primary-dropdown'
-};
-
-// Fetch symbols on mount
 onMounted(async () => {
     try {
         const response = await axios.get("/active-assets-with_companyname");
         const data = response.data.symbols;
-        // Convert to array of objects for v-autocomplete
         symbols.value = Object.entries(data).map(([symbol, name]) => ({
-            title: name,
-            value: symbol
+            symbol,
+            name,
         }));
-    } catch (error) {
-        console.error("Failed to load active assets", error);
+    } catch (err) {
+        console.error("Failed to load symbols", err);
     }
 });
 
-// Handle selection
+const filteredSymbols = computed(() => {
+    if (!searchTerm.value) return symbols.value;
+    return symbols.value.filter((item) =>
+        `${item.symbol} ${item.name}`.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
+});
+
 const goToProfile = (symbol) => {
-    if (symbol) {
-        window.location.href = `/company_profile/${symbol.value}`;
-        search.value = null;
-        showSearch.value = false;
-    }
+    window.location.href = `/company_profile/${symbol}`;
+    showSearchDialog.value = false;
+    searchTerm.value = "";
 };
 </script>
 
@@ -61,31 +58,17 @@ const goToProfile = (symbol) => {
         </v-toolbar-title>
 
         <template v-if="mdAndUp">
-            <v-btn icon="mdi-magnify" variant="text" @click="showSearch = !showSearch"></v-btn>
-            <v-autocomplete
-                v-if="showSearch"
-                v-model="search"
-                :items="symbols"
-                item-title="title"
-                item-value="value"
-                label="Search companies"
-                hide-details
-                density="compact"
-                clearable
-                solo
-                flat
-                :menu-props="menuProps"
-                style="max-width: 400px; margin-left: 16px;"
-                @update:model-value="goToProfile"
-                return-object
-            >
-                <template #item="{ props, item }">
-                    <!-- Override default rendering completely -->
-                    <v-list-item v-bind="props" :title="null" >
+            <v-btn icon="mdi-magnify" variant="text" @click="showDesktopSearch = true" />
+            <v-autocomplete v-if="showDesktopSearch" v-model="search" :items="symbols" item-title="name"
+                item-value="symbol" label="Search companies" hide-details density="compact" clearable solo flat
+                color="primary" :menu-props="menuProps" style="max-width: 400px; margin-left: 16px;"
+                @update:model-value="goToProfile" return-object>
+                <template #item="{ item }">
+                    <v-list-item v-bind="item" :title="null" @click="goToProfile(item.value)">
                         <template #title>
                             <div class="d-flex align-center">
-                                <span>{{ item.props.title }}</span>
-                                <span style="color: #5E75E8; margin-left: 6px;">[{{ item.props.value }}]</span>
+                                <span class="text-white">{{ item.title }}</span>
+                                <span style="color: #5E75E8; margin-left: 6px;">[{{ item.value }}]</span>
                             </div>
                         </template>
                     </v-list-item>
@@ -93,12 +76,44 @@ const goToProfile = (symbol) => {
 
                 <template #selection="{ item }">
                     <div class="d-flex align-center">
-                        <span>{{ item.title }}</span>
-                        <span style="color: #5E75E8; margin-left: 6px;">[{{ item.value }}]</span>
+                        <span>{{ item.name }}</span>
+                        <span style="color: #5E75E8; margin-left: 6px;">[{{ item.symbol }}]</span>
                     </div>
                 </template>
             </v-autocomplete>
         </template>
+        <template v-else>
+            <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
+        </template>
+
+        <v-dialog v-model="showSearchDialog" fullscreen transition="dialog-bottom-transition">
+            <v-card>
+                <v-toolbar color="primary" dark>
+                    <v-btn icon @click="showSearchDialog = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Search Companies</v-toolbar-title>
+                </v-toolbar>
+
+                <v-card-text class="pa-4" style="padding-top: 0;">
+                    <v-text-field v-model="searchTerm" placeholder="Type to search companies..."
+                        prepend-inner-icon="mdi-magnify" clearable hide-details density="compact" solo flat
+                        color="primary" />
+
+                    <v-list class="mt-4" style="max-height: 70vh; overflow-y: auto;">
+                        <v-list-item v-for="item in filteredSymbols" :key="item.symbol"
+                            @click="goToProfile(item.symbol)">
+                            <v-list-item-title>
+                                <div class="d-flex align-center justify-space-between">
+                                    <span>{{ item.name }}</span>
+                                    <span style="color: #5E75E8;">[{{ item.symbol }}]</span>
+                                </div>
+                            </v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app-bar>
 </template>
 
@@ -106,12 +121,15 @@ const goToProfile = (symbol) => {
 .primary-dropdown {
     background-color: #0c1427 !important;
 }
+
 .primary-dropdown .v-list {
     background-color: #0c1427 !important;
 }
+
 .primary-dropdown .v-list-item--active {
     background-color: rgba(94, 117, 232, 0.15) !important;
 }
+
 .primary-dropdown .v-list-item:hover {
     background-color: rgba(94, 117, 232, 0.1) !important;
 }
