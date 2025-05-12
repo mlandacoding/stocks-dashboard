@@ -8,7 +8,8 @@ const searchTerm = ref("");
 const symbols = ref([]);
 const { mdAndUp } = useDisplay();
 
-const showDesktopSearch = ref(false);
+const drawer = ref(false);
+const emit = defineEmits(["toggle-drawer"]);
 
 const updateDrawer = () => {
     drawer.value = !drawer.value;
@@ -57,7 +58,7 @@ const goToProfile = (symbol) => {
 
         <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
 
-        <v-dialog v-model="showSearchDialog" transition="dialog-bottom-transition" class="forceLocation">
+        <v-dialog v-model="showSearchDialog" transition="dialog-bottom-transition" class="forceLocation" @click:outside="showSearchDialog = false">
             <v-card class="search-dialog-card" :style="mdAndUp ? 'width: 30vw; height: 85vh;' : ''" >
                 <v-toolbar color="primary" dark>
                     <v-btn icon @click="showSearchDialog = false">
@@ -117,5 +118,11 @@ const goToProfile = (symbol) => {
   right: 0;
   margin: auto;
   top: 40px !important;
+  pointer-events: none;
 }
+
+.forceLocation .v-card {
+  pointer-events: auto;
+}
+
 </style>
