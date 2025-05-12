@@ -57,8 +57,8 @@ const goToProfile = (symbol) => {
 
         <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
 
-        <v-dialog v-model="showSearchDialog" transition="dialog-bottom-transition">
-            <v-card class="search-dialog-card" :style="mdAndUp ? 'width: 30vw; height: 85vh;' : ''">
+        <v-dialog v-model="showSearchDialog" transition="dialog-bottom-transition" class="forceLocation">
+            <v-card class="search-dialog-card" :style="mdAndUp ? 'width: 30vw; height: 85vh;' : ''" >
                 <v-toolbar color="primary" dark>
                     <v-btn icon @click="showSearchDialog = false">
                         <v-icon>mdi-close</v-icon>
@@ -108,5 +108,14 @@ const goToProfile = (symbol) => {
 .search-dialog-card {
   background-color: #0c1427;
   margin: auto;
+}
+
+.forceLocation > .v-overlay__content {
+  position: absolute !important;
+  top: 0px !important;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 40px !important;
 }
 </style>
