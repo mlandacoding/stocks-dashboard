@@ -1,3 +1,16 @@
+
+.primary-dropdown {
+    background-color: #0c1427 !important;
+}
+.primary-dropdown .v-list {
+    background-color: #0c1427 !important;
+}
+.primary-dropdown .v-list-item--active {
+    background-color: rgba(94, 117, 232, 0.15) !important;
+}
+.primary-dropdown .v-list-item:hover {
+    background-color: rgba(94, 117, 232, 0.1) !important;
+}
 .gap-2[data-v-7be37ef4] {
     gap: 0.5rem;
 }
