@@ -1,19 +1,16 @@
-import { f as ref, u as useDisplay, g as onMounted, h as axios$1, p as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createElementBlock, k as createBaseVNode, j as unref, F as Fragment, b as createCommentVNode, t as toDisplayString, x as mergeProps, l as createTextVNode, y as renderList, n as normalizeClass, s as normalizeStyle, d as defineComponent, z as h$1, A as onBeforeMount, B as getCurrentInstance, C as onBeforeUnmount, D as toRefs, q as watch, v as nextTick } from "./app-Sgxi9sYG.js";
-const _hoisted_1$4 = { class: "d-flex align-center" };
-const _hoisted_2$4 = { class: "text-white" };
-const _hoisted_3$3 = { style: { "color": "#5E75E8", "margin-left": "6px" } };
-const _hoisted_4$2 = { class: "d-flex align-center" };
-const _hoisted_5$1 = { style: { "color": "#5E75E8", "margin-left": "6px" } };
-const _hoisted_6$1 = { class: "d-flex align-center justify-space-between" };
-const _hoisted_7$1 = { style: { "color": "#5E75E8" } };
+import { f as ref, u as useDisplay, g as onMounted, h as axios$1, p as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, k as createBaseVNode, s as normalizeStyle, j as unref, l as createTextVNode, e as createElementBlock, F as Fragment, x as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, y as h$1, z as onBeforeMount, A as getCurrentInstance, B as onBeforeUnmount, C as toRefs, q as watch, v as nextTick } from "./app-BPunFN0o.js";
+const _hoisted_1$4 = { class: "d-flex align-center justify-space-between" };
+const _hoisted_2$4 = { style: { "color": "#5E75E8" } };
 const _sfc_main$5 = {
   __name: "Navbar",
-  setup(__props) {
+  emits: ["toggle-drawer"],
+  setup(__props, { emit: __emit }) {
     const showSearchDialog = ref(false);
     const searchTerm = ref("");
     const symbols = ref([]);
     const { mdAndUp } = useDisplay();
-    const showDesktopSearch = ref(false);
+    const drawer = ref(false);
+    const emit = __emit;
     const updateDrawer = () => {
       drawer.value = !drawer.value;
       emit("toggle-drawer", drawer.value);
@@ -45,12 +42,11 @@ const _sfc_main$5 = {
       const _component_v_app_bar_nav_icon = resolveComponent("v-app-bar-nav-icon");
       const _component_v_toolbar_title = resolveComponent("v-toolbar-title");
       const _component_v_btn = resolveComponent("v-btn");
-      const _component_v_list_item = resolveComponent("v-list-item");
-      const _component_v_autocomplete = resolveComponent("v-autocomplete");
       const _component_v_icon = resolveComponent("v-icon");
       const _component_v_toolbar = resolveComponent("v-toolbar");
       const _component_v_text_field = resolveComponent("v-text-field");
       const _component_v_list_item_title = resolveComponent("v-list-item-title");
+      const _component_v_list_item = resolveComponent("v-list-item");
       const _component_v_list = resolveComponent("v-list");
       const _component_v_card_text = resolveComponent("v-card-text");
       const _component_v_card = resolveComponent("v-card");
@@ -67,7 +63,7 @@ const _sfc_main$5 = {
             onClick: updateDrawer
           }),
           createVNode(_component_v_toolbar_title, null, {
-            default: withCtx(() => _cache[6] || (_cache[6] = [
+            default: withCtx(() => _cache[5] || (_cache[5] = [
               createBaseVNode("div", { style: { "display": "flex", "align-items": "center" } }, [
                 createBaseVNode("img", {
                   src: "https://agdsvgs.s3.us-east-2.amazonaws.com/logo-icon.svg",
@@ -81,69 +77,23 @@ const _sfc_main$5 = {
             ])),
             _: 1
           }),
-          unref(mdAndUp) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-            createVNode(_component_v_btn, {
-              icon: "mdi-magnify",
-              variant: "text",
-              onClick: _cache[0] || (_cache[0] = ($event) => showDesktopSearch.value = true)
-            }),
-            showDesktopSearch.value ? (openBlock(), createBlock(_component_v_autocomplete, {
-              key: 0,
-              modelValue: _ctx.search,
-              "onUpdate:modelValue": [
-                _cache[1] || (_cache[1] = ($event) => _ctx.search = $event),
-                goToProfile
-              ],
-              items: symbols.value,
-              "item-title": "name",
-              "item-value": "symbol",
-              label: "Search companies",
-              "hide-details": "",
-              density: "compact",
-              clearable: "",
-              solo: "",
-              flat: "",
-              color: "primary",
-              "menu-props": { contentClass: "primary-dropdown" },
-              style: { "max-width": "400px", "margin-left": "16px" },
-              "return-object": ""
-            }, {
-              item: withCtx(({ item }) => [
-                createVNode(_component_v_list_item, mergeProps(item, {
-                  title: null,
-                  onClick: ($event) => goToProfile(item.value)
-                }), {
-                  title: withCtx(() => [
-                    createBaseVNode("div", _hoisted_1$4, [
-                      createBaseVNode("span", _hoisted_2$4, toDisplayString(item.title), 1),
-                      createBaseVNode("span", _hoisted_3$3, "[" + toDisplayString(item.value) + "]", 1)
-                    ])
-                  ]),
-                  _: 2
-                }, 1040, ["onClick"])
-              ]),
-              selection: withCtx(({ item }) => [
-                createBaseVNode("div", _hoisted_4$2, [
-                  createBaseVNode("span", null, toDisplayString(item.name), 1),
-                  createBaseVNode("span", _hoisted_5$1, "[" + toDisplayString(item.symbol) + "]", 1)
-                ])
-              ]),
-              _: 1
-            }, 8, ["modelValue", "items"])) : createCommentVNode("", true)
-          ], 64)) : (openBlock(), createBlock(_component_v_btn, {
-            key: 1,
+          createVNode(_component_v_btn, {
             icon: "mdi-magnify",
             variant: "text",
-            onClick: _cache[2] || (_cache[2] = ($event) => showSearchDialog.value = true)
-          })),
+            onClick: _cache[0] || (_cache[0] = ($event) => showSearchDialog.value = true)
+          }),
           createVNode(_component_v_dialog, {
             modelValue: showSearchDialog.value,
-            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => showSearchDialog.value = $event),
-            fullscreen: "",
-            transition: "dialog-bottom-transition"
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => showSearchDialog.value = $event),
+            transition: "dialog-bottom-transition",
+            class: "forceLocation",
+            "onClick:outside": _cache[4] || (_cache[4] = ($event) => showSearchDialog.value = false)
           }, {
             default: withCtx(() => [
-              createVNode(_component_v_card, { style: { "background-color": "#0c1427" } }, {
+              createVNode(_component_v_card, {
+                class: "search-dialog-card",
+                style: normalizeStyle(unref(mdAndUp) ? "width: 30vw; height: 85vh;" : "")
+              }, {
                 default: withCtx(() => [
                   createVNode(_component_v_toolbar, {
                     color: "primary",
@@ -152,11 +102,11 @@ const _sfc_main$5 = {
                     default: withCtx(() => [
                       createVNode(_component_v_btn, {
                         icon: "",
-                        onClick: _cache[3] || (_cache[3] = ($event) => showSearchDialog.value = false)
+                        onClick: _cache[1] || (_cache[1] = ($event) => showSearchDialog.value = false)
                       }, {
                         default: withCtx(() => [
                           createVNode(_component_v_icon, null, {
-                            default: withCtx(() => _cache[7] || (_cache[7] = [
+                            default: withCtx(() => _cache[6] || (_cache[6] = [
                               createTextVNode("mdi-close")
                             ])),
                             _: 1
@@ -165,7 +115,7 @@ const _sfc_main$5 = {
                         _: 1
                       }),
                       createVNode(_component_v_toolbar_title, null, {
-                        default: withCtx(() => _cache[8] || (_cache[8] = [
+                        default: withCtx(() => _cache[7] || (_cache[7] = [
                           createTextVNode("Search Companies")
                         ])),
                         _: 1
@@ -180,7 +130,7 @@ const _sfc_main$5 = {
                     default: withCtx(() => [
                       createVNode(_component_v_text_field, {
                         modelValue: searchTerm.value,
-                        "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => searchTerm.value = $event),
+                        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => searchTerm.value = $event),
                         placeholder: "Type to search companies...",
                         "prepend-inner-icon": "mdi-magnify",
                         clearable: "",
@@ -203,9 +153,9 @@ const _sfc_main$5 = {
                               default: withCtx(() => [
                                 createVNode(_component_v_list_item_title, null, {
                                   default: withCtx(() => [
-                                    createBaseVNode("div", _hoisted_6$1, [
+                                    createBaseVNode("div", _hoisted_1$4, [
                                       createBaseVNode("span", null, toDisplayString(item.name), 1),
-                                      createBaseVNode("span", _hoisted_7$1, "[" + toDisplayString(item.symbol) + "]", 1)
+                                      createBaseVNode("span", _hoisted_2$4, "[" + toDisplayString(item.symbol) + "]", 1)
                                     ])
                                   ]),
                                   _: 2
@@ -222,7 +172,7 @@ const _sfc_main$5 = {
                   })
                 ]),
                 _: 1
-              })
+              }, 8, ["style"])
             ]),
             _: 1
           }, 8, ["modelValue"])
@@ -246,9 +196,9 @@ const _sfc_main$4 = {
       { title: "Market Summary", link: "/", value: "bar" }
     ];
     const props = __props;
-    const emit2 = __emit;
+    const emit = __emit;
     const toggleDrawer = () => {
-      emit2("update:drawer", !props.drawer);
+      emit("update:drawer", !props.drawer);
     };
     return (_ctx, _cache) => {
       const _component_v_list_subheader = resolveComponent("v-list-subheader");

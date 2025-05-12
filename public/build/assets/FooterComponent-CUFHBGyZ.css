@@ -11,6 +11,23 @@
 .primary-dropdown .v-list-item:hover {
     background-color: rgba(94, 117, 232, 0.1) !important;
 }
+.search-dialog-card {
+  background-color: #0c1427;
+  margin: auto;
+}
+.forceLocation > .v-overlay__content {
+  position: absolute !important;
+  top: 0px !important;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 40px !important;
+  pointer-events: none;
+}
+.forceLocation .v-card {
+  pointer-events: auto;
+}
+
 .gap-2[data-v-7be37ef4] {
     gap: 0.5rem;
 }
