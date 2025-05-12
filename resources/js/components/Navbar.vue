@@ -61,7 +61,7 @@ const goToProfile = (symbol) => {
             <v-btn icon="mdi-magnify" variant="text" @click="showDesktopSearch = true" />
             <v-autocomplete v-if="showDesktopSearch" v-model="search" :items="symbols" item-title="name"
                 item-value="symbol" label="Search companies" hide-details density="compact" clearable solo flat
-                color="primary" :menu-props="menuProps" style="max-width: 400px; margin-left: 16px;"
+                color="primary" :menu-props="{ contentClass: 'primary-dropdown' }" style="max-width: 400px; margin-left: 16px;"
                 @update:model-value="goToProfile" return-object>
                 <template #item="{ item }">
                     <v-list-item v-bind="item" :title="null" @click="goToProfile(item.value)">
@@ -86,8 +86,8 @@ const goToProfile = (symbol) => {
             <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
         </template>
 
-        <v-dialog v-model="showSearchDialog" fullscreen transition="dialog-bottom-transition">
-            <v-card>
+        <v-dialog v-model="showSearchDialog" fullscreen transition="dialog-bottom-transition" >
+            <v-card style="background-color: #0c1427">
                 <v-toolbar color="primary" dark>
                     <v-btn icon @click="showSearchDialog = false">
                         <v-icon>mdi-close</v-icon>
@@ -100,7 +100,7 @@ const goToProfile = (symbol) => {
                         prepend-inner-icon="mdi-magnify" clearable hide-details density="compact" solo flat
                         color="primary" />
 
-                    <v-list class="mt-4" style="max-height: 70vh; overflow-y: auto;">
+                    <v-list class="mt-4" style="max-height: 70vh; overflow-y: auto; background-color: #0c1427">
                         <v-list-item v-for="item in filteredSymbols" :key="item.symbol"
                             @click="goToProfile(item.symbol)">
                             <v-list-item-title>
