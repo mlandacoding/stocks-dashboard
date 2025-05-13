@@ -38,9 +38,18 @@
                                 </div>
                             </div>
 
-                            <div class="publisher-avatar-img" role="img" :aria-label="item.Publisher_name" >
-                            <img :src="item.Publisher_logo_url" :alt="item.Publisher_name" width="120px" height="120px"/>
-                            </div>
+                            <v-avatar
+                            size="80"
+                            v-if="item.Publisher_logo_url"
+                            class="publisher-avatar"
+                            rounded="0"
+                            >
+                            <img
+                                :src="item.Publisher_logo_url"
+                                :alt="item.Publisher_name"
+                                class="svg-logo"
+                            />
+                            </v-avatar>
                         </div>
                     </div>
                 </v-col>
@@ -54,22 +63,17 @@
 <style scoped>
 @import '../../css/liveStocksTable.css';
 
-.publisher-avatar-img {
-  width: auto;
-  height: auto;
+.publisher-avatar {
   background-color: white;
-  border-radius: 0px;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
-.publisher-avatar-img img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+.svg-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 </style>
 

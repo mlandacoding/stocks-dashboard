@@ -1,5 +1,5 @@
-import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, j as createTextVNode, F as Fragment, k as renderList, u as useDisplay, l as createStaticVNode, n as normalizeClass, m as unref } from "./app-DMlQhtl7.js";
-import { _ as _export_sfc, m, a as _sfc_main$4, b as _sfc_main$5, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-CvYDKG-S.js";
+import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, j as createTextVNode, F as Fragment, k as renderList, u as useDisplay, l as createStaticVNode, n as normalizeClass, m as unref } from "./app-D4Y57BBm.js";
+import { _ as _export_sfc, m, a as _sfc_main$4, b as _sfc_main$5, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-Amx0IKRO.js";
 const _sfc_main$3 = defineComponent({
   name: "FinancialChart",
   components: {
@@ -467,13 +467,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                         item.Publisher_logo_url ? (openBlock(), createBlock(_component_v_avatar, {
                           key: 0,
                           size: "80",
-                          style: { "background-color": "white" },
+                          class: "publisher-avatar",
                           rounded: "0"
                         }, {
                           default: withCtx(() => [
                             createBaseVNode("img", {
                               src: item.Publisher_logo_url,
-                              alt: item.Publisher_name
+                              alt: item.Publisher_name,
+                              class: "svg-logo"
                             }, null, 8, _hoisted_10)
                           ]),
                           _: 2
@@ -493,7 +494,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]);
 }
-const LatestNewsPerSymbol = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-37d6aa04"]]);
+const LatestNewsPerSymbol = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-de58ba35"]]);
 const _hoisted_1 = { style: { "font-size": "13px" } };
 const _sfc_main = {
   __name: "CompanyProfilePage",
