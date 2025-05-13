@@ -9,6 +9,6 @@ class SymbolNews extends Model
     protected $table = 'symbols_news';
 
     public function news(){
-        return $this->belongsTo(News::class, 'news_id');
+        return $this->belongsTo(News::class);
     }
 }

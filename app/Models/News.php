@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
+
     public function insights()
     {
-        return $this->hasMany(Insight::class);
+        return $this->hasMany(Insight::class, 'news_id');
     }
 }
