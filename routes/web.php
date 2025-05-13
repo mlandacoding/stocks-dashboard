@@ -14,6 +14,7 @@ use App\Http\Controllers\FinancialStatements;
 use App\Http\Controllers\WinnersAndLosersController;
 use App\Http\Controllers\FinancialStatementsController;
 use App\Http\Controllers\FinancialMetricsController;
+use App\Http\Controllers\SymbolNewsController;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -71,5 +72,7 @@ Route::get('/financial_statements/{symbol}/{statement_type}',[FinancialStatement
 Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbolWithFiling'] );
 
 Route::get('/getMetricsForLastFive/{symbol}', [FinancialMetricsController::class, 'getMetricsForLastFive']);
+
+Route::get('/getNewsPerSymbol/{symbol}', [SymbolNewsController::class, 'getNewsPerSymbol']);
 
 
