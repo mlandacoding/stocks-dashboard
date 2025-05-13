@@ -50,7 +50,7 @@
                     <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
                         <v-col cols="12" sm="6" >
                             <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);" >
-                                <v-col cols="3"><strong>Company Description:</strong></v-col>
+                                <v-col cols="12"><strong>Company Description:</strong></v-col>
                                 <v-col cols="12" style="font-size: .85rem;">{{ asset_details.description }}</v-col>
                                 <v-divider class="my-1"></v-divider>
                                 <v-row class="pa-2">
@@ -62,7 +62,9 @@
                                     <v-col cols="4">
                                         <strong>Industry:</strong>
                                         <br>
-                                        {{ asset_details.sic_description }}
+                                        <span style="font-size: 13px;">
+                                            {{ asset_details.sic_description }}
+                                        </span>
                                     </v-col>
                                     <v-col cols="4">
                                         <strong>Shares Outstanding:</strong>
