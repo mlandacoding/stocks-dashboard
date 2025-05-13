@@ -1,6 +1,6 @@
-import { c as createBlock, o as openBlock } from "./app-3sl2MM3A.js";
-import { M as MainLayout } from "./MainLayout-BagCx_uY.js";
-import "./FooterComponent-YLQxKI-4.js";
+import { c as createBlock, o as openBlock } from "./app-CLLp8qrY.js";
+import { M as MainLayout } from "./MainLayout-C03qI50k.js";
+import "./FooterComponent-CjAoYMGK.js";
 const _sfc_main = {
   __name: "ExamplePage",
   props: {

@@ -1,5 +1,5 @@
-import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, u as useDisplay, j as createStaticVNode, n as normalizeClass, k as unref, l as createTextVNode, F as Fragment } from "./app-3sl2MM3A.js";
-import { _ as _export_sfc, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-YLQxKI-4.js";
+import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, u as useDisplay, j as createStaticVNode, n as normalizeClass, k as unref, l as createTextVNode, F as Fragment } from "./app-CLLp8qrY.js";
+import { _ as _export_sfc, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-CjAoYMGK.js";
 const _sfc_main$2 = defineComponent({
   name: "FinancialChart",
   components: {
@@ -123,7 +123,7 @@ const _sfc_main$2 = defineComponent({
     };
   }
 });
-const _hoisted_1 = { key: 0 };
+const _hoisted_1$1 = { key: 0 };
 const _hoisted_2 = { key: 1 };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_card_title = resolveComponent("v-card-title");
@@ -139,7 +139,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
         style: { "text-align": "center" }
       }, {
         default: withCtx(() => [
-          !_ctx.title ? (openBlock(), createElementBlock("span", _hoisted_1, toDisplayString(this.barLabel) + " vs " + toDisplayString(this.lineLabel), 1)) : (openBlock(), createElementBlock("span", _hoisted_2, toDisplayString(_ctx.title), 1))
+          !_ctx.title ? (openBlock(), createElementBlock("span", _hoisted_1$1, toDisplayString(this.barLabel) + " vs " + toDisplayString(this.lineLabel), 1)) : (openBlock(), createElementBlock("span", _hoisted_2, toDisplayString(_ctx.title), 1))
         ]),
         _: 1
       }),
@@ -323,6 +323,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   });
 }
 const FinancialMetricGraph = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
+const _hoisted_1 = { style: { "font-size": "13px" } };
 const _sfc_main = {
   __name: "CompanyProfilePage",
   props: {
@@ -356,7 +357,7 @@ const _sfc_main = {
       const _component_v_layout = resolveComponent("v-layout");
       const _component_v_sheet = resolveComponent("v-sheet");
       return openBlock(), createElementBlock(Fragment, null, [
-        _cache[7] || (_cache[7] = createStaticVNode('<head data-v-ae827f45><meta charset="UTF-8" data-v-ae827f45><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-ae827f45><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-ae827f45><title data-v-ae827f45>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-ae827f45></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-ae827f45>', 2)),
+        _cache[7] || (_cache[7] = createStaticVNode('<head data-v-f100daed><meta charset="UTF-8" data-v-f100daed><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-f100daed><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-f100daed><title data-v-f100daed>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-f100daed></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-f100daed>', 2)),
         createVNode(_component_v_sheet, { class: "custom-width-wrapper" }, {
           default: withCtx(() => [
             createVNode(_component_v_layout, { style: { "background": "#0c1427" } }, {
@@ -452,7 +453,7 @@ const _sfc_main = {
                                   style: { "border": "1px solid rgba(255, 255, 255, 0.5)" }
                                 }, {
                                   default: withCtx(() => [
-                                    createVNode(_component_v_col, { cols: "3" }, {
+                                    createVNode(_component_v_col, { cols: "12" }, {
                                       default: withCtx(() => _cache[0] || (_cache[0] = [
                                         createBaseVNode("strong", null, "Company Description:", -1)
                                       ])),
@@ -482,7 +483,7 @@ const _sfc_main = {
                                           default: withCtx(() => [
                                             _cache[3] || (_cache[3] = createBaseVNode("strong", null, "Industry:", -1)),
                                             _cache[4] || (_cache[4] = createBaseVNode("br", null, null, -1)),
-                                            createTextVNode(" " + toDisplayString(__props.asset_details.sic_description), 1)
+                                            createBaseVNode("span", _hoisted_1, toDisplayString(__props.asset_details.sic_description), 1)
                                           ]),
                                           _: 1
                                         }),
@@ -536,7 +537,7 @@ const _sfc_main = {
     };
   }
 };
-const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-ae827f45"]]);
+const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-f100daed"]]);
 export {
   CompanyProfilePage as default
 };
