@@ -38,17 +38,8 @@
                                 </div>
                             </div>
 
-                            <v-avatar
-                            size="80"
-                            v-if="item.Publisher_logo_url"
-                            class="publisher-avatar"
-                            rounded="0"
-                            >
-                            <img
-                                :src="item.Publisher_logo_url"
-                                :alt="item.Publisher_name"
-                                class="svg-logo"
-                            />
+                            <v-avatar size="80" v-if="item.Publisher_logo_url" class="publisher-avatar" rounded="0">
+                                <img :src="item.Publisher_logo_url" :alt="item.Publisher_name" class="avatar-img" />
                             </v-avatar>
                         </div>
                     </div>
@@ -68,11 +59,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-.svg-logo {
-  width: 100%;
-  height: 100%;
+.avatar-img {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 </style>
