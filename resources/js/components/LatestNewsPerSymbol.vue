@@ -38,10 +38,17 @@
                                 </div>
                             </div>
 
-                            <!-- Publisher logo -->
-                            <v-avatar size="80" v-if="item.Publisher_logo_url" style="background-color: white;"
-                                rounded="0">
-                                <img :src="item.Publisher_logo_url" :alt="item.Publisher_name" />
+                            <v-avatar
+                            size="80"
+                            v-if="item.Publisher_logo_url"
+                            class="publisher-avatar"
+                            rounded="0"
+                            >
+                            <img
+                                :src="item.Publisher_logo_url"
+                                :alt="item.Publisher_name"
+                                class="svg-logo"
+                            />
                             </v-avatar>
                         </div>
                     </div>
@@ -55,6 +62,19 @@
 
 <style scoped>
 @import '../../css/liveStocksTable.css';
+
+.publisher-avatar {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 </style>
 
 
