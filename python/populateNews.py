@@ -30,7 +30,7 @@ stocks = getActiveAssets()
 
 for stock in stocks:
     news = []
-    for n in client.list_ticker_news(ticker=stock, order="asc", limit="10", published_utc_gte="2025-01-01", sort="published_utc"):
+    for n in client.list_ticker_news(ticker=stock, order="asc", limit="10", published_utc_gte="2025-04-01", sort="published_utc"):
         news.append(n)
 
     for item in news:

@@ -1,0 +1,94 @@
+.gap-2[data-v-37d6aa04] {
+    gap: 0.5rem;
+}
+
+/* Dark theme styling */
+.custom-card[data-v-37d6aa04] {
+    background-color: #0c1427 !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+/* Force Search Bar to Stay Dark */
+.custom-input[data-v-37d6aa04] .v-input__control {
+    background: #1a2238 !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Make sure text is visible */
+.custom-input[data-v-37d6aa04] .v-field__input {
+    color: rgb(255, 255, 255) !important;
+    background-color: #0c1427 !important;
+}
+
+/* Keep background dark when focused */
+.custom-input[data-v-37d6aa04] .v-input.v-input--focused .v-input__control {
+    background: #1a2238 !important;
+    border-color: white !important;
+}
+.custom-table[data-v-37d6aa04] .v-data-table__td,
+.custom-table[data-v-37d6aa04] .v-data-table__th {
+    border-bottom: none !important;
+}
+
+/* Fix label color */
+.custom-input[data-v-37d6aa04] .v-label {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Table styling */
+.custom-table[data-v-37d6aa04] {
+    background: #0c1427 !important;
+    color: white !important;
+}
+
+/* Table header styling */
+.custom-table .v-data-table-header[data-v-37d6aa04] {
+    background: #1a2238 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Remove hover effect from table headers */
+.custom-table .v-data-table-header th[data-v-37d6aa04]:hover {
+    background: none !important;
+}
+
+/* Table row hover effect */
+.custom-table .v-data-table__tbody tr[data-v-37d6aa04]:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Thinner Border Lines */
+.custom-table .v-data-table__th[data-v-37d6aa04],
+.custom-table .v-data-table__td[data-v-37d6aa04] {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+.clickable-row[data-v-37d6aa04] {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.clickable-row[data-v-37d6aa04]:hover {
+    background-color: rgba(0, 0, 0, 0.04); /* or Vuetify lighten background */
+}
+
+.content-expanded[data-v-726f8833] {
+    margin-left: 0;
+    transition: margin-left 0.8s ease-in-out;
+}
+.content-shrinked[data-v-726f8833] {
+    margin-left: 5px;
+    transition: margin-left 0.8s ease-in-out;
+}
+.custom-width-wrapper[data-v-726f8833] {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+@media (max-width: 600px) {
+.custom-width-wrapper[data-v-726f8833] {
+        padding: 0 !important;
+        margin: 0 !important;
+}
+}
