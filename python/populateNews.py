@@ -40,6 +40,9 @@ for stock in stocks:
             news_db_id = existing[0]
             continue  # or update if needed
 
+        iso_timestamp = item.published_utc
+        parsed_timestamp = datetime.strptime(iso_timestamp, '%Y-%m-%dT%H:%M:%SZ')
+        mysql_timestamp = parsed_timestamp.strftime('%Y-%m-%d %H:%M:%S')
         # Insert into news table
         cursor.execute("""
             INSERT INTO news (
@@ -53,7 +56,7 @@ for stock in stocks:
             item.publisher.favicon_url,
             item.title,
             item.author,
-            item.published_utc,
+            mysql_timestamp,
             item.article_url,
             item.image_url,
             item.description,
