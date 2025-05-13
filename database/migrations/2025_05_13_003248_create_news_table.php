@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('publisher_homepage_url')->nullable();
             $table->string('publisher_logo_url')->nullable();
             $table->string('publisher_favicon_url')->nullable();
-            $table->string('title');
+            $table->string('title',1000);
             $table->string('author')->nullable();
             $table->timestamp('published_utc');
             $table->string('article_url',1000);
