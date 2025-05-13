@@ -47,6 +47,12 @@
                         </v-col>
                     </v-row>
 
+                    <v-row>
+                        <v-col>
+                            <LatestNewsPerSymbol :symbol="symbol"></LatestNewsPerSymbol>
+                        </v-col>
+                    </v-row>
+
                     <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
                         <v-col cols="12" sm="6" >
                             <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);" >
@@ -83,11 +89,7 @@
                         </v-col>
                     </v-row>
 
-                    <v-row>
-                        <v-col>
-                            <LatestNewsPerSymbol :symbol="symbol"></LatestNewsPerSymbol>
-                        </v-col>
-                    </v-row>
+
 
                 </v-container>
                 <FooterComponent></FooterComponent>
