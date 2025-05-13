@@ -22,7 +22,7 @@ connection = mysql.connector.connect(
 cursor = connection.cursor()
 
 def getActiveAssets():
-    with open('./storage/app/public/cache/active_assets.json', 'r') as f:
+    with open('../storage/app/public/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
     return {stock['symbol']: stock['company_name'] for stock in stocks}
 
