@@ -58,7 +58,7 @@
 .publisher-avatar-img {
   width: 80px;
   height: 80px;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;
