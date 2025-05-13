@@ -9,9 +9,11 @@
             </span>
 
         </v-card-title>
-            <!-- data[keys[1]][0]['label'] + ' (Bar) ' + 'vs ' + data[keys[0]][1]['label'] + ' (Line) - ' + timeframe.value -->
 
         <apexchart v-if="series.length" type="line" height="400" :options="chartOptions" :series="series" />
+        <div class="text-right pr-4 pb-2">
+            <small><h2>* In Millions</h2></small>
+        </div>
     </v-card>
 </template>
 

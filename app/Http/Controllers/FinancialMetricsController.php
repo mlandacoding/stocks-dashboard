@@ -55,11 +55,24 @@ class FinancialMetricsController extends Controller
     }
 
     public static function getMetricUsingFilings($symbol, $filings, $metric_keys, $filingInfo, $timeframe){
-        $metrics = FinancialMetric::where('symbol', $symbol)
-        ->whereIn('metric_key', $metric_keys)
-        ->whereIn('filing_date', $filings)
-        ->orderBy('filing_date')
-        ->get(['label', 'value', 'filing_date', 'metric_key']);
+        if(!in_array('basic_earnings_per_share',$metric_keys)){
+            $metrics = FinancialMetric::where('symbol', $symbol)
+            ->whereIn('metric_key', $metric_keys)
+            ->whereIn('filing_date', $filings)
+            ->orderBy('filing_date')
+            ->get(['label', 'value', 'filing_date', 'metric_key'])
+            ->map(function ($item) {
+                $item->value = round($item->value / 1_000_000, 2);
+                return $item;
+            });
+        } else {
+            $metrics = FinancialMetric::where('symbol', $symbol)
+            ->whereIn('metric_key', $metric_keys)
+            ->whereIn('filing_date', $filings)
+            ->orderBy('filing_date')
+            ->get(['label', 'value', 'filing_date', 'metric_key']);
+        }
+
 
         if($timeframe == 'annual'){
             return $metrics->groupBy('label');
