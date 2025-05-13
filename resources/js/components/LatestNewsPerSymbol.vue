@@ -38,9 +38,10 @@
                                 </div>
                             </div>
 
-                            <v-avatar size="80" v-if="item.Publisher_logo_url" class="publisher-avatar" rounded="0">
-                                <img :src="item.Publisher_logo_url" :alt="item.Publisher_name" class="avatar-img" />
-                            </v-avatar>
+                            <div class="publisher-avatar-img"
+                                :style="{ backgroundImage: `url('${item.Publisher_logo_url}')` }" role="img"
+                                :aria-label="item.Publisher_name">
+                            </div>
                         </div>
                     </div>
                 </v-col>
@@ -54,18 +55,15 @@
 <style scoped>
 @import '../../css/liveStocksTable.css';
 
-.publisher-avatar {
+.publisher-avatar-img {
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.avatar-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 </style>
 
