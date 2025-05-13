@@ -38,8 +38,8 @@
                                 </div>
                             </div>
 
-                            <div class="publisher-avatar-img" role="img" :aria-label="item.Publisher_name">
-                            <img :src="item.Publisher_logo_url" :alt="item.Publisher_name" />
+                            <div class="publisher-avatar-img" role="img" :aria-label="item.Publisher_name" >
+                            <img :src="item.Publisher_logo_url" :alt="item.Publisher_name" width="120px" height="120px"/>
                             </div>
                         </div>
                     </div>
@@ -55,10 +55,10 @@
 @import '../../css/liveStocksTable.css';
 
 .publisher-avatar-img {
-  width: 80px;
-  height: 80px;
+  width: auto;
+  height: auto;
   background-color: white;
-  border-radius: 4px;
+  border-radius: 0px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -68,8 +68,8 @@
 
 .publisher-avatar-img img {
   max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  height: auto;
+  display: block;
 }
 </style>
 
