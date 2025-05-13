@@ -83,6 +83,12 @@
                         </v-col>
                     </v-row>
 
+                    <v-row>
+                        <v-col>
+                            <LatestNewsPerSymbol :symbol="symbol"></LatestNewsPerSymbol>
+                        </v-col>
+                    </v-row>
+
                 </v-container>
                 <FooterComponent></FooterComponent>
             </v-main>
@@ -129,6 +135,8 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import { useDisplay } from 'vuetify'
 import TwoFinancialMetricsGraph from '@/components/TwoFinancialMetricsGraph.vue';
 import FinancialMetricGraph from '@/components/FinancialMetricGraph.vue';
+import LatestNewsPerSymbol from '@/components/LatestNewsPerSymbol.vue';
+
 
 const { smAndDown } = useDisplay()
 
