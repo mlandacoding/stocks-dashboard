@@ -1,5 +1,5 @@
-import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createElementBlock, t as toDisplayString, f as ref, g as onMounted, h as axios, u as useDisplay, i as createStaticVNode, n as normalizeClass, j as unref, k as createBaseVNode, l as createTextVNode, F as Fragment } from "./app-BPunFN0o.js";
-import { _ as _export_sfc, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-DdlE2q58.js";
+import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, u as useDisplay, j as createStaticVNode, n as normalizeClass, k as unref, l as createTextVNode, F as Fragment } from "./app-3sl2MM3A.js";
+import { _ as _export_sfc, m, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-YLQxKI-4.js";
 const _sfc_main$2 = defineComponent({
   name: "FinancialChart",
   components: {
@@ -149,7 +149,12 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
         height: "400",
         options: _ctx.chartOptions,
         series: _ctx.series
-      }, null, 8, ["options", "series"])) : createCommentVNode("", true)
+      }, null, 8, ["options", "series"])) : createCommentVNode("", true),
+      _cache[0] || (_cache[0] = createBaseVNode("div", { class: "text-right pr-4 pb-2" }, [
+        createBaseVNode("small", null, [
+          createBaseVNode("h2", null, "* In Millions")
+        ])
+      ], -1))
     ]),
     _: 1
   });

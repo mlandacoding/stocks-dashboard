@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/CompanyProfilePage-CDwbfBgE.js","assets/FooterComponent-DdlE2q58.js","assets/FooterComponent-CUFHBGyZ.css","assets/CompanyProfilePage-DO_348JS.css","assets/ExamplePage-bpdKb9sJ.js","assets/MainLayout-Ds_jxVJt.js","assets/MainLayout-C8vURKO4.css","assets/Welcome-DGnWudeE.js","assets/ConfirmPassword-CtT2xRiH.js","assets/Label.vue_vue_type_script_setup_true_lang-DwzGhUFb.js","assets/loader-circle-fLtuiLn7.js","assets/ForgotPassword-D1_NTYgm.js","assets/TextLink.vue_vue_type_script_setup_true_lang-BwBqP9Es.js","assets/Login-DrFPvku5.js","assets/Register-B5-AQ9nd.js","assets/ResetPassword-B7j3S0yU.js","assets/VerifyEmail-BjzAZyl9.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/CompanyProfilePage-BTQvKnrn.js","assets/FooterComponent-YLQxKI-4.js","assets/FooterComponent-CUFHBGyZ.css","assets/CompanyProfilePage-DO_348JS.css","assets/ExamplePage-NI2PtOdN.js","assets/MainLayout-BagCx_uY.js","assets/MainLayout-C8vURKO4.css","assets/Welcome-C3xglMjJ.js","assets/ConfirmPassword-CLXbw3cm.js","assets/Label.vue_vue_type_script_setup_true_lang-BaXd_LFg.js","assets/loader-circle-UCC4Eo8H.js","assets/ForgotPassword-ybCW2dwK.js","assets/TextLink.vue_vue_type_script_setup_true_lang-BVeVd-gy.js","assets/Login-DJMPyjJP.js","assets/Register-DRqNO_4v.js","assets/ResetPassword-BrZgUmiJ.js","assets/VerifyEmail-DPf0anBs.js"])))=>i.map(i=>d[i]);
 var _a;
 const scriptRel = "modulepreload";
 const assetsURL = function(dep) {
@@ -62151,7 +62151,7 @@ const vuetify = createVuetify({
   }
 });
 L2({
-  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/CompanyProfilePage.vue": () => __vitePreload(() => import("./CompanyProfilePage-CDwbfBgE.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0), "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-bpdKb9sJ.js"), true ? __vite__mapDeps([4,5,1,2,6]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-DGnWudeE.js"), true ? __vite__mapDeps([7,5,1,2,6]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-CtT2xRiH.js"), true ? __vite__mapDeps([8,9,10]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-D1_NTYgm.js"), true ? __vite__mapDeps([11,9,10,12]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-DrFPvku5.js"), true ? __vite__mapDeps([13,9,10,12]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-B5-AQ9nd.js"), true ? __vite__mapDeps([14,9,10,12]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-B7j3S0yU.js"), true ? __vite__mapDeps([15,9,10]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-BjzAZyl9.js"), true ? __vite__mapDeps([16,12,10]) : void 0) })),
+  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/CompanyProfilePage.vue": () => __vitePreload(() => import("./CompanyProfilePage-BTQvKnrn.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0), "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-NI2PtOdN.js"), true ? __vite__mapDeps([4,5,1,2,6]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-C3xglMjJ.js"), true ? __vite__mapDeps([7,5,1,2,6]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-CLXbw3cm.js"), true ? __vite__mapDeps([8,9,10]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-ybCW2dwK.js"), true ? __vite__mapDeps([11,9,10,12]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-DJMPyjJP.js"), true ? __vite__mapDeps([13,9,10,12]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-DRqNO_4v.js"), true ? __vite__mapDeps([14,9,10,12]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-BrZgUmiJ.js"), true ? __vite__mapDeps([15,9,10]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-DPf0anBs.js"), true ? __vite__mapDeps([16,12,10]) : void 0) })),
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h$1(App, props) }).use(plugin).use(vuetify).mount(el);
   }
@@ -62189,13 +62189,13 @@ export {
   createCommentVNode as b,
   createBlock as c,
   defineComponent$1 as d,
-  createElementBlock as e,
-  ref$1 as f,
-  onMounted as g,
-  axios$1 as h,
-  createStaticVNode as i,
-  unref as j,
-  createBaseVNode as k,
+  createBaseVNode as e,
+  createElementBlock as f,
+  ref$1 as g,
+  onMounted as h,
+  axios$1 as i,
+  createStaticVNode as j,
+  unref as k,
   createTextVNode as l,
   useTheme as m,
   normalizeClass as n,
