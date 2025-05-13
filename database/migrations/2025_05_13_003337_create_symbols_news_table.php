@@ -10,8 +10,7 @@ return new class extends Migration
         Schema::create('symbols_news', function (Blueprint $table) {
             $table->id();
             $table->string('symbol');
-            $table->uuid('news_id');
-            $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
+            $table->foreignId('news_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
