@@ -1,0 +1,148 @@
+
+.primary-dropdown {
+    background-color: #0c1427 !important;
+}
+.primary-dropdown .v-list {
+    background-color: #0c1427 !important;
+}
+.primary-dropdown .v-list-item--active {
+    background-color: rgba(94, 117, 232, 0.15) !important;
+}
+.primary-dropdown .v-list-item:hover {
+    background-color: rgba(94, 117, 232, 0.1) !important;
+}
+.search-dialog-card {
+  background-color: #0c1427;
+  margin: auto;
+}
+.forceLocation > .v-overlay__content {
+  position: absolute !important;
+  top: 0px !important;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 40px !important;
+  pointer-events: none;
+}
+.forceLocation .v-card {
+  pointer-events: auto;
+}
+
+.gap-2[data-v-7be37ef4] {
+    gap: 0.5rem;
+}
+
+/* Dark theme styling */
+.custom-card[data-v-7be37ef4] {
+    background-color: #0c1427 !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+/* Force Search Bar to Stay Dark */
+.custom-input[data-v-7be37ef4] .v-input__control {
+    background: #1a2238 !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Make sure text is visible */
+.custom-input[data-v-7be37ef4] .v-field__input {
+    color: rgb(255, 255, 255) !important;
+    background-color: #0c1427 !important;
+}
+
+/* Keep background dark when focused */
+.custom-input[data-v-7be37ef4] .v-input.v-input--focused .v-input__control {
+    background: #1a2238 !important;
+    border-color: white !important;
+}
+.custom-table[data-v-7be37ef4] .v-data-table__td,
+.custom-table[data-v-7be37ef4] .v-data-table__th {
+    border-bottom: none !important;
+}
+
+/* Fix label color */
+.custom-input[data-v-7be37ef4] .v-label {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Table styling */
+.custom-table[data-v-7be37ef4] {
+    background: #0c1427 !important;
+    color: white !important;
+}
+
+/* Table header styling */
+.custom-table .v-data-table-header[data-v-7be37ef4] {
+    background: #1a2238 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Remove hover effect from table headers */
+.custom-table .v-data-table-header th[data-v-7be37ef4]:hover {
+    background: none !important;
+}
+
+/* Table row hover effect */
+.custom-table .v-data-table__tbody tr[data-v-7be37ef4]:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Thinner Border Lines */
+.custom-table .v-data-table__th[data-v-7be37ef4],
+.custom-table .v-data-table__td[data-v-7be37ef4] {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+.clickable-row[data-v-7be37ef4] {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.clickable-row[data-v-7be37ef4]:hover {
+    background-color: rgba(0, 0, 0, 0.04); /* or Vuetify lighten background */
+}
+
+.after-hours-btn[data-v-c5f99dfa] {
+  border-color: #4caf50;
+  font-weight: bold;
+  text-transform: none;
+  padding: 6px 12px;
+}
+.closed-hours-btn[data-v-c5f99dfa] {
+  border-color: red;
+  font-weight: bold;
+  text-transform: none;
+  padding: 6px 12px;
+}
+.content-wrapper[data-v-c5f99dfa] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.after-hours-text[data-v-c5f99dfa] {
+  font-size: 14px;
+}
+.dot[data-v-c5f99dfa] {
+  width: 10px;
+  height: 10px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  animation: pulse-c5f99dfa 1.5s infinite ease-in-out;
+}
+.closed-dot[data-v-c5f99dfa] {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+@keyframes pulse-c5f99dfa {
+0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+}
+50% {
+    opacity: 0.6;
+    transform: scale(1.3);
+}
+}
