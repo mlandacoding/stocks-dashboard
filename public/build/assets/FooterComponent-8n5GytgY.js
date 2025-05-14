@@ -1,4 +1,4 @@
-import { g as ref, u as useDisplay, h as onMounted, i as axios$1, q as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, v as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, y as h$1, z as onBeforeMount, A as getCurrentInstance, B as onBeforeUnmount, C as toRefs, s as watch, x as nextTick } from "./app-D4Y57BBm.js";
+import { g as ref, u as useDisplay, h as onMounted, i as axios$1, q as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, v as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, y as h$1, z as onBeforeMount, A as getCurrentInstance, B as onBeforeUnmount, C as toRefs, s as watch, x as nextTick } from "./app-D7U8cU1D.js";
 const _hoisted_1$4 = { class: "d-flex align-center justify-space-between" };
 const _hoisted_2$4 = { style: { "color": "#5E75E8" } };
 const _sfc_main$5 = {
@@ -10870,7 +10870,7 @@ const _sfc_main$1 = {
       var _a2, _b;
       try {
         const normalizedSymbol = ((_a2 = this.symbol) == null ? void 0 : _a2.toUpperCase()) ?? "";
-        const intradayRes = await fetch(`/storage/intraday/${normalizedSymbol}.json`);
+        const intradayRes = await fetch(`/storage/intraday/5m/${normalizedSymbol}.json`);
         const intradayData = await intradayRes.json();
         const pricePoints = intradayData.map((entry) => ({
           x: new Date(entry[0]),
