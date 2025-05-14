@@ -55,7 +55,7 @@ export default {
         async loadChartData() {
             try {
                 const normalizedSymbol = this.symbol?.toUpperCase() ?? '';
-                const intradayRes = await fetch(`/storage/intraday/${normalizedSymbol}.json`);
+                const intradayRes = await fetch(`/storage/intraday/5m/${normalizedSymbol}.json`);
 
 
                 const intradayData = await intradayRes.json();
