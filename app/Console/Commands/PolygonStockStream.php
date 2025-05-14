@@ -140,6 +140,9 @@ class PolygonStockStream extends Command
 
                     // Save to 5-minute interval file if enough time has passed
                     $last = $lastCacheTimestamps[$symbol] ?? null;
+                    if ($last && !($last instanceof Carbon)) {
+                        $last = Carbon::parse($last);
+                    }
                     if (!$last || $now->diffInMinutes($last) >= 5) {
                         $path5m = storage_path("app/public/intraday/5m/$symbol.json");
 
