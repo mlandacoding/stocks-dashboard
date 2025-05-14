@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use App\Models\StockOverview;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class CachePreviousClose extends Command
 {
@@ -12,7 +13,7 @@ class CachePreviousClose extends Command
 
     public function handle(): void
     {
-        $this->info('Fetching active streaming assets...');
+        $this->info('Fetching active streaming assets - Started at - ' . Carbon::now()->toDateTimeString());
 
         $assets = StockOverview::select('symbol', 'prev_day_close')->get();
 
@@ -20,6 +21,6 @@ class CachePreviousClose extends Command
 
         Storage::disk('public')->put($filePath, $assets->toJson());
 
-        $this->info("Cached " . $assets->count() . " active assets to: storage/app/{$filePath}");
+        $this->info("Cached " . $assets->count() . " active assets to: storage/app/{$filePath} - Finished at - " . Carbon::now()->toDateTimeString());
     }
 }

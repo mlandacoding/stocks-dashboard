@@ -13,13 +13,13 @@ Artisan::command('inspire', function () {
 Schedule::command('python:update-calendars')
     ->cron('0 3 1 1,7 *')
     ->timezone('America/New_York')
-    ->sendOutputTo(storage_path('logs/update-calendars.log'));
+    ->appendOutputTo(storage_path('logs/update-calendars.log'));
 
 
 Schedule::command('cache:active-assets')
     ->timezone('America/New_York')
     ->dailyAt('04:20')
-    ->sendOutputTo(storage_path('logs/active-assets.log'));
+    ->appendOutputTo(storage_path('logs/active-assets.log'));
 
 Schedule::command('python:update-stocks-overview')
     ->dailyAt('05:35')
@@ -33,7 +33,7 @@ Schedule::command('python:update-stocks-overview')
             ->where('status', '=', 'closed')
             ->exists();
     })
-    ->sendOutputTo(storage_path('logs/update-stocks.log'));
+    ->appendOutputTo(storage_path('logs/update-stocks.log'));
 
 Schedule::command('cache:previous-close')
     ->dailyAt('05:55')
@@ -47,7 +47,7 @@ Schedule::command('cache:previous-close')
             ->where('status', '=', 'closed')
             ->exists();
     })
-    ->sendOutputTo(storage_path('logs/previous-close.log'));
+    ->appendOutputTo(storage_path('logs/previous-close.log'));
 
 
 Schedule::command('intraday:clear')
@@ -62,12 +62,12 @@ Schedule::command('intraday:clear')
             ->where('status', '=', 'closed')
             ->exists();
     })
-    ->sendOutputTo(storage_path('logs/intraday-clear.log'));
+    ->appendOutputTo(storage_path('logs/intraday-clear.log'));
 
 Schedule::command('python:update-news')
     ->dailyAt('07:35')
     ->weekdays()
     ->timezone('America/New_York')
-    ->sendOutputTo(storage_path('logs/update-news.log'));
+    ->appendOutputTo(storage_path('logs/update-news.log'));
 
 

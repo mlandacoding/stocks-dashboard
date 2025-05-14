@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class ClearIntradayJson extends Command
 {
@@ -12,6 +13,7 @@ class ClearIntradayJson extends Command
 
     public function handle()
     {
+        $this->info("Started intraday clear at - " . Carbon::now()->toDateTimeString());
         $files = Storage::disk('public')->files('intraday');
 
         $deletedCount = 0;
@@ -22,6 +24,6 @@ class ClearIntradayJson extends Command
             }
         }
 
-        $this->info("Deleted $deletedCount intraday JSON file(s).");
+        $this->info("Deleted $deletedCount intraday JSON file(s). Finished at - ". Carbon::now()->toDateTimeString());
     }
 }

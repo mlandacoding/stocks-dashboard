@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 use Symfony\Component\Process\Process;
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 class UpdateNews extends Command
 {
@@ -25,7 +26,7 @@ class UpdateNews extends Command
      */
     public function handle()
     {
-        $this->info('Running Python populateNews.py...');
+        $this->info('Running Python populateNews.py - Started at - '. Carbon::now()->toDateTimeString());
 
         $scriptPath = base_path('python/populateNews.py');
 
@@ -36,6 +37,8 @@ class UpdateNews extends Command
         }
 
         $process = new Process([$pythonPath, $scriptPath]);
+        $process->setTimeout(300);
+        $process->setIdleTimeout(300);
         $process->run();
 
         echo $process->getOutput();
@@ -47,5 +50,7 @@ class UpdateNews extends Command
             $this->error('Script failed:');
             $this->line($process->getErrorOutput());
         }
+        $this->info('Running Python populateNews.py - Finished at - '. Carbon::now()->toDateTimeString());
+
     }
 }
