@@ -22,7 +22,7 @@ connection = mysql.connector.connect(
 cursor = connection.cursor()
 
 def getActiveAssets():
-    with open('../storage/app/public/cache/active_assets.json', 'r') as f:
+    with open('./storage/app/public/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
     return {stock['symbol']: stock['company_name'] for stock in stocks}
 
@@ -30,7 +30,7 @@ stocks = getActiveAssets()
 
 for stock in stocks:
     news = []
-    for n in client.list_ticker_news(ticker=stock, order="asc", limit="10", published_utc_gte="2025-02-01", sort="published_utc"):
+    for n in client.list_ticker_news(ticker=stock, order="asc", limit="10", published_utc_gte=datetime.now().date(), sort="published_utc"):
         news.append(n)
 
     for item in news:

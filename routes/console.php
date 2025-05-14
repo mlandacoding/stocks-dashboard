@@ -64,4 +64,10 @@ Schedule::command('intraday:clear')
     })
     ->sendOutputTo(storage_path('logs/intraday-clear.log'));
 
+Schedule::command('python:python:update-news')
+    ->dailyAt('07:35')
+    ->weekdays()
+    ->timezone('America/New_York')
+    ->sendOutputTo(storage_path('logs/update-news.log'));
+
 

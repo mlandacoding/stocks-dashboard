@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Console\Commands;
+use Symfony\Component\Process\Process;
+use Illuminate\Console\Command;
+
+class UpdateNews extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'python:update-news';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $this->info('Running Python populateNews.py...');
+
+        $scriptPath = base_path('python/populateNews.py');
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $pythonPath = base_path('venv/Scripts/python.exe');
+        } else {
+            $pythonPath = base_path('venv/bin/python');
+        }
+
+        $process = new Process([$pythonPath, $scriptPath]);
+        $process->run();
+
+        echo $process->getOutput();
+
+        if ($process->isSuccessful()) {
+            $this->info('Script finished successfully');
+            $this->line($process->getOutput());
+        } else {
+            $this->error('Script failed:');
+            $this->line($process->getErrorOutput());
+        }
+    }
+}
