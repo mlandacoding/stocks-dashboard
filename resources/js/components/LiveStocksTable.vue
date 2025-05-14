@@ -25,7 +25,8 @@
                                 d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </v-avatar>
-                    <span v-if="!this.chartButton">{{ title }} <span style="color: #5E75E8;">[{{ item.sym ?? '—' }}]</span></span>
+                    <span v-if="!this.chartButton">{{ title }} <span style="color: #5E75E8;">[{{ item.sym ?? '—'
+                            }}]</span></span>
                     <span v-else>[{{ item.sym ?? '—' }}]</span>
                 </div>
             </template>
@@ -92,7 +93,7 @@ export default {
         symbols: {
             type: Array,
         },
-        chartButton:{
+        chartButton: {
             type: Boolean,
             default: true
         }
@@ -140,6 +141,8 @@ export default {
         async rebuildStocks() {
             if (!this.isReady || !this.symbols.length) return;
 
+            this.latestVWAPCache = this.latestVWAPCache || {};
+
             this.stocks = (
                 await Promise.all(this.globalFormattedStocks.map(async (stock) => {
                     if (!this.symbols.includes(stock.sym)) return null;
@@ -155,7 +158,9 @@ export default {
                     let prevClose = matched ? matched.prev_day_close : null;
                     let latest_vwap = null;
 
+                    // Fallback logic
                     if (stock.vwap == null) {
+                        // Fetch prev close if missing
                         if (prevClose == null) {
                             try {
                                 const prevRes = await axios.get(`/prev_close/${stock.sym}`);
@@ -165,15 +170,30 @@ export default {
                             }
                         }
 
-                        try {
-                            const latestRes = await axios.get(`/latest_price/${stock.sym}`);
-                            latest_vwap = parseFloat(latestRes.data['price']);
-                        } catch {
-                            latest_vwap = -1;
+                        // Fetch latest price only once per symbol
+                        if (this.latestVWAPCache[stock.sym] !== undefined) {
+                            latest_vwap = this.latestVWAPCache[stock.sym];
+                        } else {
+                            try {
+                                const latestRes = await axios.get(`/latest_price/${stock.sym}`);
+                                latest_vwap = parseFloat(latestRes.data['price']);
+                                this.latestVWAPCache[stock.sym] = latest_vwap;
+                            } catch {
+                                latest_vwap = -1;
+                                this.latestVWAPCache[stock.sym] = latest_vwap;
+                            }
                         }
                     }
 
-                    const effectiveVWAP = latest_vwap ?? stock.vwap;
+                    const effectiveVWAP = latest_vwap ?? stock.vwap ?? existing?.vwap ?? null;
+
+
+                    if (stock.vwap == null && effectiveVWAP !== null) {
+                        stock.vwap = effectiveVWAP;
+                    }
+
+
+                    if (!prevClose || prevClose === 0 || effectiveVWAP === null) return null;
 
                     percentageChange = ((effectiveVWAP - prevClose) / prevClose) * 100;
                     percentageChange = percentageChange.toFixed(2);
@@ -226,8 +246,8 @@ export default {
                 });
             }
         },
-        goToProfile(event, row){
-            if(!this.stockGraphLoading){
+        goToProfile(event, row) {
+            if (!this.stockGraphLoading) {
                 window.location.href = `/company_profile/${row.item.sym}`;
             }
             this.stockGraphLoading = false;
@@ -244,7 +264,7 @@ export default {
         }
         this.isReady = true;
 
-        if(this.chartButton){
+        if (this.chartButton) {
             this.headers = [
                 { title: 'Symbol', key: 'sym' },
                 { title: 'Price', key: 'vwap' },
