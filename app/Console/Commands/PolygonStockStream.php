@@ -156,9 +156,9 @@ class PolygonStockStream extends Command
 
                         $lastCacheTimestamps[$symbol] = $now;
                     }
-
                     // Chunking logic for broadcasting
                     if ($currentSize + $entrySize > $maxPayloadBytes) {
+
                         broadcast(new \App\Events\StockPriceUpdated(array_values($currentChunk)))->toOthers();
                         $currentChunk = [];
                         $currentSize = 0;
