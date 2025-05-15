@@ -1,6 +1,6 @@
 <template>
     <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);">
-        <v-card-title class="d-flex" style="text-align: center;">
+        <v-card-title class="d-flex" style="text-align: center; color: white;" >
             <span v-if="!title">
                 {{ this.barLabel }} vs {{ this.lineLabel }}
             </span>
@@ -47,7 +47,6 @@ export default defineComponent({
     setup(props) {
         const series = ref([]);
         const chartOptions = ref({});
-        const timeframe = ref();
 
         const barLabel = ref();
         const lineLabel = ref();
@@ -59,7 +58,6 @@ export default defineComponent({
                 );
 
                 const data = response.data['metrics'];
-                timeframe.value = response.data['timeframe'];
 
 
 
@@ -101,7 +99,11 @@ export default defineComponent({
                         toolbar: { show: false },
                         zoom: { enabled: false },
                     },
-
+                    legend: {
+                        labels: {
+                            colors: '#FFFFFF'
+                        }
+                    },
                     stroke: {
                         width: [0, 3],
                     },
@@ -118,7 +120,12 @@ export default defineComponent({
                         },
                     },
                     xaxis: {
-                        type: 'category'
+                        type: 'category',
+                        labels: {
+                            style: {
+                                colors: '#FFFFFF',
+                            },
+                        },
                     },
                     yaxis: [
                         {
@@ -133,6 +140,9 @@ export default defineComponent({
                             opposite: true,
                             labels: {
                                 show: true,
+                                style: {
+                                    colors: '#FFFFFF',
+                                },
                             },
                             axisTicks: {
                                 show: false,
@@ -154,7 +164,6 @@ export default defineComponent({
         return {
             series,
             chartOptions,
-            timeframe,
             barLabel,
             lineLabel
         };

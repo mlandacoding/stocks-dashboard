@@ -48,12 +48,12 @@ const goToProfile = (symbol) => {
         <v-app-bar-nav-icon variant="text" @click="updateDrawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>
-            <div style="display: flex; align-items: center;">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center;">
                 <img src="https://agdsvgs.s3.us-east-2.amazonaws.com/logo-icon.svg"
                     style="width:35px; margin-right: 5px;" />
                 <img src="https://agdsvgs.s3.us-east-2.amazonaws.com/logo-text.svg"
                     style="width:100px; margin-right: 5px;" />
-            </div>
+            </a>
         </v-toolbar-title>
 
         <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />

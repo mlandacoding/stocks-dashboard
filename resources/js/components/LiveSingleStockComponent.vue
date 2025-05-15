@@ -1,83 +1,51 @@
 <template>
-    <div style="border: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: .5em;">
-        <v-card-title v-if="title && chartButton" class="d-flex align-center pe-2">
-            {{ title }}
-            <v-spacer></v-spacer>
-        </v-card-title>
+    <div style="border: 1px solid rgba(255, 255, 255, 0.5); min-height: 64px;" class="d-flex align-center">
+      <v-row class="w-100 h-100 pa-0 pa-sm-2 ma-0" no-gutters align="center">
+        <v-col cols="7" class="h-100">
+          <div class="d-flex align-center gap-2 h-100">
+            <v-avatar size="32" rounded="1" class="bg-white">
+              <img v-if="logoStatus[stock.sym]?.local" :src="`/storage/images/logos/${stock.sym}.png`"
+                alt="Local Logo" class="w-100 h-100" />
+              <img v-else-if="logoStatus[stock.sym]?.remote"
+                :src="`https://cdn.brandfetch.io/${stock.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`"
+                alt="Brandfetch Logo" class="w-100 h-100" />
+              <svg v-else xmlns="http://www.w3.org/2000/svg" width="60%" height="60%"
+                class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
+              </svg>
+            </v-avatar>
+            <span style="font-size: 14px;">{{ title }} <span style="color: #5E75E8;">[{{ stock.sym ?? '—' }}]</span></span>
+          </div>
+        </v-col>
 
-        <v-data-table :headers="headers" :items="stocks" density="compact" :search="search" :items-per-page="10"
-            class="custom-table" @click:row="goToProfile" :hover=true>
-            <template #item.company_name="{ item }">
-                {{ title }}
-            </template>
+        <v-col class="h-100 d-flex align-center">
+          <div>${{ stock.vwap }}</div>
+        </v-col>
 
-            <template #item.sym="{ item }">
-                <div class="d-flex align-center gap-2">
-                    <v-avatar size="32" rounded="1" class="bg-white">
-                        <img v-if="logoStatus[item.sym]?.local" :src="`/storage/images/logos/${item.sym}.png`"
-                            alt="Local Logo" class="w-100 h-100" />
-                        <img v-else-if="logoStatus[item.sym]?.remote"
-                            :src="`https://cdn.brandfetch.io/${item.sym}/icon/stock_symbol/fallback/404/h/40/w/40?c=${apiKey}`"
-                            alt="Brandfetch Logo" class="w-100 h-100" />
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" width="60%" height="60%"
-                            class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
-                        </svg>
-                    </v-avatar>
-                    <span v-if="!this.chartButton">{{ title }} <span style="color: #5E75E8;">[{{ item.sym ?? '—' }}]</span></span>
-                    <span v-else>[{{ item.sym ?? '—' }}]</span>
-                </div>
-            </template>
-
-            <template #item.vwap="{ item }">
-                <span :class="[
-                    'font-mono transition-all duration-300',
-                    {
-                        'text-red': item.previous_vwap !== null && item.vwap < item.previous_vwap,
-                        'text-green': item.previous_vwap !== null && item.vwap > item.previous_vwap,
-                        'bg-green-lighten-4': flashStates[item.sym] && item.vwap > item.previous_vwap,
-                        'bg-red-lighten-4': flashStates[item.sym] && item.vwap < item.previous_vwap,
-                    }
-                ]">
-                    ${{ item.vwap != null ? item.vwap.toFixed(2) : '—' }}
-                </span>
-            </template>
-
-            <template #item.percentage_change="{ item }">
-                <div class="d-flex gap-2 text-end align-center justify-end text-end">
-                    <span><b>{{ item.priceChange }}</b></span>
-                    <span :style="{
-                        backgroundColor: item.percentageChange < 0
-                            ? 'rgba(244, 67, 54, 0.2)'
-                            : item.percentageChange > 0
-                                ? 'rgba(76, 175, 80, 0.2)'
-                                : 'transparent'
-                    }" :class="[
-                        'font-mono px-2 py-1 rounded',
-                        item.percentageChange < 0
-                            ? 'text-red'
-                            : item.percentageChange > 0
-                                ? 'text-green'
-                                : 'text-grey'
-                    ]">
-                        {{ item.percentageChange }}%
-                    </span>
-                </div>
-            </template>
-
-            <template #item.chart="{ item }">
-                <v-btn color="primary" variant="flat" prepend-icon="mdi-chart-line"
-                    class="text-white text-capitalize font-weight-bold" @click="showStockGraph(item.sym)"
-                    style="border: 1px solid rgba(255, 255, 255, 0.2) !important;border-radius: 1px;">
-                </v-btn>
-            </template>
-
-            <template v-slot:bottom>
-            </template>
-        </v-data-table>
+        <v-col class="h-100 d-flex align-center justify-end">
+          <div class="d-flex align-center gap-2">
+            <span class="font-weight-bold">{{ stock.priceChange }}</span>
+            <span :style="{
+                backgroundColor: stock.percentageChange < 0
+                  ? 'rgba(244, 67, 54, 0.2)'
+                  : stock.percentageChange > 0
+                    ? 'rgba(76, 175, 80, 0.2)'
+                    : 'transparent'
+              }"
+              :class="[
+                'font-mono px-2 py-1 rounded',
+                stock.percentageChange < 0 ? 'text-red' :
+                stock.percentageChange > 0 ? 'text-green' : 'text-grey'
+              ]">
+              {{ stock.percentageChange }}%
+            </span>
+          </div>
+        </v-col>
+      </v-row>
     </div>
-</template>
+  </template>
+
 
 <script>
 import useStockStream from '@/composables/useStockStream';
@@ -91,10 +59,6 @@ export default {
         },
         symbols: {
             type: Array,
-        },
-        chartButton:{
-            type: Boolean,
-            default: true
         }
     },
     data() {
@@ -108,7 +72,8 @@ export default {
             prevCloseMap: {},
             hasPreloaded: false,
             isReady: false,
-            stockGraphLoading: false
+            stockGraphLoading: false,
+            stock: ''
         };
     },
     setup() {
@@ -191,6 +156,8 @@ export default {
                 }))
             ).filter(Boolean);
 
+            this.stock = this.stocks[0];
+
             setTimeout(() => {
                 this.stocks.forEach(s => (s.vwapFlash = false));
             }, 600);
@@ -226,8 +193,8 @@ export default {
                 });
             }
         },
-        goToProfile(event, row){
-            if(!this.stockGraphLoading){
+        goToProfile(event, row) {
+            if (!this.stockGraphLoading) {
                 window.location.href = `/company_profile/${row.item.sym}`;
             }
             this.stockGraphLoading = false;
@@ -244,21 +211,14 @@ export default {
         }
         this.isReady = true;
 
-        if(this.chartButton){
-            this.headers = [
-                { title: 'Symbol', key: 'sym' },
-                { title: 'Price', key: 'vwap' },
-                { title: '% Change', key: 'percentage_change', align: 'end' },
-                { title: 'Chart', key: 'chart' },
-            ]
-        } else {
-            this.headers = [
-                { title: 'Data Delayed', key: 'sym' },
-                { title: 'Price', key: 'vwap' },
-                { title: '% Change', key: 'percentage_change', align: 'end' },
 
-            ]
-        }
+        this.headers = [
+            { title: '', key: 'sym' },
+            { title: 'Price', key: 'vwap' },
+            { title: '% Change', key: 'percentage_change', align: 'end' },
+
+        ]
+
 
     }
 };

@@ -35,8 +35,6 @@ export default defineComponent({
     setup(props) {
         const series = ref([]);
         const chartOptions = ref({});
-        const timeframe = ref();
-
         const label = ref();
 
         onMounted(async () => {
@@ -59,7 +57,6 @@ export default defineComponent({
                 }
 
 
-                timeframe.value = response.data['timeframe'];
                 const keys = Object.keys(data);
                 label.value = data[keys[0]][0]['label'];
 
@@ -104,10 +101,6 @@ export default defineComponent({
                     stroke: {
                         width: 3,
                     },
-                    dataLabels: {
-                        enabled: true,
-                        enabledOnSeries: [1],
-                    },
                     plotOptions: {
                         bar: {
                             borderRadius: 10,
@@ -118,6 +111,7 @@ export default defineComponent({
                     },
                     dataLabels: {
                         enabled: true,
+                        enabledOnSeries: [1],
                         offsetY: -20,
                         style: {
                             fontSize: '12px',
@@ -133,7 +127,13 @@ export default defineComponent({
                         },
                     },
                     xaxis: {
-                        type: 'category'
+                        type: 'category',
+                        labels: {
+                            style: {
+                                colors: '#FFFFFF',
+                                fontSize: '12px',
+                            }
+                        },
                     },
                     yaxis: [
                         {
@@ -160,7 +160,6 @@ export default defineComponent({
         return {
             series,
             chartOptions,
-            timeframe,
             label
         };
     },

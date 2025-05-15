@@ -47,7 +47,7 @@
                         </v-col>
                     </v-row>
 
-                    <v-row>
+                    <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
                         <v-col>
                             <LatestNewsPerSymbol :symbol="symbol"></LatestNewsPerSymbol>
                         </v-col>
