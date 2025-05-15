@@ -204,16 +204,22 @@ export default {
         preloadLogosForStocks(stocks) {
             stocks.forEach(stock => {
                 const symbol = stock.sym;
-                if (this.logoStatus[symbol]?.local) return;
+
                 if (!this.logoStatus[symbol]) {
-                    const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
-                    this.checkIfImageExists(remote, exists => {
-                        this.logoStatus[symbol] = {
-                            ...(this.logoStatus[symbol] || {}),
-                            remote: exists
-                        };
-                    });
+                    this.logoStatus[symbol] = {};
                 }
+
+                // Check local image
+                const localUrl = `/storage/images/logos/${symbol}.png`;
+                this.checkIfImageExists(localUrl, exists => {
+                    this.logoStatus[symbol].local = exists;
+                });
+
+                // Only check remote if local not available
+                const remoteUrl = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
+                this.checkIfImageExists(remoteUrl, exists => {
+                    this.logoStatus[symbol].remote = exists;
+                });
             });
         },
         showStockGraph(sym) {
