@@ -1,5 +1,5 @@
-import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, j as createTextVNode, F as Fragment, k as renderList, u as useDisplay, l as createStaticVNode, n as normalizeClass, m as unref } from "./app-D4Y57BBm.js";
-import { _ as _export_sfc, m, a as _sfc_main$4, b as _sfc_main$5, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-Amx0IKRO.js";
+import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, j as createTextVNode, F as Fragment, k as renderList, u as useDisplay, l as createStaticVNode, n as normalizeClass, m as unref } from "./app-Dv9xi8Gw.js";
+import { _ as _export_sfc, m, a as _sfc_main$4, b as _sfc_main$5, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-jsotabOL.js";
 const _sfc_main$3 = defineComponent({
   name: "FinancialChart",
   components: {
@@ -25,7 +25,6 @@ const _sfc_main$3 = defineComponent({
   setup(props) {
     const series = ref([]);
     const chartOptions = ref({});
-    const timeframe = ref();
     const barLabel = ref();
     const lineLabel = ref();
     onMounted(async () => {
@@ -34,7 +33,6 @@ const _sfc_main$3 = defineComponent({
           `/getMetricsForLastFive/${props.symbol}?metrics=${props.first_metric},${props.second_metric}`
         );
         const data = response.data["metrics"];
-        timeframe.value = response.data["timeframe"];
         const keys = Object.keys(data);
         barLabel.value = data[keys[1]][0]["label"];
         lineLabel.value = data[keys[0]][1]["label"];
@@ -66,6 +64,11 @@ const _sfc_main$3 = defineComponent({
             toolbar: { show: false },
             zoom: { enabled: false }
           },
+          legend: {
+            labels: {
+              colors: "#FFFFFF"
+            }
+          },
           stroke: {
             width: [0, 3]
           },
@@ -82,7 +85,12 @@ const _sfc_main$3 = defineComponent({
             }
           },
           xaxis: {
-            type: "category"
+            type: "category",
+            labels: {
+              style: {
+                colors: "#FFFFFF"
+              }
+            }
           },
           yaxis: [
             {
@@ -96,7 +104,10 @@ const _sfc_main$3 = defineComponent({
             {
               opposite: true,
               labels: {
-                show: true
+                show: true,
+                style: {
+                  colors: "#FFFFFF"
+                }
               },
               axisTicks: {
                 show: false
@@ -117,7 +128,6 @@ const _sfc_main$3 = defineComponent({
     return {
       series,
       chartOptions,
-      timeframe,
       barLabel,
       lineLabel
     };
@@ -136,7 +146,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     default: withCtx(() => [
       createVNode(_component_v_card_title, {
         class: "d-flex",
-        style: { "text-align": "center" }
+        style: { "text-align": "center", "color": "white" }
       }, {
         default: withCtx(() => [
           !_ctx.title ? (openBlock(), createElementBlock("span", _hoisted_1$2, toDisplayString(this.barLabel) + " vs " + toDisplayString(this.lineLabel), 1)) : (openBlock(), createElementBlock("span", _hoisted_2$1, toDisplayString(_ctx.title), 1))
@@ -186,7 +196,6 @@ const _sfc_main$2 = defineComponent({
   setup(props) {
     const series = ref([]);
     const chartOptions = ref({});
-    const timeframe = ref();
     const label = ref();
     onMounted(async () => {
       try {
@@ -202,7 +211,6 @@ const _sfc_main$2 = defineComponent({
             }
           }
         }
-        timeframe.value = response.data["timeframe"];
         const keys = Object.keys(data);
         label.value = data[keys[0]][0]["label"];
         const categories = data[keys[0]].map(
@@ -243,10 +251,6 @@ const _sfc_main$2 = defineComponent({
           stroke: {
             width: 3
           },
-          dataLabels: {
-            enabled: true,
-            enabledOnSeries: [1]
-          },
           plotOptions: {
             bar: {
               borderRadius: 10,
@@ -257,6 +261,7 @@ const _sfc_main$2 = defineComponent({
           },
           dataLabels: {
             enabled: true,
+            enabledOnSeries: [1],
             offsetY: -20,
             style: {
               fontSize: "12px",
@@ -272,7 +277,13 @@ const _sfc_main$2 = defineComponent({
             }
           },
           xaxis: {
-            type: "category"
+            type: "category",
+            labels: {
+              style: {
+                colors: "#FFFFFF",
+                fontSize: "12px"
+              }
+            }
           },
           yaxis: [
             {
@@ -298,7 +309,6 @@ const _sfc_main$2 = defineComponent({
     return {
       series,
       chartOptions,
-      timeframe,
       label
     };
   }
@@ -529,7 +539,7 @@ const _sfc_main = {
       const _component_v_layout = resolveComponent("v-layout");
       const _component_v_sheet = resolveComponent("v-sheet");
       return openBlock(), createElementBlock(Fragment, null, [
-        _cache[7] || (_cache[7] = createStaticVNode('<head data-v-726f8833><meta charset="UTF-8" data-v-726f8833><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-726f8833><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-726f8833><title data-v-726f8833>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-726f8833></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-726f8833>', 2)),
+        _cache[7] || (_cache[7] = createStaticVNode('<head data-v-a21daee5><meta charset="UTF-8" data-v-a21daee5><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-a21daee5><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-a21daee5><title data-v-a21daee5>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-a21daee5></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-a21daee5>', 2)),
         createVNode(_component_v_sheet, { class: "custom-width-wrapper" }, {
           default: withCtx(() => [
             createVNode(_component_v_layout, { style: { "background": "#0c1427" } }, {
@@ -609,7 +619,11 @@ const _sfc_main = {
                           ]),
                           _: 1
                         }),
-                        createVNode(_component_v_row, null, {
+                        createVNode(_component_v_row, {
+                          justify: "center",
+                          class: "pa-0 pa-sm-5 ma-0",
+                          "no-gutters": ""
+                        }, {
                           default: withCtx(() => [
                             createVNode(_component_v_col, null, {
                               default: withCtx(() => [
@@ -720,7 +734,7 @@ const _sfc_main = {
     };
   }
 };
-const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-726f8833"]]);
+const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-a21daee5"]]);
 export {
   CompanyProfilePage as default
 };

@@ -1,4 +1,4 @@
-import { g as ref, u as useDisplay, h as onMounted, i as axios$1, q as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, v as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, y as h$1, z as onBeforeMount, A as getCurrentInstance, B as onBeforeUnmount, C as toRefs, s as watch, x as nextTick } from "./app-D4Y57BBm.js";
+import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, v as h$1, x as onBeforeMount, y as getCurrentInstance, z as onBeforeUnmount, A as toRefs, B as watch, q as nextTick } from "./app-Dv9xi8Gw.js";
 const _hoisted_1$4 = { class: "d-flex align-center justify-space-between" };
 const _hoisted_2$4 = { style: { "color": "#5E75E8" } };
 const _sfc_main$5 = {
@@ -64,7 +64,10 @@ const _sfc_main$5 = {
           }),
           createVNode(_component_v_toolbar_title, null, {
             default: withCtx(() => _cache[5] || (_cache[5] = [
-              createBaseVNode("div", { style: { "display": "flex", "align-items": "center" } }, [
+              createBaseVNode("a", {
+                href: "/",
+                style: { "text-decoration": "none", "display": "flex", "align-items": "center" }
+              }, [
                 createBaseVNode("img", {
                   src: "https://agdsvgs.s3.us-east-2.amazonaws.com/logo-icon.svg",
                   style: { "width": "35px", "margin-right": "5px" }
@@ -513,7 +516,7 @@ const _hoisted_5 = {
 const _hoisted_6 = { key: 0 };
 const _hoisted_7 = { style: { "color": "#5E75E8" } };
 const _hoisted_8 = { key: 1 };
-const _hoisted_9 = { class: "d-flex gap-2 text-end justify-end text-end" };
+const _hoisted_9 = { class: "d-flex gap-2 text-end align-center justify-end text-end" };
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_spacer = resolveComponent("v-spacer");
   const _component_v_card_title = resolveComponent("v-card-title");
@@ -624,7 +627,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search", "onClick:row"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-7be37ef4"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-e5ef4862"]]);
 const _hoisted_1$1 = { class: "content-wrapper" };
 const _hoisted_2$1 = {
   key: 0,
