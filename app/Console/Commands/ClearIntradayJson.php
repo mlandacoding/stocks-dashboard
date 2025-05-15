@@ -24,6 +24,15 @@ class ClearIntradayJson extends Command
             }
         }
 
+        $files = Storage::disk('public')->files('intraday/5m');
+        $deletedCount = 0;
+        foreach ($files as $file) {
+            if (str_ends_with($file, '.json')) {
+                Storage::disk('public')->delete($file);
+                $deletedCount++;
+            }
+        }
+
         $this->info("Deleted $deletedCount intraday JSON file(s). Finished at - ". Carbon::now()->toDateTimeString());
     }
 }
