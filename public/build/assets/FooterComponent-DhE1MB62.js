@@ -1,4 +1,4 @@
-import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, v as h$1, x as onBeforeMount, y as getCurrentInstance, z as onBeforeUnmount, A as toRefs, B as watch, q as nextTick } from "./app-Dv9xi8Gw.js";
+import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode, n as normalizeClass, d as defineComponent, v as h$1, x as onBeforeMount, y as getCurrentInstance, z as onBeforeUnmount, A as toRefs, B as watch, q as nextTick } from "./app-D8ZJG9Yg.js";
 const _hoisted_1$4 = { class: "d-flex align-center justify-space-between" };
 const _hoisted_2$4 = { style: { "color": "#5E75E8" } };
 const _sfc_main$5 = {
@@ -445,18 +445,18 @@ const _sfc_main$3 = {
     },
     preloadLogosForStocks(stocks2) {
       stocks2.forEach((stock) => {
-        var _a2;
         const symbol = stock.sym;
-        if ((_a2 = this.logoStatus[symbol]) == null ? void 0 : _a2.local) return;
         if (!this.logoStatus[symbol]) {
-          const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
-          this.checkIfImageExists(remote, (exists) => {
-            this.logoStatus[symbol] = {
-              ...this.logoStatus[symbol] || {},
-              remote: exists
-            };
-          });
+          this.logoStatus[symbol] = {};
         }
+        const localUrl = `/storage/images/logos/${symbol}.png`;
+        this.checkIfImageExists(localUrl, (exists) => {
+          this.logoStatus[symbol].local = exists;
+        });
+        const remoteUrl = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
+        this.checkIfImageExists(remoteUrl, (exists) => {
+          this.logoStatus[symbol].remote = exists;
+        });
       });
     },
     showStockGraph(sym) {
@@ -627,7 +627,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items", "search", "onClick:row"])
   ]);
 }
-const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-e5ef4862"]]);
+const LiveStocksTable = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-85a4e571"]]);
 const _hoisted_1$1 = { class: "content-wrapper" };
 const _hoisted_2$1 = {
   key: 0,

@@ -1,5 +1,5 @@
-import { r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, e as createBaseVNode, f as createElementBlock, a as createVNode, i as axios$1, j as createTextVNode, t as toDisplayString, n as normalizeClass, p as normalizeStyle, g as ref, h as onMounted, F as Fragment, q as nextTick } from "./app-Dv9xi8Gw.js";
-import { _ as _export_sfc, m, u as useStockStream, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-jsotabOL.js";
+import { r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, e as createBaseVNode, f as createElementBlock, a as createVNode, i as axios$1, j as createTextVNode, t as toDisplayString, n as normalizeClass, p as normalizeStyle, g as ref, h as onMounted, F as Fragment, q as nextTick } from "./app-D8ZJG9Yg.js";
+import { _ as _export_sfc, m, u as useStockStream, a as _sfc_main$3, b as _sfc_main$4, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-DhE1MB62.js";
 const _sfc_main$2 = {
   name: "StockSectorBarChart",
   components: {
@@ -248,18 +248,18 @@ const _sfc_main$1 = {
     },
     preloadLogosForStocks(stocks) {
       stocks.forEach((stock) => {
-        var _a;
         const symbol = stock.sym;
-        if ((_a = this.logoStatus[symbol]) == null ? void 0 : _a.local) return;
         if (!this.logoStatus[symbol]) {
-          const remote = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
-          this.checkIfImageExists(remote, (exists) => {
-            this.logoStatus[symbol] = {
-              ...this.logoStatus[symbol] || {},
-              remote: exists
-            };
-          });
+          this.logoStatus[symbol] = {};
         }
+        const localUrl = `/storage/images/logos/${symbol}.png`;
+        this.checkIfImageExists(localUrl, (exists) => {
+          this.logoStatus[symbol].local = exists;
+        });
+        const remoteUrl = `https://cdn.brandfetch.io/${symbol}/icon/stock_symbol/fallback/404/h/40/w/40?c=${this.apiKey}`;
+        this.checkIfImageExists(remoteUrl, (exists) => {
+          this.logoStatus[symbol].remote = exists;
+        });
       });
     },
     showStockGraph(sym) {
@@ -369,7 +369,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         createVNode(_component_v_col, { class: "h-100 d-flex align-center" }, {
           default: withCtx(() => [
-            createBaseVNode("div", null, "$" + toDisplayString($data.stock.vwap), 1)
+            createTextVNode(" $" + toDisplayString($data.stock.vwap != null ? $data.stock.vwap.toFixed(2) : "—"), 1)
           ]),
           _: 1
         }),
@@ -395,7 +395,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]);
 }
-const LiveSingleStockComponent = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-0fd20ee6"]]);
+const LiveSingleStockComponent = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-59a6bcaa"]]);
 const _sfc_main = {
   __name: "MainLayout",
   setup(__props) {
