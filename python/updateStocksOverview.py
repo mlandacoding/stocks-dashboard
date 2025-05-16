@@ -43,7 +43,8 @@ for item in snapshot:
         round(item.prev_day.close, 4),
         round(item.last_trade.price, 4) if item.last_trade else round(item.day.close, 4),
         round(percentage_change, 2),
-        datetime.fromtimestamp(int(str(item.updated)[:13]) / 1000),
+        datetime.now(timezone.utc),
+        # datetime.fromtimestamp(int(str(item.updated)[:13]) / 1000),
         datetime.now(timezone.utc),
     )
 
