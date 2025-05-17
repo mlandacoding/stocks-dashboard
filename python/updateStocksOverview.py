@@ -69,5 +69,6 @@ if len(data_to_insert) > 0:
     connection.commit()
 
     print(f"Inserted {cursor.rowcount} rows.")
-    cursor.close()
-    connection.close()
+
+cursor.close()
+connection.close()

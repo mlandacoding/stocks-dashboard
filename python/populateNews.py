@@ -87,3 +87,5 @@ for stock in stocks:
 
     # Commit the inserts
     connection.commit()
+cursor.close()
+connection.close()
