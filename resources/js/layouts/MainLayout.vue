@@ -22,31 +22,31 @@
 
                         <v-col cols="12" sm="4">
                             <v-card class="pa-0" color="primary">
-                                <stock-card symbol="SPY" />
+                                <LiveSingleStockComponent :symbols="spyArr" title="SPDR S&P 500 ETF Trust"></LiveSingleStockComponent>
+                                <!-- <stock-card symbol="SPY" /> -->
                             </v-card>
                         </v-col>
 
                         <v-col cols="12" sm="4">
                             <v-card class="pa-0" color="primary">
-                                <stock-card symbol="IWM" />
+                                <LiveSingleStockComponent :symbols="iwmArr" title="iShares Russell 2000 ETF"></LiveSingleStockComponent>
                             </v-card>
                         </v-col>
 
                         <v-col cols="12" sm="4">
                             <v-card class="pa-0" color="primary">
-                                <stock-card symbol="DIA" />
+                                <LiveSingleStockComponent :symbols="diaArr" title="SPDR Dow Jones Industrial Average"></LiveSingleStockComponent>
                             </v-card>
                         </v-col>
                     </v-row>
                     <v-row justify="center">
 
-                        <v-col cols="12" sm="4">
+                        <v-col cols="12" sm="4" pe-2>
                             <LiveStocksTable title="Popular Stocks" :symbols="popular_stocks" @show-graph="updateSymbol"></LiveStocksTable>
                             <!-- <LiveStocksTable @show-graph="updateSymbol"></LiveStocksTable> -->
                         </v-col>
                         <v-col cols="12" sm="8">
-                            <IntradayGraph ref="graphRef" :symbol="symbol" :previous_close="previousClose" :key="symbol">
-                            </IntradayGraph>
+                            <IntradayGraph ref="graphRef" :symbol="symbol" :previous_close="previousClose" :key="symbol"></IntradayGraph>
                         </v-col>
                     </v-row>
 
@@ -109,11 +109,15 @@ import IntradayGraph from "@/components/IntradayGraph.vue";
 import LiveStocksTable from "@/components/LiveStocksTable.vue";
 import SectorPerformanceGraph from "@/components/SectorPerformanceGraph.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-
+import LiveSingleStockComponent from "@/components/LiveSingleStockComponent.vue";
 import axios from 'axios';
+
 
 const drawer = ref(false);
 const symbol = ref('SPY')
+const spyArr = ref(['SPY'])
+const iwmArr = ref(['IWM'])
+const diaArr = ref(['DIA'])
 const previousClose = ref('')
 
 const graphRef = ref(null);

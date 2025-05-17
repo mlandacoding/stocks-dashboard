@@ -1,6 +1,6 @@
 from polygon import RESTClient
 import mysql.connector
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 from dotenv import load_dotenv
 import json
@@ -43,8 +43,9 @@ for item in snapshot:
         round(item.prev_day.close, 4),
         round(item.last_trade.price, 4) if item.last_trade else round(item.day.close, 4),
         round(percentage_change, 2),
-        datetime.fromtimestamp(int(str(item.updated)[:13]) / 1000),
-        datetime.utcnow(),
+        datetime.now(timezone.utc),
+        # datetime.fromtimestamp(int(str(item.updated)[:13]) / 1000),
+        datetime.now(timezone.utc),
     )
 
     data_to_insert.append(row)
@@ -68,5 +69,6 @@ if len(data_to_insert) > 0:
     connection.commit()
 
     print(f"Inserted {cursor.rowcount} rows.")
-    cursor.close()
-    connection.close()
+
+cursor.close()
+connection.close()

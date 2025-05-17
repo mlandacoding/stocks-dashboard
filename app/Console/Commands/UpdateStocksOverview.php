@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 use Symfony\Component\Process\Process;
-
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class UpdateStocksOverview extends Command
 {
@@ -24,7 +25,8 @@ class UpdateStocksOverview extends Command
      * Execute the console command.
      */
     public function handle(){
-        $this->info('Running Python updateStocksOverview.py...');
+
+        $this->info('Running Python updateStocksOverview.py - Started at : ' . Carbon::now()->toDateTimeString());
 
         $scriptPath = base_path('python/updateStocksOverview.py');
 
@@ -47,5 +49,7 @@ class UpdateStocksOverview extends Command
             $this->error('Script failed:');
             $this->line($process->getErrorOutput());
         }
+
+        $this->info('Python updateStocksOverview.py - Finished at : ' . Carbon::now()->toDateTimeString());
     }
 }

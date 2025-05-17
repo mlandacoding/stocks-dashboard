@@ -28,6 +28,8 @@ def insertCalendar(connection, holidays):
     """
     cursor.executemany(insert_query, holidays)
     connection.commit()
+    cursor.close()
+    connection.close()
 
     print(f"Inserted {cursor.rowcount} rows.")
 
