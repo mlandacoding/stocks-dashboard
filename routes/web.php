@@ -83,5 +83,8 @@ Route::get('/getMetricsForLastFive/{symbol}', [FinancialMetricsController::class
 Route::get('/getNewsPerSymbol/{symbol}', [SymbolNewsController::class, 'getNewsPerSymbol']);
 
 Route::get('/getOptionsChainByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainByUnderlyingAsset']);
+Route::get('/getChainCallsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainCallsByUnderlyingAsset']);
+Route::get('/getChainPutsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainPutsByUnderlyingAsset']);
+
 
 
