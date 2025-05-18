@@ -52,16 +52,17 @@ def main():
     active_stocks = get_active_assets()
     stocks_with_latest_price = get_stocks_latest_prices(active_stocks, todays_snapshot)
 
+    symbol = "MSFT"
     data_to_insert = []
     options_chain = []
     for o in client.list_snapshot_options_chain(
-        "MSFT", params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "call"}, ):
+        symbol, params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "call"}, ):
         options_chain.append(o)
     # the limit filter in the api doesnt work well
     options_chain = options_chain[:75] if len(options_chain) >= 75 else options_chain
 
     for o in client.list_snapshot_options_chain(
-        "MSFT", params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "put"}, ):
+        symbol, params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "put"}, ):
         options_chain.append(o)
     options_chain = options_chain[:150] if len(options_chain) >= 150 else options_chain
 
@@ -101,34 +102,41 @@ def main():
                                                    risk_free_rate, implied_volatility, type_of_option, 10)
             in_the_money = is_in_the_money(type_of_option, strike_price, underlying_asset_price)
 
-            truth_model_row = (
-                options_symbol,
-                type_of_option,
-                strike_price,
-                implied_volatility,
-                price_truth,
-                "Polygon API",
-                in_the_money,
-                greeks_truth['delta'],
-                greeks_truth['gamma'],
-                greeks_truth['theta'],
-                None,
-                greeks_truth['vega']
+            truth_model_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                price_truth, "Polygon API", in_the_money, greeks_truth['delta'],
+                greeks_truth['gamma'], greeks_truth['theta'], None, greeks_truth['vega']
             )
             data_to_insert.append(truth_model_row)
+
+            black_scholes_pricing_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                black_scholes_pricing, "Black Scholes", in_the_money, greeks_black_scholes['delta'],
+                greeks_black_scholes['gamma'], greeks_black_scholes['theta'], greeks_black_scholes['rho'],
+                greeks_black_scholes['vega']
+            )
+            data_to_insert.append(black_scholes_pricing_row)
+
+            binomial_pricing_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                binomial_pricing, "Binomial Pricing", in_the_money, greeks_binomial['delta'], greeks_binomial['gamma'],
+                                    greeks_binomial['theta'], greeks_binomial['rho'], greeks_binomial['vega'])
+            data_to_insert.append(binomial_pricing_row)
+
+            binomial_pricing_jarrow_row = (options_symbol,symbol, type_of_option,strike_price,implied_volatility,binomial_pricing_jarrow,
+                "Binomial Jarrow Model", in_the_money, None, None, None, None, None)
+            data_to_insert.append(binomial_pricing_jarrow_row)
             # print(f"{options_symbol} - Truth: ${price_truth:.2f} | Asset price: $ {underlying_asset_price} | "
             #       f"Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
     cursor = connection.cursor()
 
     insert_query = """
     INSERT INTO option_chains (
-        option_symbol, option_type, strike_price, implied_volatility, last_price, last_price_updated_at,
-        model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
+        option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
+        last_price_updated_at, model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
     ) VALUES (
-        %s, %s, %s, %s, %s, NOW(),
+        %s, %s, %s, %s, %s, %s, NOW(),
         %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
     )"""
     if data_to_insert:
+        cursor.execute("TRUNCATE TABLE option_chains")
         cursor.executemany(insert_query, data_to_insert)
         connection.commit()
     cursor.close()
