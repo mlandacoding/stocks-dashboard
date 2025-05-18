@@ -15,6 +15,7 @@ use App\Http\Controllers\WinnersAndLosersController;
 use App\Http\Controllers\FinancialStatementsController;
 use App\Http\Controllers\FinancialMetricsController;
 use App\Http\Controllers\SymbolNewsController;
+use App\Http\Controllers\OptionChainController;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -62,6 +63,12 @@ Route::get('/company_profile/{symbol}', function ($symbol) {
     ]);
 });
 
+Route::get('/optionsChain/{symbol}', function ($symbol) {
+    return Inertia::render('OptionsChain', [
+        'symbol' => $symbol,
+    ]);
+});
+
 Route::get('/prev_close/{symbol}', [StockOverviewController::class, 'previousClose']);
 Route::get('/latest_price/{symbol}', [LatestPriceHelper::class, 'getLatestPriceFromJson']);
 Route::get('/winners_and_losers', [WinnersAndLosersController::class, 'winnersAndLosers']);
@@ -74,5 +81,7 @@ Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[Financ
 Route::get('/getMetricsForLastFive/{symbol}', [FinancialMetricsController::class, 'getMetricsForLastFive']);
 
 Route::get('/getNewsPerSymbol/{symbol}', [SymbolNewsController::class, 'getNewsPerSymbol']);
+
+Route::get('/getOptionsChainByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainByUnderlyingAsset']);
 
 
