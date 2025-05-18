@@ -70,7 +70,6 @@ for option in options_chain:
         # not ideal for american style calls but a fun exercise
         black_scholes_pricing = price_using_black_sholes(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option)
         greeks_black_scholes = get_greeks_black_scholes(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option)
-
         # better for pricing american options
         binomial_pricing_jarrow = price_using_jarrow_rud_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
         binomial_pricing, options_tree = price_using_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
