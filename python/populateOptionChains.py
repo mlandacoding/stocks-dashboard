@@ -48,7 +48,7 @@ for o in client.list_snapshot_options_chain(
 ):
     options_chain.append(o)
 
-for option in options_chain:
+for option in options_chain[:100]:
     if option.implied_volatility and option.day.vwap:
         day_opt = asdict(option.day)
         details_opt = asdict(option.details)
@@ -67,13 +67,17 @@ for option in options_chain:
         # not ideal for american style calls but a fun exercise
         black_scholes_pricing = price_using_black_sholes(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option)
         greeks_black_scholes = get_greeks_black_scholes(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option)
-        binomial_pricing_jarrow = price_using_jarrow_rud_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 50)
-        binomial_pricing, options_tree = price_using_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 50)
-        greeks_binomial = calculate_greeks_for_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 50,options_tree)
-        greeks_binomial['vega'] = calculate_vega(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 50)
-        greeks_binomial['rho'] = calculate_rho(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 50)
-        print(1)
+
+        # better for pricing american options
+        binomial_pricing_jarrow = price_using_jarrow_rud_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
+        binomial_pricing, options_tree = price_using_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
+        greeks_binomial = calculate_greeks_for_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10,options_tree)
+        greeks_binomial['vega'] = calculate_vega(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
+        greeks_binomial['rho'] = calculate_rho(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
+        instrinsic_value = strike_price - underlying_asset_price
+        in_the_money = False if instrinsic_value > 0 else True
+        print(f"{options_symbol} - Truth: ${price_truth:.2f} | Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
 
 df = pd.DataFrame([OptionContractSnapshot.__dict__ for option in options_chain])
 
-print(options_chain)
+# print(options_chain)
