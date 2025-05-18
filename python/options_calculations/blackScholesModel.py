@@ -26,6 +26,9 @@ def price_using_black_sholes(
     def price_a_put():
         return strike_price * np.exp(-risk_free_interest_rate * years_to_expiry) * si.norm.cdf(-d2(), 0.0, 1.0) - price_of_underlying_asset * si.norm.cdf(-d1(), 0.0, 1.0)
 
+    # note to self - basically we are evaluating if we are in the money or not, taking the time to expiration in consideration
+    # as well the volatility, and subtracting the cost of the contract, thats how this formula works.
+
     if option_type == 'call':
         return price_a_call()
     elif option_type == 'put':
@@ -77,4 +80,4 @@ def get_greeks_black_scholes(price_of_underlying_asset: float,
     # uses normal probability density, NOT cumulative
     vega = price_of_underlying_asset * np.exp(-q * years_to_expiry) * np.sqrt(years_to_expiry) * si.norm.pdf(d1)
 
-    return {'delta':delta, 'gamma': gamma, 'theta': theta, 'vega': vega}
+    return {'delta':delta, 'gamma': gamma, 'theta': theta, 'rho': rho, 'vega': vega }
