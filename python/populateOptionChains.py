@@ -16,6 +16,10 @@ api_key = os.getenv("POLYGON_API_KEY")
 client = RESTClient(api_key)
 
 
+def is_in_the_money(option_type: str, option_strike_price: float, asset_price: float) -> bool:
+    if option_type == 'call':
+        return asset_price > option_strike_price
+    return asset_price < option_strike_price
 
 def get_active_assets() ->dict:
     with open('../storage/app/public/cache/active_assets.json', 'r') as f:
@@ -38,17 +42,16 @@ active_stocks = get_active_assets()
 stocks_with_latest_price = get_stocks_latest_prices(active_stocks, todays_snapshot)
 
 options_chain = []
-for o in client.list_snapshot_options_chain(
-    "AAPL",
-    params={
-        "order": "asc",
-        "limit": 250,
-        "sort": "ticker",
-    },
-):
+for o in client.list_snapshot_options_chain("MSFT", params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "call"},):
     options_chain.append(o)
 
-for option in options_chain[:100]:
+options_chain = options_chain[:75] if len(options_chain) >=75 else options_chain
+
+for o in client.list_snapshot_options_chain("MSFT", params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "put"},):
+    options_chain.append(o)
+
+options_chain = options_chain[:150] if len(options_chain) >=150 else options_chain
+for option in options_chain:
     if option.implied_volatility and option.day.vwap:
         day_opt = asdict(option.day)
         details_opt = asdict(option.details)
@@ -74,9 +77,9 @@ for option in options_chain[:100]:
         greeks_binomial = calculate_greeks_for_binomial_model(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10,options_tree)
         greeks_binomial['vega'] = calculate_vega(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
         greeks_binomial['rho'] = calculate_rho(underlying_asset_price,strike_price,years_to_expiry,risk_free_rate,implied_volatility,type_of_option, 10)
-        instrinsic_value = strike_price - underlying_asset_price
-        in_the_money = False if instrinsic_value > 0 else True
-        print(f"{options_symbol} - Truth: ${price_truth:.2f} | Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
+        in_the_money = is_in_the_money(type_of_option, strike_price, underlying_asset_price)
+        print(f"{options_symbol} - Truth: ${price_truth:.2f} | Asset price: $ {underlying_asset_price} | "
+              f"Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
 
 df = pd.DataFrame([OptionContractSnapshot.__dict__ for option in options_chain])
 
