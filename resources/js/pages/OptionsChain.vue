@@ -26,7 +26,7 @@
                                     <strong>Disclaimer:</strong>
                                     The price from <strong>Model - PolygonAPI</strong> is considered truth.
                                     All other prices and greeks have been calculated using the code
-                                    <a href="https://github.com/your-username/your-repo" target="_blank"
+                                    <a href="https://github.com/mlandacoding/stocks-dashboard/tree/main/python/options_calculations" target="_blank"
                                         rel="noopener noreferrer" class="text-blue text-decoration-underline">
                                         here on GitHub
                                     </a>.
