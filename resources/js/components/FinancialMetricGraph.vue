@@ -1,6 +1,6 @@
 <template>
     <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);">
-        <apexchart v-if="series.length" :type="chartType" height="448" :options="chartOptions" :series="series" />
+        <apexchart v-if="series.length" :type="chartType" height="405" :options="chartOptions" :series="series" />
     </v-card>
 </template>
 

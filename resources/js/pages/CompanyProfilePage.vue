@@ -35,15 +35,28 @@
                             <LiveStocksTable :title="asset_details.name" :symbols="symbol_array"
                                 @show-graph="updateSymbol" :chartButton="false" />
 
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-btn @click="goToOptionsChain" color="primary" block size="large" tag="a"
+                                        style="border: 1px solid rgba(255, 255, 255, 0.5);">
+                                        View Options Chain
+                                        <v-icon icon="mdi-link-variant" class="ms-2" />
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+
                             <template v-if="smAndDown">
                                 <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" />
                             </template>
 
-                            <FinancialMetricGraph :symbol="symbol" metric="basic_earnings_per_share" title="Earnings Per Share" chart-type="bar"></FinancialMetricGraph>
+                            <FinancialMetricGraph :symbol="symbol" metric="basic_earnings_per_share"
+                                title="Earnings Per Share" chart-type="bar">
+                            </FinancialMetricGraph>
                         </v-col>
 
                         <v-col v-if="!smAndDown" cols="12" sm="9">
-                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol" height="486" />
+                            <IntradayGraph :symbol="symbol" :previous_close="previousClose" :key="symbol"
+                                height="486" />
                         </v-col>
                     </v-row>
 
@@ -54,8 +67,8 @@
                     </v-row>
 
                     <v-row justify="center" class="pa-0 pa-sm-5 ma-0" no-gutters>
-                        <v-col cols="12" sm="6" >
-                            <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);" >
+                        <v-col cols="12" sm="6">
+                            <v-card color="primary" style="border: 1px solid rgba(255, 255, 255, 0.5);">
                                 <v-col cols="12"><strong>Company Description:</strong></v-col>
                                 <v-col cols="12" style="font-size: .85rem;">{{ asset_details.description }}</v-col>
                                 <v-divider class="my-1"></v-divider>
@@ -162,5 +175,10 @@ function updateSymbol({ sym, previous_close }) {
     symbol.value = sym;
     symbol_array.value = [sym];
     previousClose.value = previous_close;
+}
+
+function goToOptionsChain(){
+    console.log("testing");
+    window.location.href = `/optionsChain/${props.symbol}`;
 }
 </script>
