@@ -1,5 +1,5 @@
-import { _ as _export_sfc, u as useStockStream } from "./FooterComponent-P6LQ7qTb.js";
-import { r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, e as createBaseVNode, j as createTextVNode, t as toDisplayString, n as normalizeClass, p as normalizeStyle } from "./app-CisVKhMf.js";
+import { _ as _export_sfc, u as useStockStream } from "./FooterComponent-ClBkgLjE.js";
+import { r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, e as createBaseVNode, j as createTextVNode, t as toDisplayString, n as normalizeClass, p as normalizeStyle } from "./app-LTFrDTJ3.js";
 const _sfc_main = {
   props: {
     title: {

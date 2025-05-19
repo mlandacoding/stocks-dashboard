@@ -1,6 +1,6 @@
-import { g as ref, h as onMounted, r as resolveComponent, f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, w as withCtx, n as normalizeClass, j as createTextVNode, F as Fragment, k as renderList, p as normalizeStyle, t as toDisplayString } from "./app-CisVKhMf.js";
-import { _ as _export_sfc, a as _sfc_main$1, b as _sfc_main$2, M as MarketStatus, F as FooterComponent } from "./FooterComponent-P6LQ7qTb.js";
-import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-IWZpBm2f.js";
+import { g as ref, h as onMounted, r as resolveComponent, f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, w as withCtx, n as normalizeClass, j as createTextVNode, F as Fragment, k as renderList, p as normalizeStyle, t as toDisplayString } from "./app-LTFrDTJ3.js";
+import { _ as _export_sfc, a as _sfc_main$1, b as _sfc_main$2, M as MarketStatus, F as FooterComponent } from "./FooterComponent-ClBkgLjE.js";
+import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-CektC-tl.js";
 const _hoisted_1 = ["rowspan"];
 const _hoisted_2 = ["rowspan"];
 const _hoisted_3 = ["rowspan"];
@@ -112,7 +112,7 @@ const _sfc_main = {
                                       createBaseVNode("strong", null, "Model - PolygonAPI"),
                                       createTextVNode(" is considered truth. All other prices and greeks have been calculated using the code "),
                                       createBaseVNode("a", {
-                                        href: "https://github.com/your-username/your-repo",
+                                        href: "https://github.com/mlandacoding/stocks-dashboard/tree/main/python/options_calculations",
                                         target: "_blank",
                                         rel: "noopener noreferrer",
                                         class: "text-blue text-decoration-underline"
@@ -352,7 +352,7 @@ const _sfc_main = {
     };
   }
 };
-const OptionsChain = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-d74af5b3"]]);
+const OptionsChain = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b7a3b41b"]]);
 export {
   OptionsChain as default
 };

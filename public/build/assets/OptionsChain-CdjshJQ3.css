@@ -1,19 +1,19 @@
 
-.content-expanded[data-v-d74af5b3] {
+.content-expanded[data-v-b7a3b41b] {
     margin-left: 0;
     transition: margin-left 0.8s ease-in-out;
 }
-.content-shrinked[data-v-d74af5b3] {
+.content-shrinked[data-v-b7a3b41b] {
     margin-left: 5px;
     transition: margin-left 0.8s ease-in-out;
 }
-.custom-width-wrapper[data-v-d74af5b3] {
+.custom-width-wrapper[data-v-b7a3b41b] {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
 }
 @media (max-width: 600px) {
-.custom-width-wrapper[data-v-d74af5b3] {
+.custom-width-wrapper[data-v-b7a3b41b] {
         padding: 0 !important;
         margin: 0 !important;
 }
