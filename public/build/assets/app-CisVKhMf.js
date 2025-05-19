@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/CompanyProfilePage-CcATejts.js","assets/FooterComponent-DhE1MB62.js","assets/FooterComponent-Bmdc6obY.css","assets/CompanyProfilePage-CA9naUqa.css","assets/ExamplePage-Dh5n-7t4.js","assets/MainLayout-Bpm6wx4_.js","assets/MainLayout-DXlscGgh.css","assets/Welcome-JdZf7I9-.js","assets/ConfirmPassword-CvTRIS5W.js","assets/Label.vue_vue_type_script_setup_true_lang-BBb-UT7x.js","assets/loader-circle-r-oVlDgR.js","assets/ForgotPassword-xQKpugG-.js","assets/TextLink.vue_vue_type_script_setup_true_lang-C4RR6MyG.js","assets/Login-DbHlywEz.js","assets/Register-CPwYQEOb.js","assets/ResetPassword-SjyarwW6.js","assets/VerifyEmail-DgI65xvj.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/CompanyProfilePage-BgS9GK5b.js","assets/FooterComponent-P6LQ7qTb.js","assets/FooterComponent-CRqBxsO4.css","assets/IntradayGraph-8mbwLW67.js","assets/IntradayGraph-DYTa-PHY.css","assets/CompanyProfilePage-D3vf-g0u.css","assets/ExamplePage-Bw2JVZ8q.js","assets/MainLayout-ClDoU9bf.js","assets/LiveSingleStockComponent-IWZpBm2f.js","assets/LiveSingleStockComponent-DAvID7B-.css","assets/MainLayout-BsJGHcuq.css","assets/OptionsChain-D3nd5T6L.js","assets/OptionsChain-Cmvl34fJ.css","assets/Welcome-CTNbX7e0.js","assets/ConfirmPassword-CsRFLk20.js","assets/Label.vue_vue_type_script_setup_true_lang-CvlJruC1.js","assets/loader-circle-CiEjdyiQ.js","assets/ForgotPassword-bdt3MPkq.js","assets/TextLink.vue_vue_type_script_setup_true_lang-Cjohpxe_.js","assets/Login-C9qlmxoc.js","assets/Register-GT9CuOVg.js","assets/ResetPassword-CTcAd-pi.js","assets/VerifyEmail-C7QOuvfo.js"])))=>i.map(i=>d[i]);
 var _a;
 const scriptRel = "modulepreload";
 const assetsURL = function(dep) {
@@ -62151,14 +62151,14 @@ const vuetify = createVuetify({
   }
 });
 L2({
-  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/CompanyProfilePage.vue": () => __vitePreload(() => import("./CompanyProfilePage-CcATejts.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0), "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-Dh5n-7t4.js"), true ? __vite__mapDeps([4,5,1,2,6]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-JdZf7I9-.js"), true ? __vite__mapDeps([7,5,1,2,6]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-CvTRIS5W.js"), true ? __vite__mapDeps([8,9,10]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-xQKpugG-.js"), true ? __vite__mapDeps([11,9,10,12]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-DbHlywEz.js"), true ? __vite__mapDeps([13,9,10,12]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-CPwYQEOb.js"), true ? __vite__mapDeps([14,9,10,12]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-SjyarwW6.js"), true ? __vite__mapDeps([15,9,10]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-DgI65xvj.js"), true ? __vite__mapDeps([16,12,10]) : void 0) })),
+  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/CompanyProfilePage.vue": () => __vitePreload(() => import("./CompanyProfilePage-BgS9GK5b.js"), true ? __vite__mapDeps([0,1,2,3,4,5]) : void 0), "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-Bw2JVZ8q.js"), true ? __vite__mapDeps([6,7,1,2,3,4,8,9,10]) : void 0), "./Pages/OptionsChain.vue": () => __vitePreload(() => import("./OptionsChain-D3nd5T6L.js"), true ? __vite__mapDeps([11,1,2,8,9,12]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-CTNbX7e0.js"), true ? __vite__mapDeps([13,7,1,2,3,4,8,9,10]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-CsRFLk20.js"), true ? __vite__mapDeps([14,15,16]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-bdt3MPkq.js"), true ? __vite__mapDeps([17,15,16,18]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-C9qlmxoc.js"), true ? __vite__mapDeps([19,15,16,18]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-GT9CuOVg.js"), true ? __vite__mapDeps([20,15,16,18]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-CTcAd-pi.js"), true ? __vite__mapDeps([21,15,16]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-C7QOuvfo.js"), true ? __vite__mapDeps([22,18,16]) : void 0) })),
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h$1(App, props) }).use(plugin).use(vuetify).mount(el);
   }
 });
 export {
-  toRefs as A,
-  watch as B,
+  watch as A,
+  computed as B,
   C,
   me as D,
   withModifiers as E,
@@ -62202,12 +62202,12 @@ export {
   normalizeStyle as p,
   nextTick as q,
   resolveComponent as r,
-  computed as s,
+  h$1 as s,
   toDisplayString as t,
   useDisplay as u,
-  h$1 as v,
+  onBeforeMount as v,
   withCtx as w,
-  onBeforeMount as x,
-  getCurrentInstance$1 as y,
-  onBeforeUnmount as z
+  getCurrentInstance$1 as x,
+  onBeforeUnmount as y,
+  toRefs as z
 };

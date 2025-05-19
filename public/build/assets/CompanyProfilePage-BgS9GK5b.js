@@ -1,5 +1,6 @@
-import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, j as createTextVNode, F as Fragment, k as renderList, u as useDisplay, l as createStaticVNode, n as normalizeClass, m as unref } from "./app-D8ZJG9Yg.js";
-import { _ as _export_sfc, m, a as _sfc_main$4, b as _sfc_main$5, M as MarketStatus, L as LiveStocksTable, I as IntradayGraph, F as FooterComponent } from "./FooterComponent-DhE1MB62.js";
+import { d as defineComponent, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, b as createCommentVNode, e as createBaseVNode, f as createElementBlock, t as toDisplayString, g as ref, h as onMounted, i as axios, j as createTextVNode, F as Fragment, k as renderList, u as useDisplay, l as createStaticVNode, n as normalizeClass, m as unref } from "./app-CisVKhMf.js";
+import { _ as _export_sfc, a as _sfc_main$4, b as _sfc_main$5, M as MarketStatus, F as FooterComponent } from "./FooterComponent-P6LQ7qTb.js";
+import { m, L as LiveStocksTable, I as IntradayGraph } from "./IntradayGraph-8mbwLW67.js";
 const _sfc_main$3 = defineComponent({
   name: "FinancialChart",
   components: {
@@ -324,7 +325,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
       _ctx.series.length ? (openBlock(), createBlock(_component_apexchart, {
         key: 0,
         type: _ctx.chartType,
-        height: "448",
+        height: "405",
         options: _ctx.chartOptions,
         series: _ctx.series
       }, null, 8, ["type", "options", "series"])) : createCommentVNode("", true)
@@ -529,9 +530,15 @@ const _sfc_main = {
       symbol_array.value = [sym];
       previousClose.value = previous_close;
     }
+    function goToOptionsChain() {
+      console.log("testing");
+      window.location.href = `/optionsChain/${props.symbol}`;
+    }
     return (_ctx, _cache) => {
       const _component_v_col = resolveComponent("v-col");
       const _component_v_row = resolveComponent("v-row");
+      const _component_v_icon = resolveComponent("v-icon");
+      const _component_v_btn = resolveComponent("v-btn");
       const _component_v_divider = resolveComponent("v-divider");
       const _component_v_card = resolveComponent("v-card");
       const _component_v_container = resolveComponent("v-container");
@@ -539,7 +546,7 @@ const _sfc_main = {
       const _component_v_layout = resolveComponent("v-layout");
       const _component_v_sheet = resolveComponent("v-sheet");
       return openBlock(), createElementBlock(Fragment, null, [
-        _cache[7] || (_cache[7] = createStaticVNode('<head data-v-a21daee5><meta charset="UTF-8" data-v-a21daee5><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-a21daee5><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-a21daee5><title data-v-a21daee5>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-a21daee5></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-a21daee5>', 2)),
+        _cache[8] || (_cache[8] = createStaticVNode('<head data-v-b300cb49><meta charset="UTF-8" data-v-b300cb49><meta name="viewport" content="width=device-width, initial-scale=1.0" data-v-b300cb49><meta http-equiv="X-UA-Compatible" content="ie=edge" data-v-b300cb49><title data-v-b300cb49>All Global Data</title><meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data." data-v-b300cb49></head><link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" data-v-b300cb49>', 2)),
         createVNode(_component_v_sheet, { class: "custom-width-wrapper" }, {
           default: withCtx(() => [
             createVNode(_component_v_layout, { style: { "background": "#0c1427" } }, {
@@ -587,6 +594,33 @@ const _sfc_main = {
                                   onShowGraph: updateSymbol,
                                   chartButton: false
                                 }, null, 8, ["title", "symbols"]),
+                                createVNode(_component_v_row, null, {
+                                  default: withCtx(() => [
+                                    createVNode(_component_v_col, { cols: "12" }, {
+                                      default: withCtx(() => [
+                                        createVNode(_component_v_btn, {
+                                          onClick: goToOptionsChain,
+                                          color: "primary",
+                                          block: "",
+                                          size: "large",
+                                          tag: "a",
+                                          style: { "border": "1px solid rgba(255, 255, 255, 0.5)" }
+                                        }, {
+                                          default: withCtx(() => [
+                                            _cache[0] || (_cache[0] = createTextVNode(" View Options Chain ")),
+                                            createVNode(_component_v_icon, {
+                                              icon: "mdi-link-variant",
+                                              class: "ms-2"
+                                            })
+                                          ]),
+                                          _: 1
+                                        })
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 1
+                                }),
                                 unref(smAndDown) ? (openBlock(), createBlock(IntradayGraph, {
                                   symbol: symbol.value,
                                   previous_close: previousClose.value,
@@ -651,7 +685,7 @@ const _sfc_main = {
                                 }, {
                                   default: withCtx(() => [
                                     createVNode(_component_v_col, { cols: "12" }, {
-                                      default: withCtx(() => _cache[0] || (_cache[0] = [
+                                      default: withCtx(() => _cache[1] || (_cache[1] = [
                                         createBaseVNode("strong", null, "Company Description:", -1)
                                       ])),
                                       _: 1
@@ -670,24 +704,24 @@ const _sfc_main = {
                                       default: withCtx(() => [
                                         createVNode(_component_v_col, { cols: "4" }, {
                                           default: withCtx(() => [
-                                            _cache[1] || (_cache[1] = createBaseVNode("strong", null, "Total Employees:", -1)),
-                                            _cache[2] || (_cache[2] = createBaseVNode("br", null, null, -1)),
+                                            _cache[2] || (_cache[2] = createBaseVNode("strong", null, "Total Employees:", -1)),
+                                            _cache[3] || (_cache[3] = createBaseVNode("br", null, null, -1)),
                                             createTextVNode(" " + toDisplayString(__props.asset_details.total_employees), 1)
                                           ]),
                                           _: 1
                                         }),
                                         createVNode(_component_v_col, { cols: "4" }, {
                                           default: withCtx(() => [
-                                            _cache[3] || (_cache[3] = createBaseVNode("strong", null, "Industry:", -1)),
-                                            _cache[4] || (_cache[4] = createBaseVNode("br", null, null, -1)),
+                                            _cache[4] || (_cache[4] = createBaseVNode("strong", null, "Industry:", -1)),
+                                            _cache[5] || (_cache[5] = createBaseVNode("br", null, null, -1)),
                                             createBaseVNode("span", _hoisted_1, toDisplayString(__props.asset_details.sic_description), 1)
                                           ]),
                                           _: 1
                                         }),
                                         createVNode(_component_v_col, { cols: "4" }, {
                                           default: withCtx(() => [
-                                            _cache[5] || (_cache[5] = createBaseVNode("strong", null, "Shares Outstanding:", -1)),
-                                            _cache[6] || (_cache[6] = createBaseVNode("br", null, null, -1)),
+                                            _cache[6] || (_cache[6] = createBaseVNode("strong", null, "Shares Outstanding:", -1)),
+                                            _cache[7] || (_cache[7] = createBaseVNode("br", null, null, -1)),
                                             createTextVNode(" " + toDisplayString(__props.asset_details.share_class_shares_outstanding), 1)
                                           ]),
                                           _: 1
@@ -734,7 +768,7 @@ const _sfc_main = {
     };
   }
 };
-const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-a21daee5"]]);
+const CompanyProfilePage = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b300cb49"]]);
 export {
   CompanyProfilePage as default
 };
