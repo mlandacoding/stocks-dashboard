@@ -58,21 +58,22 @@ def main():
     for symbol in active_stocks:
         options_chain = []
         data_to_insert = []
-        try:
-            print(f'Processing {symbol}')
-            for o in client.list_snapshot_options_chain(
-                symbol, params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "call"}, ):
-                options_chain.append(o)
-            # the limit filter in the api doesnt work well
-            options_chain = options_chain[:75] if len(options_chain) >= 75 else options_chain
 
-            for o in client.list_snapshot_options_chain(
-                symbol, params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "put"}, ):
-                options_chain.append(o)
-            options_chain = options_chain[:150] if len(options_chain) >= 150 else options_chain
+        print(f'Processing {symbol}')
+        for o in client.list_snapshot_options_chain(
+            symbol, params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "call"}, ):
+            options_chain.append(o)
+        # the limit filter in the api doesnt work well
+        options_chain = options_chain[:75] if len(options_chain) >= 75 else options_chain
 
-            for option in options_chain:
-                if option.implied_volatility and option.day.vwap:
+        for o in client.list_snapshot_options_chain(
+            symbol, params={"order": "asc", "limit": 50, "sort": "ticker","contract_type": "put"}, ):
+            options_chain.append(o)
+        options_chain = options_chain[:150] if len(options_chain) >= 150 else options_chain
+
+        for option in options_chain:
+            if option.implied_volatility and option.day.vwap:
+                try:
                     day_opt = asdict(option.day)
                     details_opt = asdict(option.details)
                     greeks_truth = asdict(option.greeks)
@@ -128,22 +129,22 @@ def main():
                     binomial_pricing_jarrow_row = (options_symbol,symbol, type_of_option,strike_price,implied_volatility,binomial_pricing_jarrow,
                         "Binomial Jarrow Model", in_the_money, None, None, None, None, None)
                     data_to_insert.append(binomial_pricing_jarrow_row)
+                except:
+                    print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
+        insert_query = """
+            INSERT INTO option_chains (
+                option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
+                last_price_updated_at, model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
+            ) VALUES (
+                %s, %s, %s, %s, %s, %s, NOW(),
+                %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
+            )"""
+        if data_to_insert:
+            cursor.executemany(insert_query, data_to_insert)
+            connection.commit()
+                # print(f"{options_symbol} - Truth: ${price_truth:.2f} | Asset price: $ {underlying_asset_price} | "
+                #       f"Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
 
-            insert_query = """
-                INSERT INTO option_chains (
-                    option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
-                    last_price_updated_at, model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
-                ) VALUES (
-                    %s, %s, %s, %s, %s, %s, NOW(),
-                    %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
-                )"""
-            if data_to_insert:
-                cursor.executemany(insert_query, data_to_insert)
-                connection.commit()
-                    # print(f"{options_symbol} - Truth: ${price_truth:.2f} | Asset price: $ {underlying_asset_price} | "
-                    #       f"Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
-        except:
-            print(f'Failed to process {symbol}')
 
     cursor.close()
     connection.close()
