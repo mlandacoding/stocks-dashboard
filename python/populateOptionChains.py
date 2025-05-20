@@ -12,6 +12,23 @@ from options_calculations.binomialOptionsPricingModel import *
 import json
 import mysql.connector
 
+def get_last_price(symbol):
+    file_path = os.path.join("../storage", "app", "public", "intraday", f"{symbol}.json")
+
+    try:
+        with open(file_path, "r") as f:
+            data = json.load(f)
+            if data and isinstance(data, list):
+                last_entry = data[-1]
+                if isinstance(last_entry, list) and len(last_entry) == 2:
+                    return last_entry[1]
+        print(f"Invalid data format in {file_path}")
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except json.JSONDecodeError:
+        print(f"Invalid JSON in {file_path}")
+
+    return None
 
 def is_in_the_money(option_type: str, option_strike_price: float, asset_price: float) -> bool:
     if option_type == 'call':
@@ -47,9 +64,9 @@ def main():
         port=os.getenv('DB_PORT'),
     )
 
-    todays_snapshot = client.get_snapshot_all("stocks")
+    # todays_snapshot = client.get_snapshot_all("stocks")
     active_stocks = get_active_assets()
-    stocks_with_latest_price = get_stocks_latest_prices(active_stocks, todays_snapshot)
+    # stocks_with_latest_price = get_stocks_latest_prices(active_stocks, todays_snapshot)
 
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
@@ -81,7 +98,7 @@ def main():
                     days_to_expiry = (datetime.fromisoformat(details_opt['expiration_date']) - datetime.today()).days
                     implied_volatility = option.implied_volatility / 10
                     options_symbol = details_opt['ticker'][2:]
-                    underlying_asset_price = stocks_with_latest_price[option.underlying_asset.ticker]
+                    underlying_asset_price = get_last_price(option.underlying_asset.ticker)
                     risk_free_rate = round(get_free_risk_rate_from_fred(days_to_expiry), 4)
                     strike_price = option.details.strike_price
                     type_of_option = option.details.contract_type
