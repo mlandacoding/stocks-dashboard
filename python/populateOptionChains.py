@@ -1,8 +1,6 @@
 
 from dotenv import load_dotenv
 import os
-import pandas as pd
-from polygon.rest.models import OptionContractSnapshot, DayOptionContractSnapshot
 from polygon import RESTClient
 from dataclasses import asdict
 from datetime import datetime
@@ -64,16 +62,11 @@ def main():
         port=os.getenv('DB_PORT'),
     )
 
-    todays_snapshot = client.get_snapshot_all("stocks")
     active_stocks = get_active_assets()
-    stocks_with_latest_price = get_stocks_latest_prices(active_stocks, todays_snapshot)
 
     cursor = connection.cursor()
-    # cursor.execute("TRUNCATE TABLE option_chains")
-    sorted_stocks = sorted(active_stocks)
-    import itertools
-    # active_stocks = dict(list(active_stocks.items())[260:])
-    for symbol in sorted_stocks[287:]:
+    cursor.execute("TRUNCATE TABLE option_chains")
+    for symbol in active_stocks:
         options_chain = []
         data_to_insert = []
 
