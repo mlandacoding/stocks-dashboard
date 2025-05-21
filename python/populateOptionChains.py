@@ -1,8 +1,6 @@
 
 from dotenv import load_dotenv
 import os
-import pandas as pd
-from polygon.rest.models import OptionContractSnapshot, DayOptionContractSnapshot
 from polygon import RESTClient
 from dataclasses import asdict
 from datetime import datetime
@@ -12,7 +10,7 @@ from options_calculations.binomialOptionsPricingModel import *
 import json
 import mysql.connector
 
-def get_last_price(symbol):
+def get_last_price(symbol, client):
     file_path = os.path.join("../storage", "app", "public", "intraday", f"{symbol}.json")
 
     try:
@@ -24,7 +22,7 @@ def get_last_price(symbol):
                     return last_entry[1]
         print(f"Invalid data format in {file_path}")
     except FileNotFoundError:
-        print(f"File not found: {file_path}")
+        return client.get_snapshot_ticker('stocks',symbol).prev_day.vwap
     except json.JSONDecodeError:
         print(f"Invalid JSON in {file_path}")
 
@@ -35,10 +33,14 @@ def is_in_the_money(option_type: str, option_strike_price: float, asset_price: f
         return asset_price > option_strike_price
     return asset_price < option_strike_price
 
-def get_active_assets() ->dict:
+def get_active_asset_symbols() ->list:
     with open('../storage/app/public/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
-    return {stock['symbol']: stock['company_name'] for stock in stocks}
+    active_assets = {stock['symbol']: stock['company_name'] for stock in stocks}
+
+    # to get rid of the exchange prefix
+    active_assets = sorted([symbol.split(":")[-1].strip() for symbol in active_assets])
+    return active_assets
 
 
 def get_stocks_latest_prices(stocks: dict, snapshot: list) -> dict:
@@ -64,14 +66,9 @@ def main():
         port=os.getenv('DB_PORT'),
     )
 
-    # todays_snapshot = client.get_snapshot_all("stocks")
-    active_stocks = get_active_assets()
-    # stocks_with_latest_price = get_stocks_latest_prices(active_stocks, todays_snapshot)
-
+    active_stocks = get_active_asset_symbols()
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
-
-
     for symbol in active_stocks:
         options_chain = []
         data_to_insert = []
@@ -98,7 +95,7 @@ def main():
                     days_to_expiry = (datetime.fromisoformat(details_opt['expiration_date']) - datetime.today()).days
                     implied_volatility = option.implied_volatility / 10
                     options_symbol = details_opt['ticker'][2:]
-                    underlying_asset_price = get_last_price(option.underlying_asset.ticker)
+                    underlying_asset_price = get_last_price(option.underlying_asset.ticker, client)
                     risk_free_rate = round(get_free_risk_rate_from_fred(days_to_expiry), 4)
                     strike_price = option.details.strike_price
                     type_of_option = option.details.contract_type

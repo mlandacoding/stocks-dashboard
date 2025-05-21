@@ -75,8 +75,8 @@ Route::get('/winners_and_losers', [WinnersAndLosersController::class, 'winnersAn
 
 Route::get('/get_sectors', [SectorController::class, 'index']);
 
-Route::get('/financial_statements/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbol'] );
-Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbolWithFiling'] );
+Route::get('/financial_statements/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbol']);
+Route::get('/financial_statements_and_filings/{symbol}/{statement_type}',[FinancialStatementsController::class, 'getStatementBySymbolWithFiling']);
 
 Route::get('/getMetricsForLastFive/{symbol}', [FinancialMetricsController::class, 'getMetricsForLastFive']);
 
