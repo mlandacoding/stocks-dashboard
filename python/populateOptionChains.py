@@ -92,8 +92,8 @@ def main():
                 day_opt = asdict(option.day)
                 details_opt = asdict(option.details)
                 greeks_truth = asdict(option.greeks)
-                price_truth = day_opt['vwap']
-                expiration_date = details_opt['expiration_date']
+                price_truth = day_opt['close']
+                # expiration_date = details_opt['expiration_date']
                 days_to_expiry = (datetime.fromisoformat(details_opt['expiration_date']) - datetime.today()).days
                 implied_volatility = option.implied_volatility / 10
                 options_symbol = details_opt['ticker'][2:]
