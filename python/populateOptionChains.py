@@ -10,7 +10,6 @@ from options_calculations.binomialOptionsPricingModel import *
 # from options_calculations.QuantLibMethods.QLPricingModels import *
 import json
 import mysql.connector
-from decimal import Decimal, InvalidOperation
 
 def get_last_price(symbol, client):
     try:
@@ -59,7 +58,7 @@ def main():
     active_stocks = get_active_asset_symbols()
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
-    for symbol in active_stocks[17:]:
+    for symbol in active_stocks:
         options_chain = []
         data_to_insert = []
 
@@ -148,23 +147,7 @@ def main():
                     %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
                 )"""
             if data_to_insert:
-                for i, row in enumerate(data_to_insert):
-                    try:
-                        # Optional: cast rho to Decimal explicitly for safety
-                        if row[12] is not None:
-                            try:
-                                row = list(row)  # convert to mutable
-                                row[12] = Decimal(str(row[12]))
-                            except InvalidOperation:
-                                print(f"[Invalid Decimal] row {i}: rho = {row[12]}")
-                                continue
-
-                        cursor.execute(insert_query, row)
-                    except Exception as e:
-                        print(f"[Insert Error] row {i}: {row}")
-                        print(f"Error: {e}")
-                        continue
-
+                cursor.executemany(insert_query, data_to_insert)
                 connection.commit()
                 # print(f"{options_symbol} - Truth: ${price_truth:.2f} | Asset price: $ {underlying_asset_price} | "
                 #       f"Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
