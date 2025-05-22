@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('delta', 17, 15)->nullable();
             $table->decimal('gamma', 17, 15)->nullable();
             $table->decimal('theta', 17, 15)->nullable();
-            $table->decimal('rho', 30, 35)->nullable();
+            $table->decimal('rho', 30, 30)->nullable();
             $table->decimal('vega', 17, 15)->nullable();
             $table->timestamps();
         });
