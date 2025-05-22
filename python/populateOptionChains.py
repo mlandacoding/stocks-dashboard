@@ -58,7 +58,7 @@ def main():
     active_stocks = get_active_asset_symbols()
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
-    for symbol in active_stocks[1:]:
+    for symbol in active_stocks:
         options_chain = []
         data_to_insert = []
 
