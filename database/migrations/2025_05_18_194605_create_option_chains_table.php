@@ -17,16 +17,16 @@ return new class extends Migration
             $table->string('underlying_asset_symbol');
             $table->string('option_type');
             $table->decimal('strike_price', 15, 2)->nullable();
-            $table->decimal('implied_volatility', 15, 6)->nullable();
+            $table->decimal('implied_volatility', 16, 15)->nullable();
             $table->decimal('last_price', 15, 2)->nullable();
             $table->timestamp('last_price_updated_at');
             $table->string('model');
             $table->boolean('moneyness');
-            $table->decimal('delta', 12, 8)->nullable();
-            $table->decimal('gamma', 12, 8)->nullable();
-            $table->decimal('theta', 12, 8)->nullable();
-            $table->decimal('rho', 12, 8)->nullable();
-            $table->decimal('vega', 12, 8)->nullable();
+            $table->decimal('delta', 16, 15)->nullable();
+            $table->decimal('gamma', 16, 15)->nullable();
+            $table->decimal('theta', 16, 15)->nullable();
+            $table->decimal('rho', 16, 15)->nullable();
+            $table->decimal('vega', 16, 15)->nullable();
             $table->timestamps();
         });
     }

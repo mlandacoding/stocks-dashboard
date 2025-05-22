@@ -7,6 +7,7 @@ from datetime import datetime
 from options_calculations.riskFreeRateFromFred import get_free_risk_rate_from_fred
 from options_calculations.blackScholesModel import price_using_black_sholes, get_greeks_black_scholes
 from options_calculations.binomialOptionsPricingModel import *
+# from options_calculations.QuantLibMethods.QLPricingModels import *
 import json
 import mysql.connector
 
@@ -22,7 +23,7 @@ def get_last_price(symbol, client):
                     return last_entry[1]
         print(f"Invalid data format in {file_path}")
     except FileNotFoundError:
-        return client.get_snapshot_ticker('stocks',symbol).prev_day.vwap
+        return client.get_snapshot_ticker('stocks',symbol).day.close
     except json.JSONDecodeError:
         print(f"Invalid JSON in {file_path}")
 
@@ -33,10 +34,14 @@ def is_in_the_money(option_type: str, option_strike_price: float, asset_price: f
         return asset_price > option_strike_price
     return asset_price < option_strike_price
 
-def get_active_assets() ->dict:
+def get_active_asset_symbols() ->list:
     with open('../storage/app/public/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
-    return {stock['symbol']: stock['company_name'] for stock in stocks}
+    active_assets = {stock['symbol']: stock['company_name'] for stock in stocks}
+
+    # to get rid of the exchange prefix
+    active_assets = sorted([symbol.split(":")[-1].strip() for symbol in active_assets])
+    return active_assets
 
 
 def get_stocks_latest_prices(stocks: dict, snapshot: list) -> dict:
@@ -62,8 +67,7 @@ def main():
         port=os.getenv('DB_PORT'),
     )
 
-    active_stocks = get_active_assets()
-
+    active_stocks = get_active_asset_symbols()
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
     for symbol in active_stocks:
@@ -100,7 +104,7 @@ def main():
 
                     # not ideal for american style calls but a fun exercise
                     black_scholes_pricing = price_using_black_sholes(underlying_asset_price, strike_price, years_to_expiry,
-                                                                     risk_free_rate, implied_volatility, type_of_option)
+                                                                    risk_free_rate, implied_volatility, type_of_option)
                     greeks_black_scholes = get_greeks_black_scholes(underlying_asset_price, strike_price, years_to_expiry,
                                                                     risk_free_rate, implied_volatility, type_of_option)
                     # better for pricing american options
@@ -111,12 +115,15 @@ def main():
                                                                                 years_to_expiry, risk_free_rate,
                                                                                 implied_volatility, type_of_option, 10)
                     greeks_binomial = calculate_greeks_for_binomial_model(underlying_asset_price, strike_price, years_to_expiry,
-                                                                          risk_free_rate, implied_volatility, type_of_option,
-                                                                          10, options_tree)
+                                                                        risk_free_rate, implied_volatility, type_of_option,
+                                                                        10, options_tree)
                     greeks_binomial['vega'] = calculate_vega(underlying_asset_price, strike_price, years_to_expiry,
-                                                             risk_free_rate, implied_volatility, type_of_option, 10)
+                                                            risk_free_rate, implied_volatility, type_of_option, 10)
                     greeks_binomial['rho'] = calculate_rho(underlying_asset_price, strike_price, years_to_expiry,
-                                                           risk_free_rate, implied_volatility, type_of_option, 10)
+                                                        risk_free_rate, implied_volatility, type_of_option, 10)
+
+                    # montecarlo, binomial_ql = ql_montecarlo_american_engine(underlying_asset_price, strike_price,expiration_date,risk_free_rate,implied_volatility, type_of_option)
+
                     in_the_money = is_in_the_money(type_of_option, strike_price, underlying_asset_price)
 
                     truth_model_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
