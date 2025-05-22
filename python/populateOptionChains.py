@@ -10,6 +10,8 @@ from options_calculations.binomialOptionsPricingModel import *
 # from options_calculations.QuantLibMethods.QLPricingModels import *
 import json
 import mysql.connector
+from decimal import Decimal
+
 
 def get_last_price(symbol, client):
     try:
@@ -121,16 +123,20 @@ def main():
                         )
                         data_to_insert.append(truth_model_row)
 
+                        RHO_MIN = Decimal("1e-8")
+                        rho_val = greeks_black_scholes['rho'] if abs(greeks_black_scholes['rho']) > RHO_MIN else Decimal("0")
+
                         black_scholes_pricing_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
                             black_scholes_pricing, "Black Scholes", in_the_money, greeks_black_scholes['delta'],
-                            greeks_black_scholes['gamma'], greeks_black_scholes['theta'], greeks_black_scholes['rho'],
+                            greeks_black_scholes['gamma'], greeks_black_scholes['theta'], rho_val,
                             greeks_black_scholes['vega']
                         )
                         data_to_insert.append(black_scholes_pricing_row)
 
+                        greeks_binomial_rho = greeks_binomial['rho'] if abs(greeks_binomial['rho']) > RHO_MIN else Decimal("0")
                         binomial_pricing_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
                             binomial_pricing, "Binomial Pricing", in_the_money, greeks_binomial['delta'], greeks_binomial['gamma'],
-                                                greeks_binomial['theta'], greeks_binomial['rho'], greeks_binomial['vega'])
+                                                greeks_binomial['theta'], greeks_binomial_rho, greeks_binomial['vega'])
                         data_to_insert.append(binomial_pricing_row)
 
                         binomial_pricing_jarrow_row = (options_symbol,symbol, type_of_option,strike_price,implied_volatility,binomial_pricing_jarrow,
