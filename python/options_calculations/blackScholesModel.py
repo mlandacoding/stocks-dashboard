@@ -2,7 +2,7 @@ import numpy as np
 import scipy.stats as si
 import scipy as scipy
 
-from python.options import Option
+from options.Option import Option
 
 
 # This implementation was inspired by the approach described here:

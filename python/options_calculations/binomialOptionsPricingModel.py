@@ -3,7 +3,7 @@ import math
 from typing import Tuple, List
 import numpy as np
 from math import comb
-from python.options import Option
+from options.Option import Option
 from copy import deepcopy
 
 # This implementation was inspired by the approach described here:
