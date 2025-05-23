@@ -2,17 +2,20 @@ import numpy as np
 import scipy.stats as si
 import scipy as scipy
 
+from python.options import Option
+
+
 # This implementation was inspired by the approach described here:
 # https://theaiquant.medium.com/mastering-the-black-scholes-model-with-python-a-comprehensive-guide-to-option-pricing-11af712697b7
 # The code here has been independently written and adapted
 # No LLMS were used to create this
-def price_using_black_sholes(
-    price_of_underlying_asset: float,
-    strike_price: float,
-    years_to_expiry: float,
-    risk_free_interest_rate: float,
-    volatility: float,
-    option_type: str) -> float:
+def price_using_black_sholes(option: Option) -> float:
+    price_of_underlying_asset = option.underlying_price
+    strike_price = option.strike_price
+    years_to_expiry = option.years_to_expiry
+    risk_free_interest_rate = option.risk_free_rate
+    volatility = option.implied_volatility
+    option_type = option.option_type
 
     def d1():
         return (np.log(price_of_underlying_asset / strike_price) + (risk_free_interest_rate + 0.5 * volatility ** 2) * years_to_expiry) / (volatility * np.sqrt(years_to_expiry))
@@ -40,14 +43,13 @@ def price_using_black_sholes(
 # https://www.macroption.com/black-scholes-formula/#greeks
 # The code here has been independently written and adapted
 # # No LLMS were used to create this
-def get_greeks_black_scholes(price_of_underlying_asset: float,
-    strike_price: float,
-    years_to_expiry: float,
-    risk_free_interest_rate: float,
-    volatility: float,
-    option_type: str,
-    trading_days = 252) -> dict:
-
+def get_greeks_black_scholes(option: Option, trading_days = 252) -> dict:
+    price_of_underlying_asset = option.underlying_price
+    strike_price = option.strike_price
+    years_to_expiry = option.years_to_expiry
+    risk_free_interest_rate = option.risk_free_rate
+    volatility = option.implied_volatility
+    option_type = option.option_type
     # Theres no exponent for dividend so keep d1 as is ( the stock may have dividends I just dont have the data
     q = 0
     d1 = (np.log(price_of_underlying_asset / strike_price) + (risk_free_interest_rate + 0.5 * volatility ** 2) * years_to_expiry) / (volatility * np.sqrt(years_to_expiry))

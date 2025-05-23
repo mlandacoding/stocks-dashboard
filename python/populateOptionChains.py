@@ -7,16 +7,18 @@ from datetime import datetime
 from options_calculations.riskFreeRateFromFred import get_free_risk_rate_from_fred
 from options_calculations.blackScholesModel import price_using_black_sholes, get_greeks_black_scholes
 from options_calculations.binomialOptionsPricingModel import *
-# from options_calculations.QuantLibMethods.QLPricingModels import *
+from options_calculations.QuantLibMethods.QLPricingModels import *
 import json
 import mysql.connector
 from decimal import Decimal, InvalidOperation
+from options.Option import Option
 
 def get_last_price(symbol, client):
     try:
         return client.get_snapshot_ticker('stocks',symbol).day.close
     except:
         return None
+
 
 def is_in_the_money(option_type: str, option_strike_price: float, asset_price: float) -> bool:
     if option_type == 'call':
@@ -79,66 +81,62 @@ def main():
         if underlying_asset_price:
             for option in options_chain:
                 if option.implied_volatility and option.day.close:
-                    try:
-                        day_opt = asdict(option.day)
-                        details_opt = asdict(option.details)
-                        greeks_truth = asdict(option.greeks)
-                        price_truth = day_opt['close']
-                        days_to_expiry = (datetime.fromisoformat(details_opt['expiration_date']).date() - datetime.today().date()).days
-                        implied_volatility = option.implied_volatility / 10
-                        options_symbol = details_opt['ticker'][2:]
+                    # try:
+                    day_opt = asdict(option.day)
+                    details_opt = asdict(option.details)
+                    greeks_truth = asdict(option.greeks)
+                    price_truth = day_opt['close']
+                    days_to_expiry = (datetime.fromisoformat(details_opt['expiration_date']).date() - datetime.today().date()).days
+                    expiration_date = details_opt['expiration_date']
+                    implied_volatility = option.implied_volatility / 10
+                    options_symbol = details_opt['ticker'][2:]
 
-                        risk_free_rate = round(get_free_risk_rate_from_fred(days_to_expiry), 4)
-                        strike_price = option.details.strike_price
-                        type_of_option = option.details.contract_type
-                        years_to_expiry = days_to_expiry / 252  # number of trading days
-                        # not ideal for american style calls but a fun exercise
-                        black_scholes_pricing = price_using_black_sholes(underlying_asset_price, strike_price, years_to_expiry,
-                                                                        risk_free_rate, implied_volatility, type_of_option)
-                        greeks_black_scholes = get_greeks_black_scholes(underlying_asset_price, strike_price, years_to_expiry,
-                                                                        risk_free_rate, implied_volatility, type_of_option)
-                        # better for pricing american options
-                        binomial_pricing_jarrow = price_using_jarrow_rud_binomial_model(underlying_asset_price, strike_price,
-                                                                                        years_to_expiry, risk_free_rate,
-                                                                                        implied_volatility, type_of_option, 10)
-                        binomial_pricing, options_tree = price_using_binomial_model(underlying_asset_price, strike_price,
-                                                                                    years_to_expiry, risk_free_rate,
-                                                                                    implied_volatility, type_of_option, 10)
-                        greeks_binomial = calculate_greeks_for_binomial_model(underlying_asset_price, strike_price, years_to_expiry,
-                                                                            risk_free_rate, implied_volatility, type_of_option,
-                                                                            10, options_tree)
-                        greeks_binomial['vega'] = calculate_vega(underlying_asset_price, strike_price, years_to_expiry,
-                                                                risk_free_rate, implied_volatility, type_of_option, 10)
-                        greeks_binomial['rho'] = calculate_rho(underlying_asset_price, strike_price, years_to_expiry,
-                                                            risk_free_rate, implied_volatility, type_of_option, 10)
+                    risk_free_rate = round(get_free_risk_rate_from_fred(days_to_expiry), 4)
+                    strike_price = option.details.strike_price
+                    type_of_option = option.details.contract_type
+                    years_to_expiry = (days_to_expiry +1) / 252  # number of trading days
 
-                        # montecarlo, binomial_ql = ql_montecarlo_american_engine(underlying_asset_price, strike_price,expiration_date,risk_free_rate,implied_volatility, type_of_option)
+                    # this is considered truth
+                    option_polygon = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                        price_truth, datetime.today(), underlying_asset_price, years_to_expiry,risk_free_rate)
+                    option_polygon.model = "Polygon API"
+                    option_polygon.set_greeks(greeks_truth)
+                    data_to_insert.append(option_polygon.to_mysql_row())
 
-                        in_the_money = is_in_the_money(type_of_option, strike_price, underlying_asset_price)
+                    # not ideal for american style calls but a fun exercise
+                    option_black_scholes = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                        price_truth, datetime.today(), underlying_asset_price, years_to_expiry, risk_free_rate)
 
-                        truth_model_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            price_truth, "Polygon API", in_the_money, greeks_truth['delta'],
-                            greeks_truth['gamma'], greeks_truth['theta'], None, greeks_truth['vega']
-                        )
-                        data_to_insert.append(truth_model_row)
+                    option_black_scholes.model = "Black-Scholes"
+                    option_black_scholes.model_calculated_price = price_using_black_sholes(option_black_scholes)
+                    option_black_scholes.set_greeks(get_greeks_black_scholes(option_black_scholes))
+                    data_to_insert.append(option_black_scholes.to_mysql_row())
 
-                        black_scholes_pricing_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            black_scholes_pricing, "Black Scholes", in_the_money, greeks_black_scholes['delta'],
-                            greeks_black_scholes['gamma'], greeks_black_scholes['theta'], greeks_black_scholes['rho'],
-                            greeks_black_scholes['vega']
-                        )
-                        data_to_insert.append(black_scholes_pricing_row)
+                    # better for pricing american options
+                    option_binomial_jarrow = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                        price_truth, datetime.today(), underlying_asset_price, years_to_expiry, risk_free_rate)
+                    option_binomial_jarrow.model = "Binomial Jarrow Model"
+                    option_binomial_jarrow.model_calculated_price = price_using_jarrow_rud_binomial_model(option_binomial_jarrow, 10)
+                    data_to_insert.append(option_binomial_jarrow.to_mysql_row())
 
-                        binomial_pricing_row = (options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            binomial_pricing, "Binomial Pricing", in_the_money, greeks_binomial['delta'], greeks_binomial['gamma'],
-                                                greeks_binomial['theta'], greeks_binomial['rho'], greeks_binomial['vega'])
-                        data_to_insert.append(binomial_pricing_row)
+                    option_binomial_pricing = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
+                        price_truth, datetime.today(), underlying_asset_price, years_to_expiry, risk_free_rate)
+                    option_binomial_pricing.model = "Binomial Pricing"
+                    binomial_pricing, options_tree = price_using_binomial_model(option_binomial_pricing, 10)
+                    option_binomial_pricing.model_calculated_price = binomial_pricing
 
-                        binomial_pricing_jarrow_row = (options_symbol,symbol, type_of_option,strike_price,implied_volatility,binomial_pricing_jarrow,
-                            "Binomial Jarrow Model", in_the_money, None, None, None, None, None)
-                        data_to_insert.append(binomial_pricing_jarrow_row)
-                    except:
-                        print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
+                    greeks_binomial = calculate_greeks_for_binomial_model(option_binomial_pricing,10, options_tree)
+                    greeks_binomial['vega'] = calculate_vega(option_binomial_pricing, 10)
+                    greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
+                    option_binomial_pricing.set_greeks(greeks_binomial)
+                    data_to_insert.append(option_binomial_pricing.to_mysql_row())
+
+                    # ql_black_scholes_obj = ql_fd_black_scholes(underlying_asset_price, strike_price, expiration_date,
+                    #                                     risk_free_rate, implied_volatility, type_of_option)
+                    # montecarlo, binomial_ql = ql_montecarlo_american_engine(underlying_asset_price, strike_price,expiration_date,risk_free_rate,implied_volatility, type_of_option)
+
+                    # except:
+                    #     print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
             insert_query = """
                 INSERT INTO option_chains (
                     option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
@@ -166,9 +164,6 @@ def main():
                         continue
 
                 connection.commit()
-                # print(f"{options_symbol} - Truth: ${price_truth:.2f} | Asset price: $ {underlying_asset_price} | "
-                #       f"Black-Scholes: ${black_scholes_pricing:.2f} | Binomial: ${binomial_pricing:.2f} | Binomial (Jarrow): ${binomial_pricing_jarrow:.2f} | In the Money : {in_the_money}")
-
 
     cursor.close()
     connection.close()
