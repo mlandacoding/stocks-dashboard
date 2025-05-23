@@ -37,7 +37,7 @@ class Option:
             self.option_type,
             self.strike_price,
             self.implied_volatility,
-            self.last_price,
+            self.model_calculated_price,
             # self.last_price_updated_at,
             self.model,
             self.in_the_money,

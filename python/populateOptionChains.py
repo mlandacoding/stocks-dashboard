@@ -100,6 +100,7 @@ def main():
                         option_polygon = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
                             price_truth, datetime.today(), underlying_asset_price, years_to_expiry,risk_free_rate)
                         option_polygon.model = "Polygon API"
+                        option_polygon.model_calculated_price = option_polygon.last_price
                         option_polygon.set_greeks(greeks_truth)
                         data_to_insert.append(option_polygon.to_mysql_row())
 
@@ -130,10 +131,6 @@ def main():
                         greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
                         option_binomial_pricing.set_greeks(greeks_binomial)
                         data_to_insert.append(option_binomial_pricing.to_mysql_row())
-
-                    # ql_black_scholes_obj = ql_fd_black_scholes(underlying_asset_price, strike_price, expiration_date,
-                    #                                     risk_free_rate, implied_volatility, type_of_option)
-                    # montecarlo, binomial_ql = ql_montecarlo_american_engine(underlying_asset_price, strike_price,expiration_date,risk_free_rate,implied_volatility, type_of_option)
 
                     except:
                         print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
