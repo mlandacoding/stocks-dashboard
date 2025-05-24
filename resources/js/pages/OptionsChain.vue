@@ -50,7 +50,7 @@
                                     <h2>Calls</h2>
                                 </span>
                             </v-col>
-                            <v-col justify="end" sm="1">
+                            <v-col sm="1" style="text-align: end;">
                                 <v-chip color="green" text-color="white" label>
                                     In the Money
                                 </v-chip>
@@ -116,7 +116,7 @@
                                     <h2>Puts</h2>
                                 </span>
                             </v-col>
-                            <v-col justify="end" sm="1">
+                            <v-col justify="end" sm="1" style="text-align: end;">
                                 <v-chip color="green" text-color="white" label>
                                     In the Money
                                 </v-chip>
