@@ -1,6 +1,6 @@
-import { g as ref, h as onMounted, r as resolveComponent, f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, w as withCtx, n as normalizeClass, j as createTextVNode, F as Fragment, k as renderList, p as normalizeStyle, t as toDisplayString } from "./app-LTFrDTJ3.js";
-import { _ as _export_sfc, a as _sfc_main$1, b as _sfc_main$2, M as MarketStatus, F as FooterComponent } from "./FooterComponent-ClBkgLjE.js";
-import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-CektC-tl.js";
+import { g as ref, h as onMounted, r as resolveComponent, f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, w as withCtx, n as normalizeClass, j as createTextVNode, F as Fragment, k as renderList, p as normalizeStyle, t as toDisplayString } from "./app-CYux1Zp0.js";
+import { _ as _export_sfc, a as _sfc_main$1, b as _sfc_main$2, M as MarketStatus, F as FooterComponent } from "./FooterComponent-BNCXvU_h.js";
+import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-BROqdwA1.js";
 const _hoisted_1 = ["rowspan"];
 const _hoisted_2 = ["rowspan"];
 const _hoisted_3 = ["rowspan"];
@@ -161,8 +161,8 @@ const _sfc_main = {
                                   _: 1
                                 }),
                                 createVNode(_component_v_col, {
-                                  justify: "end",
-                                  sm: "1"
+                                  sm: "1",
+                                  style: { "text-align": "end" }
                                 }, {
                                   default: withCtx(() => [
                                     createVNode(_component_v_chip, {
@@ -257,7 +257,8 @@ const _sfc_main = {
                                 }),
                                 createVNode(_component_v_col, {
                                   justify: "end",
-                                  sm: "1"
+                                  sm: "1",
+                                  style: { "text-align": "end" }
                                 }, {
                                   default: withCtx(() => [
                                     createVNode(_component_v_chip, {
@@ -352,7 +353,7 @@ const _sfc_main = {
     };
   }
 };
-const OptionsChain = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b7a3b41b"]]);
+const OptionsChain = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-38761d6b"]]);
 export {
   OptionsChain as default
 };
