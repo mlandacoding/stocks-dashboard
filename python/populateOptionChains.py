@@ -10,8 +10,12 @@ import json
 import mysql.connector
 from options.Option import Option
 from concurrent.futures import ThreadPoolExecutor
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, InvalidOperation, ROUND_DOWN
 
+def truncate_decimal(value, decimals=10):
+    if not isinstance(value, Decimal):
+        value = Decimal(str(value))
+    return value.quantize(Decimal(f'1.{"0" * decimals}'), rounding=ROUND_DOWN)
 
 def get_last_price(symbol, client):
     try:
@@ -151,24 +155,16 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
             if data_to_insert:
                 for i, row in enumerate(data_to_insert):
-                    try:
-                        # Optional: cast rho to Decimal explicitly for safety
-                        if row[12] is not None:
-                            try:
-                                row = list(row)  # convert to mutable
-                                row[12] = Decimal(str(row[12]))
-                            except InvalidOperation:
-                                print(f"[Invalid Decimal] row {i}: rho = {row[12]}")
-                                continue
-
-                        cursor.execute(insert_query, row)
-                    except Exception as e:
-                        print(f"[Insert Error] row {i}: {row}")
-                        print(f"Error: {e}")
-                        continue
-
+                    if row[12] is not None:
+                        try:
+                            row = list(row)  # convert to mutable
+                            row[12] = truncate_decimal(row[12], decimals=10)
+                        except Exception as e:
+                            print(f"[Truncation Error] row {i}: rho = {row[12]}, error = {e}")
+                            continue
+                    cursor.execute(insert_query, row)
     except Exception as e:
-        print(f"[Error] {symbol}: {e}")
+        print(f'[Error] - {e}')
 
     connection.close()
 
