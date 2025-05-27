@@ -2,7 +2,7 @@ from datetime import datetime
 
 class Option:
     def __init__(self,option_symbol: str, underlying_asset_symbol:str, option_type: str, strike_price: float, implied_volatility: float,
-    last_price: float, last_price_updated_at: datetime, underlying_price: float, years_to_expiry: float, risk_free_rate: float):
+    last_price: float, last_price_updated_at: datetime, underlying_price: float, years_to_expiry: float, expiration_date: datetime, risk_free_rate: float):
         self.option_symbol = option_symbol
         self.underlying_asset_symbol = underlying_asset_symbol
         self.option_type = option_type
@@ -12,6 +12,7 @@ class Option:
         self.last_price_updated_at = last_price_updated_at
         self.underlying_price = underlying_price
         self.years_to_expiry = years_to_expiry
+        self.expiration_date = expiration_date
         self.risk_free_rate = risk_free_rate
         self.model = None
         self.model_calculated_price = None

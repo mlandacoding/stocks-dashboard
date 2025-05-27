@@ -1,9 +1,15 @@
 import QuantLib as ql
 from datetime import datetime
+from options.Option import Option
 
-def ql_montecarlo_american_engine(
-    price_of_underlying_asset: float, strike_price: float, expiration_date: str,
-    risk_free_interest_rate: float, volatility: float, option_type: str):
+def ql_montecarlo_american_engine(option: Option):
+    price_of_underlying_asset = option.underlying_price
+    strike_price = option.strike_price
+    expiration_date = option.expiration_date
+    risk_free_interest_rate = option.risk_free_rate
+    volatility = option.implied_volatility
+    option_type = option.option_type
+
     today = ql.Date().todaysDate()
     ql.Settings.instance().evaluationDate = today
 
@@ -47,8 +53,7 @@ def ql_montecarlo_american_engine(
     american_option.setPricingEngine(mc_engine)
 
     # Get the option price
-    npv = american_option.NPV()
-    return npv
+    return american_option
 
 
 # this function (FDBS) creates a gird with time and asset price
@@ -68,7 +73,7 @@ def ql_fd_black_scholes(price_of_underlying_asset: float, strike_price: float, e
     day_count = ql.Actual365Fixed()
     calendar = ql.NullCalendar()
 
-    dividend_yield = 0.89
+    dividend_yield = 0.00
     spot_handle = ql.QuoteHandle(ql.SimpleQuote(price_of_underlying_asset))
     flat_ts = ql.YieldTermStructureHandle(ql.FlatForward(today, risk_free_interest_rate, day_count))
     dividend_ts = ql.YieldTermStructureHandle(ql.FlatForward(today, dividend_yield, day_count))

@@ -7,7 +7,7 @@ from datetime import datetime
 from options_calculations.riskFreeRateFromFred import get_free_risk_rate_from_fred
 from options_calculations.blackScholesModel import price_using_black_sholes, get_greeks_black_scholes
 from options_calculations.binomialOptionsPricingModel import *
-from options_calculations.QuantLibMethods.QLPricingModels import *
+# from options_calculations.QuantLibMethods.QLPricingModels import *
 import json
 import mysql.connector
 from decimal import Decimal, InvalidOperation
@@ -24,6 +24,7 @@ def is_in_the_money(option_type: str, option_strike_price: float, asset_price: f
     if option_type == 'call':
         return asset_price > option_strike_price
     return asset_price < option_strike_price
+
 
 def get_active_asset_symbols() ->list:
     with open('../storage/app/public/cache/active_assets.json', 'r') as f:
@@ -98,7 +99,7 @@ def main():
 
                         # this is considered truth
                         option_polygon = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry,risk_free_rate)
+                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, expiration_date, risk_free_rate)
                         option_polygon.model = "Polygon API"
                         option_polygon.model_calculated_price = option_polygon.last_price
                         option_polygon.set_greeks(greeks_truth)
@@ -106,7 +107,7 @@ def main():
 
                         # not ideal for american style calls but a fun exercise
                         option_black_scholes = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, risk_free_rate)
+                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, expiration_date, risk_free_rate)
 
                         option_black_scholes.model = "Black-Scholes"
                         option_black_scholes.model_calculated_price = price_using_black_sholes(option_black_scholes)
@@ -115,13 +116,13 @@ def main():
 
                         # better for pricing american options
                         option_binomial_jarrow = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, risk_free_rate)
+                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, expiration_date, risk_free_rate)
                         option_binomial_jarrow.model = "Binomial Jarrow Model"
                         option_binomial_jarrow.model_calculated_price = price_using_jarrow_rud_binomial_model(option_binomial_jarrow, 10)
                         data_to_insert.append(option_binomial_jarrow.to_mysql_row())
 
                         option_binomial_pricing = Option(options_symbol, symbol, type_of_option, strike_price, implied_volatility,
-                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, risk_free_rate)
+                            price_truth, datetime.today(), underlying_asset_price, years_to_expiry, expiration_date, risk_free_rate)
                         option_binomial_pricing.model = "Binomial Pricing"
                         binomial_pricing, options_tree = price_using_binomial_model(option_binomial_pricing, 10)
                         option_binomial_pricing.model_calculated_price = binomial_pricing
@@ -131,6 +132,18 @@ def main():
                         greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
                         option_binomial_pricing.set_greeks(greeks_binomial)
                         data_to_insert.append(option_binomial_pricing.to_mysql_row())
+
+                        # ql_mc_american_option = ql_montecarlo_american_engine(option_polygon)
+                        # ql_mc_american_option_value = ql_mc_american_option.NPV()
+                        # ql_mc_american_option_greeks = {
+                        #     'delta' : ql_mc_american_option.g,
+                        #     'gamma' : ql_mc_american_option.gamma(),
+                        #     'theta' : ql_mc_american_option.theta(),
+                        #     'vega' : ql_mc_american_option.vega(),
+                        #     'rho' : ql_mc_american_option.rho()
+                        # }
+
+                        # ql_mc_american_option.isExpired()
 
                     except:
                         print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
