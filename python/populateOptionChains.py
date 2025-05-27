@@ -10,6 +10,8 @@ import json
 import mysql.connector
 from options.Option import Option
 from concurrent.futures import ThreadPoolExecutor
+from decimal import Decimal, InvalidOperation
+
 
 def get_last_price(symbol, client):
     try:
@@ -49,6 +51,16 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
     data_to_insert = []
     client = RESTClient(api_key)
     connection = get_mysql_connection()
+    cursor = connection.cursor()
+
+    insert_query = """
+            INSERT INTO option_chains (
+                option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
+                last_price_updated_at, model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
+            ) VALUES (
+                %s, %s, %s, %s, %s, %s, NOW(),
+                %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
+            )"""
 
     print(f'Processing {symbol}')
     try:
@@ -137,19 +149,24 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
                     except:
                         print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
 
-        insert_query = """
-        INSERT INTO option_chains (
-            option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
-            last_price_updated_at, model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
-        ) VALUES (
-            %s, %s, %s, %s, %s, %s, NOW(),
-            %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
-        )"""
-        # Bulk insert
-        if data_to_insert:
-            with connection.cursor() as thread_cursor:
-                thread_cursor.executemany(insert_query, data_to_insert)
-                connection.commit()
+            if data_to_insert:
+                for i, row in enumerate(data_to_insert):
+                    try:
+                        # Optional: cast rho to Decimal explicitly for safety
+                        if row[12] is not None:
+                            try:
+                                row = list(row)  # convert to mutable
+                                row[12] = Decimal(str(row[12]))
+                            except InvalidOperation:
+                                print(f"[Invalid Decimal] row {i}: rho = {row[12]}")
+                                continue
+
+                        cursor.execute(insert_query, row)
+                    except Exception as e:
+                        print(f"[Insert Error] row {i}: {row}")
+                        print(f"Error: {e}")
+                        continue
+
     except Exception as e:
         print(f"[Error] {symbol}: {e}")
 
