@@ -147,7 +147,8 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
                         greeks_binomial = calculate_greeks_for_binomial_model(option_binomial_pricing, 10, options_tree)
                         greeks_binomial['vega'] = calculate_vega(option_binomial_pricing, 10)
-                        greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
+                        greeks_binomial['rho'] = None
+                        # greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
                         option_binomial_pricing.set_greeks(greeks_binomial)
                         data_to_insert.append(option_binomial_pricing.to_mysql_row())
                     except:
