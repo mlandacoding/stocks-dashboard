@@ -147,8 +147,7 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
                         greeks_binomial = calculate_greeks_for_binomial_model(option_binomial_pricing, 10, options_tree)
                         greeks_binomial['vega'] = calculate_vega(option_binomial_pricing, 10)
-                        greeks_binomial['rho'] = None
-                        # greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
+                        greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
                         option_binomial_pricing.set_greeks(greeks_binomial)
                         data_to_insert.append(option_binomial_pricing.to_mysql_row())
                     except:
@@ -156,14 +155,16 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
             if data_to_insert:
                 for i, row in enumerate(data_to_insert):
-                    if row[12] is not None:
-                        try:
-                            row = list(row)  # convert to mutable
+                    try:
+                        if row[12] is not None:
+                            row = list(row)
                             row[12] = truncate_decimal(row[12], decimals=10)
-                        except Exception as e:
-                            print(f"[Truncation Error] row {i}: rho = {row[12]}, error = {e}")
-                            continue
-                    cursor.execute(insert_query, row)
+                        cursor.execute(insert_query, row)
+                        connection.commit()
+                    except Exception as e:
+                        print(f"[Insert Error] row {i}: {row}")
+                        print(f"Error: {e}")
+                        continue
     except Exception as e:
         print(f'[Error] - {e}')
 
