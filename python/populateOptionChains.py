@@ -140,17 +140,17 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
                             <= 0.1 * option_polygon.model_calculated_price):
                             data_to_insert.append(option_binomial_jarrow.to_mysql_row())
 
-                        option_montecarlo_ql = Option(options_symbol, symbol, type_of_option, strike_price,
-                                                        implied_volatility,
-                                                        price_truth, datetime.today(), underlying_asset_price,
-                                                        years_to_expiry, expiration_date, risk_free_rate)
-                        option_montecarlo_ql.model = "Montecarlo QL"
-                        qlmc_american = ql_montecarlo_american_engine(option_montecarlo_ql)
-                        option_montecarlo_ql.model_calculated_price = qlmc_american.NPV()
-                        if (option_montecarlo_ql.model_calculated_price > 0.005 and
-                            abs(option_montecarlo_ql.model_calculated_price - option_polygon.model_calculated_price)
-                            <= 0.1 * option_polygon.model_calculated_price):
-                            data_to_insert.append(option_montecarlo_ql.to_mysql_row())
+                        # option_montecarlo_ql = Option(options_symbol, symbol, type_of_option, strike_price,
+                        #                                 implied_volatility,
+                        #                                 price_truth, datetime.today(), underlying_asset_price,
+                        #                                 years_to_expiry, expiration_date, risk_free_rate)
+                        # option_montecarlo_ql.model = "Montecarlo QL"
+                        # qlmc_american = ql_montecarlo_american_engine(option_montecarlo_ql)
+                        # option_montecarlo_ql.model_calculated_price = qlmc_american.NPV()
+                        # if (option_montecarlo_ql.model_calculated_price > 0.005 and
+                        #     abs(option_montecarlo_ql.model_calculated_price - option_polygon.model_calculated_price)
+                        #     <= 0.1 * option_polygon.model_calculated_price):
+                        #     data_to_insert.append(option_montecarlo_ql.to_mysql_row())
 
                         option_ql_binomial = Option(options_symbol, symbol, type_of_option, strike_price,
                                                         implied_volatility,
@@ -182,35 +182,10 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
             if data_to_insert:
                 for i, row in enumerate(data_to_insert):
-<<<<<<< Updated upstream
-                    try:
-                        # Optional: cast rho to Decimal explicitly for safety
-                        if row[12] is not None:
-                            try:
-                                row = list(row)  # convert to mutable
-                                row[12] = Decimal(str(row[12]))
-                            except InvalidOperation:
-                                print(f"[Invalid Decimal] row {i}: rho = {row[12]}")
-                                continue
-
-                        cursor.execute(insert_query, row)
-                    except Exception as e:
-                        print(f"[Insert Error] row {i}: {row}")
-                        print(f"Error: {e}")
-                        continue
-
-=======
-                    # try:
-                    #     if row[12] is not None:
-                    #         row = list(row)
-                    #         row[12] = truncate_decimal(row[12], decimals=10)
                     cursor.execute(insert_query, row)
                     connection.commit()
-                    # except Exception as e:
-                    #     print(f"[Insert Error] row {i}: {row}")
-                    #     print(f"Error: {e}")
-                    #     continue
->>>>>>> Stashed changes
+
+
     except Exception as e:
         print(f"[Error] {symbol}: {e}")
 
