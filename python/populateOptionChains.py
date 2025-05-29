@@ -182,9 +182,11 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
             if data_to_insert:
                 for i, row in enumerate(data_to_insert):
-                    cursor.execute(insert_query, row)
-                    connection.commit()
-
+                    try:
+                        cursor.execute(insert_query, row)
+                        connection.commit()
+                    except Exception as e:
+                        print(f"[Error] {symbol}: {e}")
 
     except Exception as e:
         print(f"[Error] {symbol}: {e}")
