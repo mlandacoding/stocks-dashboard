@@ -2,6 +2,49 @@ import QuantLib as ql
 from datetime import datetime
 from options.Option import Option
 
+def ql_binomial_american_engine(option: Option) -> float:
+    # Extract data from your custom Option object
+    S = option.underlying_price
+    K = option.strike_price
+    expiry_str = option.expiration_date
+    r = option.risk_free_rate
+    sigma = option.implied_volatility
+    is_call = option.option_type.lower() == 'call'
+
+    # Convert date to QuantLib format
+    expiry = datetime.strptime(expiry_str, "%Y-%m-%d").date()
+    maturity_date = ql.Date(expiry.day, expiry.month, expiry.year)
+    today = ql.Date.todaysDate()
+
+    # Set evaluation date
+    ql.Settings.instance().evaluationDate = today
+
+    # Day count and calendar
+    calendar = ql.NullCalendar()
+    day_count = ql.Actual365Fixed()
+
+    # Market data handles
+    spot_handle = ql.QuoteHandle(ql.SimpleQuote(S))
+    flat_rf_curve = ql.YieldTermStructureHandle(ql.FlatForward(today, r, day_count))
+    dividend_curve = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.0, day_count))
+    vol_curve = ql.BlackVolTermStructureHandle(ql.BlackConstantVol(today, calendar, sigma, day_count))
+
+    # Process
+    bsm_process = ql.BlackScholesMertonProcess(spot_handle, dividend_curve, flat_rf_curve, vol_curve)
+
+    # Option setup
+    payoff = ql.PlainVanillaPayoff(ql.Option.Call if is_call else ql.Option.Put, K)
+    exercise = ql.AmericanExercise(today, maturity_date)
+    american_option = ql.VanillaOption(payoff, exercise)
+
+    # Pricing engine: binomial (CRR recommended)
+    time_steps = 500  # more steps = higher accuracy
+    engine = ql.BinomialVanillaEngine(bsm_process, "crr", time_steps)
+    american_option.setPricingEngine(engine)
+
+    # Return price
+    return american_option.NPV()
+
 def ql_montecarlo_american_engine(option: Option):
     price_of_underlying_asset = option.underlying_price
     strike_price = option.strike_price
@@ -10,7 +53,7 @@ def ql_montecarlo_american_engine(option: Option):
     volatility = option.implied_volatility
     option_type = option.option_type
 
-    today = ql.Date().todaysDate()
+    today = ql.Date.todaysDate()
     ql.Settings.instance().evaluationDate = today
 
     # Option parameters
@@ -45,7 +88,7 @@ def ql_montecarlo_american_engine(option: Option):
 
     # Set up Monte Carlo engine
     steps = 200
-    num_paths = 100000
+    num_paths = 1000
     rng = "pseudorandom"  # or "lowdiscrepancy"
 
     mc_engine = ql.MCAmericanEngine(bsm_process, rng, steps, requiredSamples=num_paths)
