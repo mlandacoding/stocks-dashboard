@@ -27,7 +27,7 @@
 
                     <v-row>
                         <v-col>
-                            <v-card class="pa-4" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
                                 <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
                                     <span>Bull Spread</span>
                                 </v-card-title>
@@ -120,12 +120,12 @@ export default {
                 },
                 xaxis: {
                     categories: [],
-                    title: { text: 'Stock Price at Expiry', style: { color: '#fff' } },
-                    labels: { style: { colors: '#fff' } },
+                    title: { text: 'Asset Price', style: { color: '#fff' } },
+                    labels: { show: false },
                 },
                 yaxis: {
                     title: { text: 'Profit / Loss', style: { color: '#fff' } },
-                    labels: { style: { colors: '#fff' } },
+                    labels: { show: false },
                 },
                 grid: {
                     borderColor: '#2c365a',
@@ -137,7 +137,7 @@ export default {
                     colors: ['#00e396'],
                 },
                 tooltip: {
-                    theme: 'dark',
+                    enabled: false,
                 },
                 markers: {
                     size: 5,
@@ -167,6 +167,9 @@ export default {
                             ],
                         ],
                     },
+                },
+                dataLabels: {
+                    enabled: false,
                 },
             },
         };
