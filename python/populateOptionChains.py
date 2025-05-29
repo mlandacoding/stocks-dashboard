@@ -6,6 +6,7 @@ from dataclasses import asdict
 from options_calculations.riskFreeRateFromFred import *
 from options_calculations.blackScholesModel import price_using_black_sholes, get_greeks_black_scholes
 from options_calculations.binomialOptionsPricingModel import *
+from options_calculations.QuantLibMethods.QLPricingModels import ql_montecarlo_american_engine, ql_binomial_american_engine
 import json
 import mysql.connector
 from options.Option import Option
@@ -121,7 +122,10 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
                         option_black_scholes.model = "Black-Scholes"
                         option_black_scholes.model_calculated_price = price_using_black_sholes(option_black_scholes)
                         option_black_scholes.set_greeks(get_greeks_black_scholes(option_black_scholes))
-                        data_to_insert.append(option_black_scholes.to_mysql_row())
+                        if (option_black_scholes.model_calculated_price >= 0.005 and
+                            abs(option_black_scholes.model_calculated_price - option_polygon.model_calculated_price)
+                            <= 0.1 * option_polygon.model_calculated_price):
+                            data_to_insert.append(option_black_scholes.to_mysql_row())
 
                         # better for pricing american options
                         option_binomial_jarrow = Option(options_symbol, symbol, type_of_option, strike_price,
@@ -130,8 +134,34 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
                                                         years_to_expiry, expiration_date, risk_free_rate)
                         option_binomial_jarrow.model = "Binomial Jarrow Model"
                         option_binomial_jarrow.model_calculated_price = price_using_jarrow_rud_binomial_model(
-                            option_binomial_jarrow, 10)
-                        data_to_insert.append(option_binomial_jarrow.to_mysql_row())
+                            option_binomial_jarrow, 100)
+                        if (option_binomial_jarrow.model_calculated_price > 0.005 and
+                            abs(option_binomial_jarrow.model_calculated_price - option_polygon.model_calculated_price)
+                            <= 0.1 * option_polygon.model_calculated_price):
+                            data_to_insert.append(option_binomial_jarrow.to_mysql_row())
+
+                        option_montecarlo_ql = Option(options_symbol, symbol, type_of_option, strike_price,
+                                                        implied_volatility,
+                                                        price_truth, datetime.today(), underlying_asset_price,
+                                                        years_to_expiry, expiration_date, risk_free_rate)
+                        option_montecarlo_ql.model = "Montecarlo QL"
+                        qlmc_american = ql_montecarlo_american_engine(option_montecarlo_ql)
+                        option_montecarlo_ql.model_calculated_price = qlmc_american.NPV()
+                        if (option_montecarlo_ql.model_calculated_price > 0.005 and
+                            abs(option_montecarlo_ql.model_calculated_price - option_polygon.model_calculated_price)
+                            <= 0.1 * option_polygon.model_calculated_price):
+                            data_to_insert.append(option_montecarlo_ql.to_mysql_row())
+
+                        option_ql_binomial = Option(options_symbol, symbol, type_of_option, strike_price,
+                                                        implied_volatility,
+                                                        price_truth, datetime.today(), underlying_asset_price,
+                                                        years_to_expiry, expiration_date, risk_free_rate)
+                        option_ql_binomial.model = "Binomial QL"
+                        option_ql_binomial.model_calculated_price = ql_binomial_american_engine(option_ql_binomial)
+                        if (option_ql_binomial.model_calculated_price > 0.005 and
+                            abs(option_ql_binomial.model_calculated_price - option_polygon.model_calculated_price)
+                            <= 0.1 * option_polygon.model_calculated_price):
+                            data_to_insert.append(option_ql_binomial.to_mysql_row())
 
                         option_binomial_pricing = Option(options_symbol, symbol, type_of_option, strike_price,
                                                          implied_volatility,
@@ -145,12 +175,14 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
                         greeks_binomial['vega'] = calculate_vega(option_binomial_pricing, 10)
                         greeks_binomial['rho'] = calculate_rho(option_binomial_pricing, 10)
                         option_binomial_pricing.set_greeks(greeks_binomial)
-                        data_to_insert.append(option_binomial_pricing.to_mysql_row())
+                        if option_binomial_pricing.model_calculated_price !=0:
+                            data_to_insert.append(option_binomial_pricing.to_mysql_row())
                     except:
                         print(f'Failed to process chain - {asdict(option.details)['ticker'][2:]} - {symbol}')
 
             if data_to_insert:
                 for i, row in enumerate(data_to_insert):
+<<<<<<< Updated upstream
                     try:
                         # Optional: cast rho to Decimal explicitly for safety
                         if row[12] is not None:
@@ -167,6 +199,18 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
                         print(f"Error: {e}")
                         continue
 
+=======
+                    # try:
+                    #     if row[12] is not None:
+                    #         row = list(row)
+                    #         row[12] = truncate_decimal(row[12], decimals=10)
+                    cursor.execute(insert_query, row)
+                    connection.commit()
+                    # except Exception as e:
+                    #     print(f"[Insert Error] row {i}: {row}")
+                    #     print(f"Error: {e}")
+                    #     continue
+>>>>>>> Stashed changes
     except Exception as e:
         print(f"[Error] {symbol}: {e}")
 
@@ -208,7 +252,7 @@ def main():
         port=os.getenv('DB_PORT'),
     )
 
-    active_stocks = get_active_asset_symbols()
+    active_stocks = get_active_asset_symbols()[:8]
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
 

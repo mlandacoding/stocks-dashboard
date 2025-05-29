@@ -9,40 +9,38 @@ from copy import deepcopy
 # This implementation was inspired by the approach described here:
 # https://en.wikipedia.org/wiki/Binomial_options_pricing_model
 # https://www.macroption.com/binomial-option-pricing-calculator-jarrow-rudd-model/
-# # No LLMS were used to create this
-def price_using_jarrow_rud_binomial_model(option: Option, tree_height: int) -> float:
-    price_of_underlying_asset = option.underlying_price
-    strike_price = option.strike_price
-    years_to_expiry = option.years_to_expiry
-    risk_free_interest_rate = option.risk_free_rate
-    volatility = option.implied_volatility
-    option_type = option.option_type
+def price_using_jarrow_rud_binomial_model(option, tree_height: int) -> float:
+    S0 = option.underlying_price
+    K = option.strike_price
+    T = option.years_to_expiry
+    r = option.risk_free_rate
+    sigma = option.implied_volatility
+    is_call = option.option_type.lower() == 'call'
 
-    deltaT = years_to_expiry / tree_height
-    up = np.exp(volatility * math.sqrt(deltaT))
-    p0 = (up - np.exp(-risk_free_interest_rate * deltaT)) / (up**2 -1)
-    p1 = np.exp(-risk_free_interest_rate * deltaT) - p0
+    dt = T / tree_height
+    up = math.exp(sigma * math.sqrt(dt))
+    down = 1 / up
+    pu = 0.5
+    pd = 1 - pu
+    discount = math.exp(-r * dt)
 
-    p = [0 for _ in range(tree_height +1)]
-    for i in range(0, tree_height):
-        if option_type == 'put':
-            p[i] = strike_price - price_of_underlying_asset * up**2*i - (tree_height+1)
-            p[i] = 0 if p[i] < 0 else p[i]
-        if option_type == 'call':
-            p[i] = price_of_underlying_asset - strike_price * up ** 2 * i - (tree_height + 1)
-            p[i] = 0 if p[i] < 0 else p[i]
+    asset_prices = np.array([S0 * up**j * down**(tree_height - j) for j in range(tree_height + 1)])
+    option_values = np.maximum(
+        asset_prices - K if is_call else K - asset_prices,
+        0
+    )
 
-    for j in range(tree_height-1, -1, -1):
-        for i in range(j):
-            p[i] = p0 * p[i+1] + p1 * p[i]
-            if option_type == 'put':
-                exercise = strike_price - price_of_underlying_asset * up**(2*i - j+1)
-                p[i] = exercise if p[i] < exercise else p[i]
-            if option_type == 'call':
-                exercise = price_of_underlying_asset - strike_price * up ** (2 * i - j + 1)
-                p[i] = exercise if p[i] < exercise else p[i]
+    # step back through the tree
+    for i in reversed(range(tree_height)):
+        asset_prices = asset_prices[:-1] * up  # go one step back
+        option_values = discount * (pu * option_values[1:] + pd * option_values[:-1])
+        early_exercise = np.maximum(
+            asset_prices - K if is_call else K - asset_prices,
+            0
+        )
+        option_values = np.maximum(option_values, early_exercise)
 
-    return p[0]
+    return option_values[0]
 
 
 # I got this from the book options futures and derivatives by john c hull
@@ -127,18 +125,18 @@ def calculate_greeks_for_binomial_model(option: Option, tree_height: int, option
 
 
 # an LLM helped with the logic
-def calculate_vega(option: Option, tree_height: int, bump=1e-4) -> float:
+def calculate_vega(option: Option, tree_height: int, bump=0.01) -> float:
     option_up = deepcopy(option)
     option_up.implied_volatility += bump
     v_plus, _ = price_using_binomial_model(option_up, tree_height)
 
     option_down = deepcopy(option)
-    option_down.implied_volatility += bump
+    option_down.implied_volatility -= bump
     v_minus, _ = price_using_binomial_model(option_down, tree_height)
-    return (v_plus - v_minus) / (2 * bump)
+    return ((v_plus - v_minus) / (2 * bump)) * 100
 
 # an LLM helped with the logic
-def calculate_rho(option: Option, tree_height: int, bump=1e-4) ->float:
+def calculate_rho(option: Option, tree_height: int, bump=0.01) ->float:
     option_up = deepcopy(option)
     option_up.risk_free_rate += bump
     v_plus, _ = price_using_binomial_model(option_up, tree_height)
@@ -146,4 +144,4 @@ def calculate_rho(option: Option, tree_height: int, bump=1e-4) ->float:
     option_down = deepcopy(option)
     option_down.risk_free_rate -= bump
     v_minus, _ = price_using_binomial_model(option_down, tree_height)
-    return (v_plus - v_minus) / (2 * bump)
+    return ((v_plus - v_minus) / (2 * bump)) * 100

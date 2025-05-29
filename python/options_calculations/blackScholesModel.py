@@ -73,9 +73,8 @@ def get_greeks_black_scholes(option: Option, trading_days = 252) -> dict:
         else (1 / trading_days) * (-a + b_for_puts - c_for_puts)
     )
 
-
-    rho_for_calls = strike_price * years_to_expiry * np.exp(-risk_free_interest_rate * years_to_expiry) * si.norm.cdf(d2)
-    rho_for_puts = -strike_price * years_to_expiry * np.exp(-risk_free_interest_rate * years_to_expiry) * si.norm.cdf(-d2)
+    rho_for_calls = (strike_price * years_to_expiry * np.exp(-risk_free_interest_rate * years_to_expiry) * si.norm.cdf(d2)) / 100
+    rho_for_puts = (-strike_price * years_to_expiry * np.exp(-risk_free_interest_rate * years_to_expiry) * si.norm.cdf(-d2)) / 100
 
     rho = rho_for_calls if option_type == 'call' else rho_for_puts
 
