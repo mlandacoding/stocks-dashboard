@@ -227,7 +227,7 @@ def main():
         port=os.getenv('DB_PORT'),
     )
 
-    active_stocks = get_active_asset_symbols()[:8]
+    active_stocks = get_active_asset_symbols()
     cursor = connection.cursor()
     cursor.execute("TRUNCATE TABLE option_chains")
 
