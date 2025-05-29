@@ -56,10 +56,10 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
     insert_query = """
             INSERT INTO option_chains (
-                option_symbol, underlying_asset_symbol, option_type, strike_price, implied_volatility, last_price,
+                option_symbol, underlying_asset_symbol, expiration_date, option_type, strike_price, implied_volatility, last_price,
                 last_price_updated_at, model, moneyness, delta, gamma, theta, rho, vega, created_at, updated_at
             ) VALUES (
-                %s, %s, %s, %s, %s, %s, NOW(),
+                %s, %s, %s, %s, %s, %s, %s, NOW(),
                 %s, %s, %s, %s, %s, %s, %s, NOW(), NOW()
             )"""
 

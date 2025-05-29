@@ -35,6 +35,7 @@ class Option:
         return (
             self.option_symbol,
             self.underlying_asset_symbol,
+            self.expiration_date,
             self.option_type,
             self.strike_price,
             self.implied_volatility,

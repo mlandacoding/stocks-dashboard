@@ -16,6 +16,7 @@ use App\Http\Controllers\FinancialStatementsController;
 use App\Http\Controllers\FinancialMetricsController;
 use App\Http\Controllers\SymbolNewsController;
 use App\Http\Controllers\OptionChainController;
+use App\Http\Controllers\OptionStrategyBuilderController;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -85,3 +86,4 @@ Route::get('/getNewsPerSymbol/{symbol}', [SymbolNewsController::class, 'getNewsP
 Route::get('/getOptionsChainByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainByUnderlyingAsset']);
 Route::get('/getChainCallsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainCallsByUnderlyingAsset']);
 Route::get('/getChainPutsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainPutsByUnderlyingAsset']);
+Route::get('/optionsStrategyBuilder/{strategy?}', [OptionStrategyBuilderController::class, 'index']);

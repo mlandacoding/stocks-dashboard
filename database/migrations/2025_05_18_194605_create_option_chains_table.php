@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('option_symbol');
             $table->string('underlying_asset_symbol');
+            $table->date('expiration_date');
             $table->string('option_type');
             $table->decimal('strike_price', 15, 2)->nullable();
             $table->decimal('implied_volatility', 17, 15)->nullable();
