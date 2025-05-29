@@ -37,12 +37,28 @@
                             </v-card>
                         </v-col>
                         <v-col>
-                            <v-card>test</v-card>
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
+                                <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
+                                    <span>Bear Spread</span>
+                                </v-card-title>
+                                <v-card-text>
+                                    <apexchart type="area" height="300" :options="bearSpreadOptions" :series="bearSpreadSeries" />
+                                </v-card-text>
+                            </v-card>
                         </v-col>
                         <v-col>
-                            <v-card>test</v-card>
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
+                                <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
+                                    <span>Straddle</span>
+                                </v-card-title>
+                                <v-card-text>
+                                    <apexchart type="area" height="300" :options="straddleOptions" :series="straddleSeries" />
+                                </v-card-text>
+                            </v-card>
                         </v-col>
                     </v-row>
+
+
 
                 </v-container>
                 <FooterComponent></FooterComponent>
@@ -86,6 +102,9 @@ import Sidebar from '@/components/Sidebar.vue';
 import MarketStatus from '@/components/MarketStatus.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import VueApexCharts from 'vue3-apexcharts';
+import { bullSpreadSeries, bullSpreadOptions } from '@/components/option_graphs/IconBullSpreadGraph';
+import { bearSpreadSeries, bearSpreadOptions } from '@/components/option_graphs/IconBearSpreadGraph';
+import { straddleSeries, straddleOptions } from '@/components/option_graphs/IconStraddleGraph';
 
 export default {
     name: 'OptionsStrategyBuilder',
@@ -99,95 +118,35 @@ export default {
     data() {
         return {
             drawer: false,
-            // Bull Spread Payoff Data
-            strikes: [90, 95, 100, 105, 110, 115, 120, 125, 130],
-            longCallStrike: 100,
-            longCallPremium: 10,
-            shortCallStrike: 120,
-            shortCallPremium: 4,
-            bullSpreadSeries: [
-                {
-                    name: 'Payoff',
-                    data: [],
-                },
-            ],
-            bullSpreadOptions: {
-                chart: {
-                    id: 'bull-spread-payoff',
-                    toolbar: { show: false },
-                    zoom: { enabled: false },
-                    background: 'transparent',
-                },
-                xaxis: {
-                    categories: [],
-                    title: { text: 'Asset Price', style: { color: '#fff' } },
-                    labels: { show: false },
-                },
-                yaxis: {
-                    title: { text: 'Profit / Loss', style: { color: '#fff' } },
-                    labels: { show: false },
-                },
-                grid: {
-                    borderColor: '#2c365a',
-                    row: { colors: ['#222b45', 'transparent'], opacity: 0.1 },
-                },
-                stroke: {
-                    curve: 'straight',
-                    width: 3,
-                    colors: ['#00e396'],
-                },
-                tooltip: {
-                    enabled: false,
-                },
-                markers: {
-                    size: 5,
-                    colors: ['#00e396'],
-                    strokeColors: '#fff',
-                    strokeWidth: 2,
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.4,
-                        opacityTo: 0,
-                        stops: [0, 100],
-                        colorStops: [
-                            [
-                                {
-                                    offset: 0,
-                                    color: '#00e396',
-                                    opacity: 0.4,
-                                },
-                                {
-                                    offset: 100,
-                                    color: '#00e396',
-                                    opacity: 0,
-                                },
-                            ],
-                        ],
-                    },
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-            },
+            bullSpreadSeries,
+            bullSpreadOptions,
+            bearSpreadSeries,
+            bearSpreadOptions,
+            straddleSeries,
+            straddleOptions,
         };
     },
     mounted() {
         this.calculateBullSpreadPayoff();
+        this.calculateBearSpreadPayoff();
     },
     methods: {
         handleDrawerToggle(value) {
             this.drawer = value;
         },
         calculateBullSpreadPayoff() {
-            this.bullSpreadSeries[0].data = this.strikes.map((price) => {
-                const longCall = Math.max(0, price - this.longCallStrike) - this.longCallPremium;
-                const shortCall = -1 * (Math.max(0, price - this.shortCallStrike) - this.shortCallPremium);
+            this.bullSpreadSeries[0].data = this.bullSpreadOptions.xaxis.categories.map((price) => {
+                const longCall = Math.max(0, price - 100) - 10;
+                const shortCall = -1 * (Math.max(0, price - 120) - 4);
                 return longCall + shortCall;
             });
-            this.bullSpreadOptions.xaxis.categories = this.strikes;
+        },
+        calculateBearSpreadPayoff() {
+            this.bearSpreadSeries[0].data = this.bearSpreadOptions.xaxis.categories.map((price) => {
+                const longCall = 10 - Math.max(0, price - 100);
+                const shortCall = -1 * (4 - Math.max(0, price - 120));
+                return longCall + shortCall;
+            });
         },
     },
 };
