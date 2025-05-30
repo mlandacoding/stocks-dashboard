@@ -25,34 +25,60 @@
                         </v-col>
                     </v-row>
 
-                    <v-row>
-                        <v-col>
-                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
+                    <v-row cols="12" sm="12" md="4" lg="3">
+                        <v-col sm="2" md="2" lg="3">
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
                                 <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
                                     <span>Bull Spread</span>
+                                    <v-btn color="accent" variant="tonal" text>
+                                        <v-icon>mdi-play</v-icon>
+                                        <span>Build</span>
+                                    </v-btn>
                                 </v-card-title>
                                 <v-card-text>
-                                    <apexchart type="area" height="300" :options="bullSpreadOptions" :series="bullSpreadSeries" />
+                                    <apexchart type="area" height="250" :options="bullSpreadOptions" :series="bullSpreadSeries" />
                                 </v-card-text>
                             </v-card>
                         </v-col>
-                        <v-col>
-                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
+                        <v-col sm="2" md="2" lg="3">
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
                                 <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
                                     <span>Bear Spread</span>
+                                    <v-btn color="accent" variant="tonal" text>
+                                        <v-icon>mdi-play</v-icon>
+                                        <span>Build</span>
+                                    </v-btn>
                                 </v-card-title>
                                 <v-card-text>
-                                    <apexchart type="area" height="300" :options="bearSpreadOptions" :series="bearSpreadSeries" />
+                                    <apexchart type="area" height="250" :options="bearSpreadOptions" :series="bearSpreadSeries" />
                                 </v-card-text>
                             </v-card>
                         </v-col>
-                        <v-col>
-                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 18px; border: 1px solid #2c365a;">
+                        <v-col sm="2" md="2" lg="3">
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
                                 <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
-                                    <span>Straddle</span>
+                                    <span>Long Straddle</span>
+                                    <v-btn color="accent" variant="tonal" text>
+                                        <v-icon>mdi-play</v-icon>
+                                        <span>Build</span>
+                                    </v-btn>
                                 </v-card-title>
                                 <v-card-text>
-                                    <apexchart type="area" height="300" :options="straddleOptions" :series="straddleSeries" />
+                                    <apexchart type="area" height="250" :options="straddleOptions" :series="straddleSeries" />
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                        <v-col sm="2" md="2" lg="3">
+                            <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
+                                <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
+                                    <span>Long Strangle</span>
+                                    <v-btn color="accent" variant="tonal" text>
+                                        <v-icon>mdi-play</v-icon>
+                                        <span>Build</span>
+                                    </v-btn>
+                                </v-card-title>
+                                <v-card-text>
+                                    <apexchart type="area" height="250" :options="longStrangleOptions" :series="longStrangleSeries" />
                                 </v-card-text>
                             </v-card>
                         </v-col>
@@ -105,6 +131,7 @@ import VueApexCharts from 'vue3-apexcharts';
 import { bullSpreadSeries, bullSpreadOptions } from '@/components/option_graphs/IconBullSpreadGraph';
 import { bearSpreadSeries, bearSpreadOptions } from '@/components/option_graphs/IconBearSpreadGraph';
 import { straddleSeries, straddleOptions } from '@/components/option_graphs/IconStraddleGraph';
+import { longStrangleSeries, longStrangleOptions } from '@/components/option_graphs/IconLongStrangleGraph';
 
 export default {
     name: 'OptionsStrategyBuilder',
@@ -124,6 +151,8 @@ export default {
             bearSpreadOptions,
             straddleSeries,
             straddleOptions,
+            longStrangleSeries,
+            longStrangleOptions,
         };
     },
     mounted() {

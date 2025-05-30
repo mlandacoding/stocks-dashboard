@@ -1,13 +1,13 @@
-export const straddleSeries = [
+export const longStrangleSeries = [
     {
         name: 'Payoff',
-        data: [20, 15, 10, 5, 0, 5, 10, 15, 20], // Example data for visual representation
+        data: [15, 10, 5, 0, 0, 0, 5, 10, 15], // Example data for visual representation
     },
 ];
 
-export const straddleOptions = {
+export const longStrangleOptions = {
     chart: {
-        id: 'straddle-payoff',
+        id: 'long-strangle-payoff',
         toolbar: { show: false },
         zoom: { enabled: false },
         background: 'transparent',
