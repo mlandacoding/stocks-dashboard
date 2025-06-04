@@ -87,3 +87,4 @@ Route::get('/getOptionsChainByUnderlyingAsset/{symbol}', [OptionChainController:
 Route::get('/getChainCallsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainCallsByUnderlyingAsset']);
 Route::get('/getChainPutsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainPutsByUnderlyingAsset']);
 Route::get('/optionsStrategyBuilder/{strategy?}', [OptionStrategyBuilderController::class, 'index']);
+Route::get('/optionsStrategyBuilder/{strategy}/{symbol}', [OptionStrategyBuilderController::class, 'show']);

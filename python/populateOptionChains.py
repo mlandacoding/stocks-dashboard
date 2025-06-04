@@ -16,7 +16,7 @@ from decimal import Decimal, InvalidOperation
 
 def get_last_price(symbol, client):
     try:
-        return client.get_snapshot_ticker('stocks',symbol).day.close
+        return client.get_snapshot_ticker('stocks',symbol).prev_day.close
     except:
         return None
 
@@ -80,7 +80,7 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
             calls = future_calls.result()
             puts = future_puts.result()
-            options_chain = list(calls)[:75] + list(puts)[:75]
+            options_chain = list(calls)[:500] + list(puts)[:500]
 
         underlying_asset_price = get_last_price(symbol, client)
         if underlying_asset_price:

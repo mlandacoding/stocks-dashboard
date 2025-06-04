@@ -220,7 +220,7 @@ import LiveSingleStockComponent from '@/components/LiveSingleStockComponent.vue'
 const props = defineProps({
     symbol: String,
 });
-
+const showSearchDialog = ref(false);
 const symbolArr = ref([props.symbol])
 
 const drawer = ref(false);
