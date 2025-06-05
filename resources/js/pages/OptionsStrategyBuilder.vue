@@ -20,9 +20,9 @@
                             <h4>Symbol: {{ symbol }}</h4>
                         </v-col>
                     </v-row>
+                    <br>
 
-                    <v-row>
-
+                    <v-row dense class="ma-0 pa-1">
                         <v-col cols="12" sm="4">
                             <v-select v-model="selectedExpiration" :items="expirationDates" label="Select Expiration"
                                 variant="underlined" dense />
@@ -46,36 +46,29 @@
                                 Your selected options would result in a negative maximum profit
                             </v-alert>
                         </v-col>
+                    </v-row>
+
+                    <v-row dense class="ma-0 pa-0">
 
 
-                        <v-col cols="12" sm="4">
-                            <v-card v-if="selectedITMOption && selectedOTMOption"
-                                style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
-                                <v-card-title>Strategy Summary</v-card-title>
-                                <v-card-text>
-                                    <p><strong>In the Money Option:</strong> {{ selectedITMOption.option_symbol }}</p>
-                                    <p><strong>Out of the Money Option:</strong> {{ selectedOTMOption.option_symbol }}</p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
 
                         <v-col cols="12" sm="8">
-                            <v-card class="pa-2"
+                            <v-card class="pa-0"
                                 style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
                                 <v-card-title class="text-h6 mb-3" style="align-content: center;">
                                     Strategy P&L Summary
                                 </v-card-title>
 
                                 <v-row dense>
-                                    <v-col cols="4" sm="4">
+                                    <v-col cols="4" sm="4" class="text-center">
                                         <div><strong>Max Loss:</strong></div>
                                         <div style="color: #ff4560;">${{ maximumLoss.toFixed(2) }}</div>
                                     </v-col>
-                                    <v-col cols="4" sm="4">
+                                    <v-col cols="4" sm="4" class="text-center">
                                         <div><strong>Max Profit:</strong></div>
                                         <div style="color: #00e396;">${{ maximumProfit.toFixed(2) }}</div>
                                     </v-col>
-                                    <v-col cols="4" sm="4">
+                                    <v-col cols="4" sm="4" class="text-center">
                                         <div><strong>Break Even:</strong></div>
                                         <div style="color: #facc15;">${{ breakEven.toFixed(2) }}</div>
                                     </v-col>
@@ -88,9 +81,54 @@
                             </v-card>
                         </v-col>
 
+                        <v-col cols="12" sm="4">
+                            <v-card v-if="selectedITMOption && selectedOTMOption" class="pa-4"
+                                style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
+                                <v-card-title class="text-h6">Selected Options Details</v-card-title>
 
+                                <v-card-text>
+                                    <v-row dense>
+                                        <!-- ITM Option -->
+                                        <v-col cols="12" sm="6">
+                                            <div class="mb-2">
+                                                <strong>In the Money Option:</strong>
+                                                <div class="text-caption text-grey-lighten-1">{{selectedITMOption.option_symbol }}</div>
+                                                <div class="text-caption text-blue-lighten-1">Last Price :{{selectedITMOption.last_price }}</div>
+                                                <div class="text-caption text-blue-lighten-1">Strike Price :{{selectedITMOption.strike_price }}</div>
+                                                <div class="text-caption text-blue-lighten-1">Implied Volatility :{{selectedITMOption.implied_volatility }}</div>
+                                            </div>
+                                            <ul class="pl-3">
+                                                <li>Delta: {{ selectedITMOption.delta }}</li>
+                                                <li>Gamma: {{ selectedITMOption.gamma }}</li>
+                                                <li>Theta: {{ selectedITMOption.theta }}</li>
+                                                <li>Vega: {{ selectedITMOption.vega }}</li>
+                                            </ul>
+                                        </v-col>
 
+                                        <!-- OTM Option -->
+                                        <v-col cols="12" sm="6">
+                                            <div class="mb-2">
+                                                <strong>Out of the Money Option:</strong>
+                                                <div class="text-caption text-grey-lighten-1">{{
+                                                    selectedOTMOption.option_symbol }}</div>
+                                                <div class="text-caption text-blue-lighten-1">Last Price :{{selectedOTMOption.last_price }}</div>
+                                                <div class="text-caption text-blue-lighten-1">Strike Price :{{selectedOTMOption.strike_price }}</div>
+                                                <div class="text-caption text-blue-lighten-1">Implied Volatility :{{selectedOTMOption.implied_volatility }}</div>
+                                            </div>
+                                            <ul class="pl-3">
+                                                <li>Delta: {{ selectedOTMOption.delta }}</li>
+                                                <li>Gamma: {{ selectedOTMOption.gamma }}</li>
+                                                <li>Theta: {{ selectedOTMOption.theta }}</li>
+                                                <li>Vega: {{ selectedOTMOption.vega }}</li>
+                                            </ul>
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+                            </v-card>
+
+                        </v-col>
                     </v-row>
+
                 </v-container>
                 <FooterComponent />
             </v-main>
@@ -185,6 +223,9 @@ export default {
                 },
                 dataLabels: {
                     enabled: false,
+                },
+                legend: {
+                    show: false,
                 },
             },
             chartSeries: [],
@@ -284,6 +325,8 @@ export default {
         selectedExpiration(newVal) {
             this.ITMOptions = this.in_the_money_calls[newVal];
             this.OTMOptions = this.out_of_the_money_calls[newVal];
+            this.selectedITMOption = null;
+            this.selectedOTMOption = null;
         },
         selectedITMOption() {
             this.updateMetrics();
