@@ -13,13 +13,21 @@
                         </v-col>
                     </v-row>
 
-                    <v-row>
+
+
+                    <v-row dense class="ma-0 pa-1">
                         <v-col>
                             <h3>Options Strategy Builder</h3>
                             <h4>Strategy: {{ strategy }}</h4>
                             <h4>Symbol: {{ symbol }}</h4>
                         </v-col>
                     </v-row>
+                    <v-col cols="12" sm="4" class="ma-1 pa-1">
+                        <v-card class="pa-0" color="primary">
+                            <LiveSingleStockComponent :symbols="[symbol]"></LiveSingleStockComponent>
+                            <!-- <stock-card symbol="SPY" /> -->
+                        </v-card>
+                    </v-col>
                     <br>
 
                     <v-row dense class="ma-0 pa-1">
@@ -142,6 +150,7 @@ import Sidebar from '@/components/Sidebar.vue';
 import MarketStatus from '@/components/MarketStatus.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import VueApexCharts from 'vue3-apexcharts';
+import LiveSingleStockComponent from '@/components/LiveSingleStockComponent.vue';
 
 export default {
     name: 'OptionsStrategyBuilder',
@@ -158,6 +167,7 @@ export default {
         MarketStatus,
         FooterComponent,
         apexchart: VueApexCharts,
+        LiveSingleStockComponent
     },
     data() {
         return {
