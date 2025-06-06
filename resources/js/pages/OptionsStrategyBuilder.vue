@@ -38,6 +38,14 @@
                                 :out_of_the_money_calls="out_of_the_money_calls"
                                 :in_the_money_calls="in_the_money_calls">
                             </BullCallSpread>
+
+                            <BearPutSpread v-if="strategy == 'bearSpread'"
+                                :strategy="strategy"
+                                :symbol="symbol"
+                                :putsByExpiration="putsByExpiration"
+                                :out_of_the_money_puts="out_of_the_money_puts"
+                                :in_the_money_puts="in_the_money_puts">
+                            </BearPutSpread>
                         </v-col>
                     </v-row>
 
@@ -55,6 +63,7 @@ import MarketStatus from '@/components/MarketStatus.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import LiveSingleStockComponent from '@/components/LiveSingleStockComponent.vue';
 import BullCallSpread from '@/components/options/BullCallSpread.vue';
+import BearPutSpread from '@/components/options/BearPutSpread.vue';
 
 export default {
     name: 'OptionsStrategyBuilder',
@@ -63,7 +72,10 @@ export default {
         symbol: String,
         in_the_money_calls: Object,
         out_of_the_money_calls: Object,
+        in_the_money_puts: Object,
+        out_of_the_money_puts: Object,
         callsByExpiration: Object,
+        putsByExpiration: Object
     },
     components: {
         Navbar,
@@ -71,7 +83,8 @@ export default {
         MarketStatus,
         FooterComponent,
         LiveSingleStockComponent,
-        BullCallSpread
+        BullCallSpread,
+        BearPutSpread
     },
     data() {
         return {
