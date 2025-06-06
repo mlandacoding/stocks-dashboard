@@ -89,7 +89,7 @@
                             <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
                                 <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
                                     <span>Long Straddle</span>
-                                    <v-btn color="accent" variant="tonal" text>
+                                    <v-btn color="accent" variant="tonal" text @click="openStrategyDialog('Long Straddle')">
                                         <v-icon>mdi-play</v-icon>
                                         <span>Build</span>
                                     </v-btn>
@@ -103,7 +103,7 @@
                             <v-card class="pa-0" elevation="3" style="background: #181f3a; color: #fff; border-radius: 1px; border: 1px solid #2c365a;">
                                 <v-card-title class="d-flex align-center justify-space-between" style="font-size: 1.3rem; font-weight: 600;">
                                     <span>Long Strangle</span>
-                                    <v-btn color="accent" variant="tonal" text>
+                                    <v-btn color="accent" variant="tonal" text @click="openStrategyDialog('Long Strangle')">
                                         <v-icon>mdi-play</v-icon>
                                         <span>Build</span>
                                     </v-btn>

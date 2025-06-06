@@ -4,7 +4,6 @@
         <span>
             This is a portfolio project, if you are interested in my skills feel free to contact me here: <a href="https://www.linkedin.com/in/mario-landa/">Linked In Profile</a>
         </span>
-
     </div>
     <div>
         <v-alert type="info" variant="tonal" border="start" icon="mdi-shield-alert">
