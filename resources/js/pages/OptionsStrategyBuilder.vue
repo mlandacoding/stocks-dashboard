@@ -46,6 +46,14 @@
                                 :out_of_the_money_puts="out_of_the_money_puts"
                                 :in_the_money_puts="in_the_money_puts">
                             </BearPutSpread>
+
+                            <LongStraddle v-if="strategy == 'longStraddle'"
+                                :strategy="strategy"
+                                :symbol="symbol"
+                                :expirationDates="expirationDates"
+                                :in_the_money_calls="in_the_money_calls"
+                                :in_the_money_puts="in_the_money_puts">
+                            </LongStraddle>
                         </v-col>
                     </v-row>
 
@@ -64,6 +72,7 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import LiveSingleStockComponent from '@/components/LiveSingleStockComponent.vue';
 import BullCallSpread from '@/components/options/BullCallSpread.vue';
 import BearPutSpread from '@/components/options/BearPutSpread.vue';
+import LongStraddle from '@/components/options/LongStraddle.vue';
 
 export default {
     name: 'OptionsStrategyBuilder',
@@ -75,7 +84,8 @@ export default {
         in_the_money_puts: Object,
         out_of_the_money_puts: Object,
         callsByExpiration: Object,
-        putsByExpiration: Object
+        putsByExpiration: Object,
+        expirationDates: Object
     },
     components: {
         Navbar,
@@ -84,7 +94,8 @@ export default {
         FooterComponent,
         LiveSingleStockComponent,
         BullCallSpread,
-        BearPutSpread
+        BearPutSpread,
+        LongStraddle
     },
     data() {
         return {

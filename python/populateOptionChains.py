@@ -23,8 +23,8 @@ def get_last_price(symbol, client):
 
 def is_in_the_money(option_type: str, option_strike_price: float, asset_price: float) -> bool:
     if option_type == 'call':
-        return asset_price > option_strike_price
-    return asset_price < option_strike_price
+        return asset_price >= option_strike_price
+    return asset_price <= option_strike_price
 
 
 def get_active_asset_symbols() ->list:
@@ -80,7 +80,7 @@ def process_symbol(symbol, api_key, static_risk_rate, connection):
 
             calls = future_calls.result()
             puts = future_puts.result()
-            options_chain = list(calls)[:500] + list(puts)[:500]
+            options_chain = list(calls) + list(puts)
 
         underlying_asset_price = get_last_price(symbol, client)
         if underlying_asset_price:

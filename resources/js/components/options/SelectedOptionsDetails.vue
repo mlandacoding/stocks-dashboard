@@ -5,7 +5,7 @@
       <!-- ITM Option -->
       <v-col cols="12" sm="6">
         <div class="mb-2">
-          <strong>In the Money Option:</strong>
+
           <div class="text-caption text-grey-lighten-1">{{ selectedITMOption.option_symbol }}</div>
           <div class="text-caption text-blue-lighten-1">Last Price: {{ selectedITMOption.last_price }}</div>
           <div class="text-caption text-blue-lighten-1">Strike Price: {{ selectedITMOption.strike_price }}</div>
@@ -22,7 +22,7 @@
       <!-- OTM Option -->
       <v-col cols="12" sm="6">
         <div class="mb-2">
-          <strong>Out of the Money Option:</strong>
+
           <div class="text-caption text-grey-lighten-1">{{ selectedOTMOption.option_symbol }}</div>
           <div class="text-caption text-blue-lighten-1">Last Price: {{ selectedOTMOption.last_price }}</div>
           <div class="text-caption text-blue-lighten-1">Strike Price: {{ selectedOTMOption.strike_price }}</div>
