@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/CompanyProfilePage-CbxAxIAt.js","assets/FooterComponent-BNCXvU_h.js","assets/FooterComponent-CRqBxsO4.css","assets/IntradayGraph-C8Vj9HH4.js","assets/IntradayGraph-DYTa-PHY.css","assets/CompanyProfilePage-D3vf-g0u.css","assets/ExamplePage-BQxJ-dGN.js","assets/MainLayout-fgkzB_9k.js","assets/LiveSingleStockComponent-BROqdwA1.js","assets/LiveSingleStockComponent-DAvID7B-.css","assets/MainLayout-BsJGHcuq.css","assets/OptionsChain-Dl4WVz2R.js","assets/OptionsChain-DxZfHS4r.css","assets/Welcome-DMo51S5V.js","assets/ConfirmPassword-hlcA6NOJ.js","assets/Label.vue_vue_type_script_setup_true_lang-CRr2D0XR.js","assets/loader-circle-BvgcGN5X.js","assets/ForgotPassword-DYtrKz9L.js","assets/TextLink.vue_vue_type_script_setup_true_lang-c4RqYq_2.js","assets/Login-D9jTuIdW.js","assets/Register-Do6D71Kh.js","assets/ResetPassword-CCSLQDAu.js","assets/VerifyEmail-CztosyXf.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/CompanyProfilePage-CH1y2V-6.js","assets/FooterComponent-CkzMO7WZ.js","assets/FooterComponent-CRqBxsO4.css","assets/IntradayGraph-ClCzai_A.js","assets/useStockStream-BA8lq4eq.js","assets/vue3-apexcharts-9fWjqkCD.js","assets/IntradayGraph-DYTa-PHY.css","assets/CompanyProfilePage-D3vf-g0u.css","assets/ExamplePage-CA37CGFf.js","assets/MainLayout-CundLyAg.js","assets/LiveSingleStockComponent-Dto8ELv1.js","assets/LiveSingleStockComponent-DAvID7B-.css","assets/MainLayout-BsJGHcuq.css","assets/OptionsChain-CNG6xMss.js","assets/OptionsChain-C5793RVM.css","assets/OptionsStrategyBuilder-DjVZd1Mh.js","assets/OptionsStrategyBuilder-xJRNVeeI.css","assets/OptionsStrategyBuilderIndex-Dp-_8vo9.js","assets/OptionsStrategyBuilderIndex-Crib0Uct.css","assets/Welcome-BZ2IG_l2.js","assets/ConfirmPassword-CtCLzVBr.js","assets/Label.vue_vue_type_script_setup_true_lang-DZGyimDH.js","assets/loader-circle-r8YJwNm-.js","assets/ForgotPassword-CpO1B0cA.js","assets/TextLink.vue_vue_type_script_setup_true_lang-4pPnoyn0.js","assets/Login-B68zBQA6.js","assets/Register-ClafGFQ8.js","assets/ResetPassword-DSAwCQkh.js","assets/VerifyEmail-C3WZd2Lu.js"])))=>i.map(i=>d[i]);
 var _a;
 const scriptRel = "modulepreload";
 const assetsURL = function(dep) {
@@ -62151,14 +62151,14 @@ const vuetify = createVuetify({
   }
 });
 L2({
-  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/CompanyProfilePage.vue": () => __vitePreload(() => import("./CompanyProfilePage-CbxAxIAt.js"), true ? __vite__mapDeps([0,1,2,3,4,5]) : void 0), "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-BQxJ-dGN.js"), true ? __vite__mapDeps([6,7,1,2,3,4,8,9,10]) : void 0), "./Pages/OptionsChain.vue": () => __vitePreload(() => import("./OptionsChain-Dl4WVz2R.js"), true ? __vite__mapDeps([11,1,2,8,9,12]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-DMo51S5V.js"), true ? __vite__mapDeps([13,7,1,2,3,4,8,9,10]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-hlcA6NOJ.js"), true ? __vite__mapDeps([14,15,16]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-DYtrKz9L.js"), true ? __vite__mapDeps([17,15,16,18]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-D9jTuIdW.js"), true ? __vite__mapDeps([19,15,16,18]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-Do6D71Kh.js"), true ? __vite__mapDeps([20,15,16,18]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-CCSLQDAu.js"), true ? __vite__mapDeps([21,15,16]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-CztosyXf.js"), true ? __vite__mapDeps([22,18,16]) : void 0) })),
+  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, /* @__PURE__ */ Object.assign({ "./Pages/CompanyProfilePage.vue": () => __vitePreload(() => import("./CompanyProfilePage-CH1y2V-6.js"), true ? __vite__mapDeps([0,1,2,3,4,5,6,7]) : void 0), "./Pages/ExamplePage.vue": () => __vitePreload(() => import("./ExamplePage-CA37CGFf.js"), true ? __vite__mapDeps([8,9,1,2,4,3,5,6,10,11,12]) : void 0), "./Pages/OptionsChain.vue": () => __vitePreload(() => import("./OptionsChain-CNG6xMss.js"), true ? __vite__mapDeps([13,1,2,10,4,11,14]) : void 0), "./Pages/OptionsStrategyBuilder.vue": () => __vitePreload(() => import("./OptionsStrategyBuilder-DjVZd1Mh.js"), true ? __vite__mapDeps([15,1,2,10,4,11,5,16]) : void 0), "./Pages/OptionsStrategyBuilderIndex.vue": () => __vitePreload(() => import("./OptionsStrategyBuilderIndex-Dp-_8vo9.js"), true ? __vite__mapDeps([17,1,2,5,18]) : void 0), "./Pages/Welcome.vue": () => __vitePreload(() => import("./Welcome-BZ2IG_l2.js"), true ? __vite__mapDeps([19,9,1,2,4,3,5,6,10,11,12]) : void 0), "./Pages/auth/ConfirmPassword.vue": () => __vitePreload(() => import("./ConfirmPassword-CtCLzVBr.js"), true ? __vite__mapDeps([20,21,22]) : void 0), "./Pages/auth/ForgotPassword.vue": () => __vitePreload(() => import("./ForgotPassword-CpO1B0cA.js"), true ? __vite__mapDeps([23,21,22,24]) : void 0), "./Pages/auth/Login.vue": () => __vitePreload(() => import("./Login-B68zBQA6.js"), true ? __vite__mapDeps([25,21,22,24]) : void 0), "./Pages/auth/Register.vue": () => __vitePreload(() => import("./Register-ClafGFQ8.js"), true ? __vite__mapDeps([26,21,22,24]) : void 0), "./Pages/auth/ResetPassword.vue": () => __vitePreload(() => import("./ResetPassword-DSAwCQkh.js"), true ? __vite__mapDeps([27,21,22]) : void 0), "./Pages/auth/VerifyEmail.vue": () => __vitePreload(() => import("./VerifyEmail-C3WZd2Lu.js"), true ? __vite__mapDeps([28,24,22]) : void 0) })),
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h$1(App, props) }).use(plugin).use(vuetify).mount(el);
   }
 });
 export {
-  watch as A,
-  computed as B,
+  toRefs as A,
+  watch as B,
   C,
   me as D,
   withModifiers as E,
@@ -62202,12 +62202,12 @@ export {
   normalizeStyle as p,
   nextTick as q,
   resolveComponent as r,
-  h$1 as s,
+  computed as s,
   toDisplayString as t,
   useDisplay as u,
-  onBeforeMount as v,
+  h$1 as v,
   withCtx as w,
-  getCurrentInstance$1 as x,
-  onBeforeUnmount as y,
-  toRefs as z
+  onBeforeMount as x,
+  getCurrentInstance$1 as y,
+  onBeforeUnmount as z
 };

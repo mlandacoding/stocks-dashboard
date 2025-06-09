@@ -1,4 +1,4 @@
-import { g as ref, u as useDisplay, h as onMounted, i as axios$1, B as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode } from "./app-CYux1Zp0.js";
+import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode } from "./app-CARG_xon.js";
 const _hoisted_1$2 = { class: "d-flex align-center justify-space-between" };
 const _hoisted_2$2 = { style: { "color": "#5E75E8" } };
 const _sfc_main$3 = {
@@ -187,6 +187,7 @@ const _sfc_main$3 = {
 };
 const _hoisted_1$1 = { class: "justify-content-center" };
 const _hoisted_2$1 = ["href"];
+const _hoisted_3$1 = { class: "justify-content-center" };
 const _sfc_main$2 = {
   __name: "Sidebar",
   props: {
@@ -221,7 +222,7 @@ const _sfc_main$2 = {
           createVNode(_component_v_list, { density: "compact" }, {
             default: withCtx(() => [
               createBaseVNode("div", _hoisted_1$1, [
-                createVNode(_component_v_list_subheader, { style: { "color": "white" } }, {
+                createVNode(_component_v_list_subheader, { style: { "color": "white", "background-color": "#17223f" } }, {
                   default: withCtx(() => _cache[0] || (_cache[0] = [
                     createTextVNode("Stocks")
                   ])),
@@ -243,7 +244,26 @@ const _sfc_main$2 = {
                   ]),
                   _: 2
                 }, 1032, ["value"]);
-              }), 64))
+              }), 64)),
+              createVNode(_component_v_divider),
+              createBaseVNode("div", _hoisted_3$1, [
+                createVNode(_component_v_list_subheader, { style: { "color": "white", "background-color": "#17223f" } }, {
+                  default: withCtx(() => _cache[1] || (_cache[1] = [
+                    createTextVNode("Options")
+                  ])),
+                  _: 1
+                })
+              ]),
+              createVNode(_component_v_divider),
+              createVNode(_component_v_list_item, null, {
+                default: withCtx(() => _cache[2] || (_cache[2] = [
+                  createBaseVNode("a", {
+                    href: "/optionsStrategyBuilder",
+                    style: { "color": "white", "text-decoration": "none" }
+                  }, "Option Strategy Builder", -1)
+                ])),
+                _: 1
+              })
             ]),
             _: 1
           })
@@ -253,84 +273,6 @@ const _sfc_main$2 = {
     };
   }
 };
-const stocks = ref({});
-function setupWebSocketListeners() {
-  window.Echo.channel("stocks").listen("StockPriceUpdated", (payload) => {
-    payload.stocks.forEach((entry) => {
-      const symbol = entry.sym;
-      if (!stocks.value[symbol]) {
-        stocks.value[symbol] = { sym: symbol };
-      }
-      const current = stocks.value[symbol];
-      current.previous_vwap = current.vwap ?? null;
-      Object.assign(current, {
-        volume: entry.v,
-        accumulated_volume: entry.av,
-        official_open_price: entry.op,
-        vwap: entry.vw,
-        open: entry.o,
-        close: entry.c,
-        high: entry.h,
-        low: entry.l,
-        average_size: entry.a,
-        updated: true
-      });
-    });
-  });
-}
-function ensureWebSocketConnection() {
-  if (window.Echo) {
-    setupWebSocketListeners();
-  } else {
-    const wait = setInterval(() => {
-      if (window.Echo) {
-        setupWebSocketListeners();
-        clearInterval(wait);
-      }
-    }, 100);
-  }
-}
-async function fetchSymbolsFromAPI() {
-  try {
-    const response = await axios$1.get("/active-assets");
-    const symbols = response.data.symbols || [];
-    symbols.forEach((symbol) => {
-      if (!stocks.value[symbol]) {
-        stocks.value[symbol] = {
-          sym: symbol,
-          volume: null,
-          accumulated_volume: null,
-          official_open_price: null,
-          vwap: null,
-          previous_vwap: null,
-          open: null,
-          close: null,
-          high: null,
-          low: null,
-          average_size: null,
-          updated: false
-        };
-      }
-    });
-  } catch (error) {
-    console.error("Error fetching active assets:", error);
-  }
-}
-function useStockStream() {
-  const formattedStocks = computed(
-    () => Object.values(stocks.value).map((stock) => ({
-      sym: stock.sym,
-      ...stock
-    }))
-  );
-  onMounted(async () => {
-    await fetchSymbolsFromAPI();
-    ensureWebSocketConnection();
-  });
-  return {
-    formattedStocks
-  };
-}
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -492,6 +434,12 @@ function _sfc_render(_ctx, _cache) {
       ])),
       _: 1
     }),
+    _cache[2] || (_cache[2] = createBaseVNode("div", null, [
+      createBaseVNode("span", null, [
+        createTextVNode(" This is a portfolio project, if you are interested in my skills feel free to contact me here: "),
+        createBaseVNode("a", { href: "https://www.linkedin.com/in/mario-landa/" }, "Linked In Profile")
+      ])
+    ], -1)),
     createBaseVNode("div", null, [
       createVNode(_component_v_alert, {
         type: "info",
@@ -514,6 +462,5 @@ export {
   MarketStatus as M,
   _export_sfc as _,
   _sfc_main$3 as a,
-  _sfc_main$2 as b,
-  useStockStream as u
+  _sfc_main$2 as b
 };
