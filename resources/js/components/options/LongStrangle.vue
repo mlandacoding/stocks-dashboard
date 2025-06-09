@@ -6,19 +6,13 @@
         </v-col>
 
         <v-col cols="12" sm="4">
-            <v-select v-model="selectedITMCall" :items="ITMCalls" :item-title="itemTitle" item-value="option_symbol"
-                return-object label="Select In-The-Money Call" variant="underlined" dense />
+            <v-select v-model="selectedOTMCall" :items="OTMCalls" :item-title="itemTitle" item-value="option_symbol"
+                return-object label="Select Out-Of-The-Money Call" variant="underlined" dense />
         </v-col>
 
         <v-col cols="12" sm="4">
-            <v-select v-model="selectedITMPut" :items="ITMPuts" :item-title="itemTitle" item-value="option_symbol"
-                return-object label="Select In-The-Money Put" variant="underlined" dense />
-        </v-col>
-
-        <v-col cols="12">
-            <v-alert color="blue" icon="mdi-alert" theme="dark" density="compact" border>
-                In order to find more financial instruments for this strategy the  <b>In The Money</b> calculation has a 5% tolerance
-            </v-alert>
+            <v-select v-model="selectedOTMPut" :items="OTMPuts" :item-title="itemTitle" item-value="option_symbol"
+                return-object label="Select Out-Of-The-Money Put" variant="underlined" dense />
         </v-col>
 
         <v-col cols="12">
@@ -28,20 +22,16 @@
         </v-col>
 
         <v-col cols="12">
-            <v-alert v-if="selectedITMCall?.strike_price != selectedITMPut?.strike_price" color="#C51162" icon="mdi-cancel" theme="dark" density="compact" border>
-                Both options selected must have the same strike price to be considered a valid Straddle
+            <v-alert v-if="selectedOTMCall?.strike_price < selectedOTMPut?.strike_price" color="#C51162" icon="mdi-cancel" theme="dark" density="compact" border>
+                The Call should have a higher strike price for it to be a valid Long Strangle
             </v-alert>
         </v-col>
 
     </v-row>
 
     <v-row dense class="ma-0 pa-0">
-
-
-
         <v-col cols="12" sm="8">
-            <v-card class="pa-0"
-                style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
+            <v-card class="pa-0" style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
                 <v-card-title class="text-h6 mb-3" style="align-content: center;">
                     Strategy P&L Summary
                 </v-card-title>
@@ -72,9 +62,9 @@
         </v-col>
 
         <v-col cols="12" sm="4">
-            <v-card v-if="selectedITMCall && selectedITMPut" class="pa-4"
+            <v-card v-if="selectedOTMCall && selectedOTMPut" class="pa-4"
                 style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
-                <SelectedOptionsDetails :selectedITMOption="selectedITMCall" :selectedOTMOption="selectedITMPut" />
+                <SelectedOptionsDetails :selectedITMOption="selectedOTMCall" :selectedOTMOption="selectedOTMPut" />
             </v-card>
 
         </v-col>
@@ -87,12 +77,12 @@ import LiveSingleStockComponent from '@/components/LiveSingleStockComponent.vue'
 import SelectedOptionsDetails from '@/components/options/SelectedOptionsDetails.vue';
 
 export default {
-    name: 'LongStraddle',
+    name: 'LongStrangle',
     props: {
         strategy: String,
         symbol: String,
-        in_the_money_puts: Object,
-        in_the_money_calls: Object,
+        out_of_the_money_puts: Object,
+        out_of_the_money_calls: Object,
         expirationDates: Array
     },
     components: {
@@ -104,17 +94,17 @@ export default {
         return {
             drawer: false,
             selectedExpiration: null,
-            selectedITMCall: null,
-            selectedITMPut: null,
+            selectedOTMCall: null,
+            selectedOTMPut: null,
             underlying_asset_price: null,
-            ITMCalls: [],
-            ITMPuts: [],
+            OTMCalls: [],
+            OTMPuts: [],
             maximumLoss: 0,
             maximumProfit: 0,
             breakEven: 0,
             chartOptions: {
                 chart: {
-                    id: 'bull-spread-payoff',
+                    id: 'long-strangle-payoff',
                     toolbar: { show: false },
                     zoom: { enabled: false },
                     background: 'transparent',
@@ -192,58 +182,57 @@ export default {
             return `${option.strike_price} (${option.option_symbol}) - $${option.last_price}`;
         },
         getMaximumLoss() {
-            if (this.selectedITMCall && this.selectedITMPut) {
-                return Number(this.selectedITMCall.last_price) + Number(this.selectedITMPut.last_price);
+            if (this.selectedOTMCall && this.selectedOTMPut) {
+                return Number(this.selectedOTMCall.last_price) + Number(this.selectedOTMPut.last_price);
             }
             return 0;
         },
         getMaximumProfitUp() {
-            // Theoretically infinite. Simulate a 50% price increase from strike.
-            if (this.selectedITMCall && this.selectedITMPut) {
-                const strike = Number(this.selectedITMCall.strike_price); // assuming both have same strike
-                const callPremium = Number(this.selectedITMCall.last_price);
-                const putPremium = Number(this.selectedITMPut.last_price);
-                const netDebit = callPremium + putPremium;
+    if (this.selectedOTMCall && this.selectedOTMPut) {
+        const callStrike = Number(this.selectedOTMCall.strike_price);
+        const callPremium = Number(this.selectedOTMCall.last_price);
+        const putPremium = Number(this.selectedOTMPut.last_price);
+        const netDebit = callPremium + putPremium;
 
-                const simulatedHigh = strike * 1.5; // simulate +50% move
-                const callPayoff = Math.max(simulatedHigh - strike, 0);
-                const putPayoff = 0;
+        const simulatedHigh = callStrike * 1.5;
+        const callPayoff = Math.max(simulatedHigh - callStrike, 0);
 
-                return callPayoff + putPayoff - netDebit;
-            }
-            return 0;
-        },
+        return callPayoff - netDebit;
+    }
+    return 0;
+},
 
-        getMaximumProfitDown() {
-            // Simulate price dropping to 0
-            if (this.selectedITMCall && this.selectedITMPut) {
-                const strike = Number(this.selectedITMPut.strike_price); // assumed same as call
-                const callPremium = Number(this.selectedITMCall.last_price);
-                const putPremium = Number(this.selectedITMPut.last_price);
-                const netDebit = callPremium + putPremium;
+getMaximumProfitDown() {
+    if (this.selectedOTMCall && this.selectedOTMPut) {
+        const putStrike = Number(this.selectedOTMPut.strike_price);
+        const callPremium = Number(this.selectedOTMCall.last_price);
+        const putPremium = Number(this.selectedOTMPut.last_price);
+        const netDebit = callPremium + putPremium;
 
-                const simulatedLow = -strike * 1.5;
-                const putPayoff = Math.max(strike - simulatedLow, 0);
-                const callPayoff = 0;
+        const simulatedLow = 0;
+        const putPayoff = putStrike - simulatedLow;
 
-                return putPayoff + callPayoff - netDebit;
-            }
-            return 0;
-        },
+        return putPayoff - netDebit;
+    }
+    return 0;
+},
         getMaximumProfit() {
-            if (this.selectedITMCall && this.selectedITMPut) {
-                return this.selectedITMCall.strike_price - this.selectedITMPut.strike_price - this.getMaximumLoss();
+            if (this.selectedOTMCall && this.selectedOTMPut) {
+                return this.selectedOTMCall.strike_price - this.selectedOTMPut.strike_price - this.getMaximumLoss();
             }
             return 0;
         },
         getBreakeven() {
-            if (this.selectedITMCall && this.selectedITMPut) {
-                return Number(this.selectedITMCall.strike_price) + Number(this.getMaximumLoss());
+            if (this.selectedOTMCall && this.selectedOTMPut) {
+                const callStrike = Number(this.selectedOTMCall.strike_price);
+                const putStrike = Number(this.selectedOTMPut.strike_price);
+                const netDebit = Number(this.selectedOTMCall.last_price) + Number(this.selectedOTMPut.last_price);
+                return callStrike + netDebit;
             }
             return 0;
         },
         updateMetrics() {
-            if (this.selectedITMCall && this.selectedITMPut) {
+            if (this.selectedOTMCall && this.selectedOTMPut) {
                 this.maximumLoss = this.getMaximumLoss();
                 console.log(this.maximumLoss);
                 this.maximumProfit = this.getMaximumProfit();
@@ -255,22 +244,24 @@ export default {
             }
         },
         generateChartData() {
-            if (!this.selectedITMCall || !this.selectedITMPut) return;
+            if (!this.selectedOTMCall || !this.selectedOTMPut) return;
 
-            const strike = Number(this.selectedITMCall.strike_price); // assumed same for call & put
-            const callPremium = Number(this.selectedITMCall.last_price);
-            const putPremium = Number(this.selectedITMPut.last_price);
+            const callStrike = Number(this.selectedOTMCall.strike_price);
+            const putStrike = Number(this.selectedOTMPut.strike_price);
+            const callPremium = Number(this.selectedOTMCall.last_price);
+            const putPremium = Number(this.selectedOTMPut.last_price);
             const netDebit = callPremium + putPremium;
 
-            const minPrice = Math.max(1, Math.floor(strike * 0.5));
-            const maxPrice = Math.ceil(strike * 1.5);
+            const minPrice = Math.max(1, Math.floor(putStrike * 0.5));
+            const maxPrice = Math.ceil(callStrike * 1.5);
+
             const profitSeries = [];
             const lossSeries = [];
 
             for (let price = minPrice; price <= maxPrice; price++) {
-                let callPayoff = Math.max(price - strike, 0);
-                let putPayoff = Math.max(strike - price, 0);
-                let pnl = callPayoff + putPayoff - netDebit;
+                const callPayoff = Math.max(price - callStrike, 0);
+                const putPayoff = Math.max(putStrike - price, 0);
+                const pnl = callPayoff + putPayoff - netDebit;
 
                 profitSeries.push({ x: price, y: pnl > 0 ? pnl : 0 });
                 lossSeries.push({ x: price, y: pnl < 0 ? pnl : 0 });
@@ -290,22 +281,22 @@ export default {
                 fill: {
                     type: 'solid',
                     opacity: 0.4,
-                }
+                },
             };
-        }
+        },
     },
     watch: {
         selectedExpiration(newVal) {
-            this.ITMCalls = this.in_the_money_calls[newVal];
-            this.ITMPuts = this.in_the_money_puts[newVal];
-            this.selectedITMCall = null;
-            this.selectedITMPut = null;
+            this.OTMCalls = this.out_of_the_money_calls[newVal];
+            this.OTMPuts = this.out_of_the_money_puts[newVal];
+            this.selectedOTMCall = null;
+            this.selectedOTMPut = null;
         },
-        selectedITMCall() {
+        selectedOTMCall() {
             this.updateMetrics();
             this.generateChartData();
         },
-        selectedITMPut() {
+        selectedOTMPut() {
             this.updateMetrics();
             this.generateChartData();
         },
