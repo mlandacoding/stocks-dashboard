@@ -53,8 +53,12 @@
                         <div style="color: #00e396;">${{ getMaximumProfitDown().toFixed(2) }}</div>
                     </v-col>
                     <v-col cols="4" sm="4" class="text-center">
-                        <div><strong>Break Even:</strong></div>
-                        <div style="color: #facc15;">${{ breakEven.toFixed(2) }}</div>
+                        <div><strong>Break Even Up:</strong></div>
+                        <div style="color: #facc15;">${{ breakEvenUp.toFixed(2) }}</div>
+                    </v-col>
+                    <v-col cols="4" sm="4" class="text-center">
+                        <div><strong>Break Even Down:</strong></div>
+                        <div style="color: #facc15;">${{ breakEvenDown.toFixed(2) }}</div>
                     </v-col>
                 </v-row>
 
@@ -104,7 +108,8 @@ export default {
             OTMPuts: [],
             maximumLoss: 0,
             maximumProfit: 0,
-            breakEven: 0,
+            breakEvenUp: 0,
+            breakEvenDown: 0,
             chartOptions: {
                 chart: {
                     id: 'long-strangle-payoff',
@@ -230,7 +235,9 @@ export default {
                 const callStrike = Number(this.selectedOTMCall.strike_price);
                 const putStrike = Number(this.selectedOTMPut.strike_price);
                 const netDebit = Number(this.selectedOTMCall.last_price) + Number(this.selectedOTMPut.last_price);
-                return callStrike + netDebit;
+                const breakEvenUp = callStrike + netDebit;
+                const breakEvenDown = putStrike + netDebit;
+                return [breakEvenUp, breakEvenDown];
             }
             return 0;
         },
@@ -239,11 +246,14 @@ export default {
                 this.maximumLoss = this.getMaximumLoss();
                 console.log(this.maximumLoss);
                 this.maximumProfit = this.getMaximumProfit();
-                this.breakEven = this.getBreakeven();
+                const breakEvenPoints = this.getBreakevenPoints()
+                this.breakEvenUp = breakEvenPoints[0];
+                this.breakEvenDown = breakEvenPoints[1];
             } else {
                 this.maximumLoss = 0;
                 this.maximumProfit = 0;
-                this.breakEven = 0;
+                this.breakEvenUp = 0;
+                this.breakEvenDown = 0;
             }
         },
         generateChartData() {
