@@ -3,7 +3,6 @@ import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useDisplay } from "vuetify";
 import GoogleAnalytics from "./GoogleAnalytics.vue";
-import GoogleAnalytics from "./GoogleAnalytics.vue";
 
 const showSearchDialog = ref(false);
 const searchTerm = ref("");

@@ -7,6 +7,7 @@
                 LinkedIn Profile
             </a>
         </p>
+            <br>If you find this project helpful, feel free to give it a ⭐ on <a href="https://github.com/mlandacoding/stocks-dashboard" target="_blank">GitHub</a> — it really helps!
     </div>
     <div>
         <v-alert type="info" variant="tonal" border="start" icon="mdi-shield-alert">
