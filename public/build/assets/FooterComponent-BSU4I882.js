@@ -1,4 +1,27 @@
-import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, c as createBlock, o as openBlock, w as withCtx, a as createVNode, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, f as createElementBlock, F as Fragment, k as renderList, t as toDisplayString, b as createCommentVNode } from "./app-CARG_xon.js";
+import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, F as Fragment, k as renderList, c as createBlock, t as toDisplayString, b as createCommentVNode } from "./app-QYOQF0v9.js";
+const _sfc_main$4 = {
+  __name: "GoogleAnalytics",
+  setup(__props) {
+    if (!window.gtagInitialized) {
+      const id = "G-02W67MHHME";
+      const script1 = document.createElement("script");
+      script1.async = true;
+      script1.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+      const script2 = document.createElement("script");
+      script2.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${id}');
+  `;
+      document.head.appendChild(script1);
+      document.head.appendChild(script2);
+      window.gtagInitialized = true;
+    }
+    return () => {
+    };
+  }
+};
 const _hoisted_1$2 = { class: "d-flex align-center justify-space-between" };
 const _hoisted_2$2 = { style: { "color": "#5E75E8" } };
 const _sfc_main$3 = {
@@ -52,136 +75,139 @@ const _sfc_main$3 = {
       const _component_v_card = resolveComponent("v-card");
       const _component_v_dialog = resolveComponent("v-dialog");
       const _component_v_app_bar = resolveComponent("v-app-bar");
-      return openBlock(), createBlock(_component_v_app_bar, {
-        color: "primary",
-        class: "outlined-navbar",
-        style: { "border-bottom": ".5px solid #17223f" }
-      }, {
-        default: withCtx(() => [
-          createVNode(_component_v_app_bar_nav_icon, {
-            variant: "text",
-            onClick: updateDrawer
-          }),
-          createVNode(_component_v_toolbar_title, null, {
-            default: withCtx(() => _cache[5] || (_cache[5] = [
-              createBaseVNode("a", {
-                href: "/",
-                style: { "text-decoration": "none", "display": "flex", "align-items": "center" }
-              }, [
-                createBaseVNode("img", {
-                  src: "https://agdsvgs.s3.us-east-2.amazonaws.com/logo-icon.svg",
-                  style: { "width": "35px", "margin-right": "5px" }
-                }),
-                createBaseVNode("img", {
-                  src: "https://agdsvgs.s3.us-east-2.amazonaws.com/logo-text.svg",
-                  style: { "width": "100px", "margin-right": "5px" }
-                })
-              ], -1)
-            ])),
-            _: 1
-          }),
-          createVNode(_component_v_btn, {
-            icon: "mdi-magnify",
-            variant: "text",
-            onClick: _cache[0] || (_cache[0] = ($event) => showSearchDialog.value = true)
-          }),
-          createVNode(_component_v_dialog, {
-            modelValue: showSearchDialog.value,
-            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => showSearchDialog.value = $event),
-            transition: "dialog-bottom-transition",
-            class: "forceLocation",
-            "onClick:outside": _cache[4] || (_cache[4] = ($event) => showSearchDialog.value = false)
-          }, {
-            default: withCtx(() => [
-              createVNode(_component_v_card, {
-                class: "search-dialog-card",
-                style: normalizeStyle(unref(mdAndUp) ? "width: 30vw; height: 85vh;" : "")
-              }, {
-                default: withCtx(() => [
-                  createVNode(_component_v_toolbar, {
-                    color: "primary",
-                    dark: ""
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(_component_v_btn, {
-                        icon: "",
-                        onClick: _cache[1] || (_cache[1] = ($event) => showSearchDialog.value = false)
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(_component_v_icon, null, {
-                            default: withCtx(() => _cache[6] || (_cache[6] = [
-                              createTextVNode("mdi-close")
-                            ])),
-                            _: 1
-                          })
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(_component_v_toolbar_title, null, {
-                        default: withCtx(() => _cache[7] || (_cache[7] = [
-                          createTextVNode("Search Companies")
-                        ])),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(_sfc_main$4),
+        createVNode(_component_v_app_bar, {
+          color: "primary",
+          class: "outlined-navbar",
+          style: { "border-bottom": ".5px solid #17223f" }
+        }, {
+          default: withCtx(() => [
+            createVNode(_component_v_app_bar_nav_icon, {
+              variant: "text",
+              onClick: updateDrawer
+            }),
+            createVNode(_component_v_toolbar_title, null, {
+              default: withCtx(() => _cache[5] || (_cache[5] = [
+                createBaseVNode("a", {
+                  href: "/",
+                  style: { "text-decoration": "none", "display": "flex", "align-items": "center" }
+                }, [
+                  createBaseVNode("img", {
+                    src: "https://agdsvgs.s3.us-east-2.amazonaws.com/logo-icon.svg",
+                    style: { "width": "35px", "margin-right": "5px" }
                   }),
-                  createVNode(_component_v_card_text, {
-                    class: "pa-4",
-                    style: { "padding-top": "0" }
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(_component_v_text_field, {
-                        modelValue: searchTerm.value,
-                        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => searchTerm.value = $event),
-                        placeholder: "Type to search companies...",
-                        "prepend-inner-icon": "mdi-magnify",
-                        clearable: "",
-                        "hide-details": "",
-                        density: "compact",
-                        solo: "",
-                        flat: "",
-                        color: "primary"
-                      }, null, 8, ["modelValue"]),
-                      createVNode(_component_v_list, {
-                        class: "mt-4",
-                        style: { "max-height": "70vh", "overflow-y": "auto", "background-color": "#0c1427" }
-                      }, {
-                        default: withCtx(() => [
-                          (openBlock(true), createElementBlock(Fragment, null, renderList(filteredSymbols.value, (item) => {
-                            return openBlock(), createBlock(_component_v_list_item, {
-                              key: item.symbol,
-                              onClick: ($event) => goToProfile(item.symbol)
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(_component_v_list_item_title, null, {
-                                  default: withCtx(() => [
-                                    createBaseVNode("div", _hoisted_1$2, [
-                                      createBaseVNode("span", null, toDisplayString(item.name), 1),
-                                      createBaseVNode("span", _hoisted_2$2, "[" + toDisplayString(item.symbol) + "]", 1)
-                                    ])
-                                  ]),
-                                  _: 2
-                                }, 1024)
-                              ]),
-                              _: 2
-                            }, 1032, ["onClick"]);
-                          }), 128))
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
+                  createBaseVNode("img", {
+                    src: "https://agdsvgs.s3.us-east-2.amazonaws.com/logo-text.svg",
+                    style: { "width": "100px", "margin-right": "5px" }
                   })
-                ]),
-                _: 1
-              }, 8, ["style"])
-            ]),
-            _: 1
-          }, 8, ["modelValue"])
-        ]),
-        _: 1
-      });
+                ], -1)
+              ])),
+              _: 1
+            }),
+            createVNode(_component_v_btn, {
+              icon: "mdi-magnify",
+              variant: "text",
+              onClick: _cache[0] || (_cache[0] = ($event) => showSearchDialog.value = true)
+            }),
+            createVNode(_component_v_dialog, {
+              modelValue: showSearchDialog.value,
+              "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => showSearchDialog.value = $event),
+              transition: "dialog-bottom-transition",
+              class: "forceLocation",
+              "onClick:outside": _cache[4] || (_cache[4] = ($event) => showSearchDialog.value = false)
+            }, {
+              default: withCtx(() => [
+                createVNode(_component_v_card, {
+                  class: "search-dialog-card",
+                  style: normalizeStyle(unref(mdAndUp) ? "width: 30vw; height: 85vh;" : "")
+                }, {
+                  default: withCtx(() => [
+                    createVNode(_component_v_toolbar, {
+                      color: "primary",
+                      dark: ""
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(_component_v_btn, {
+                          icon: "",
+                          onClick: _cache[1] || (_cache[1] = ($event) => showSearchDialog.value = false)
+                        }, {
+                          default: withCtx(() => [
+                            createVNode(_component_v_icon, null, {
+                              default: withCtx(() => _cache[6] || (_cache[6] = [
+                                createTextVNode("mdi-close")
+                              ])),
+                              _: 1
+                            })
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_v_toolbar_title, null, {
+                          default: withCtx(() => _cache[7] || (_cache[7] = [
+                            createTextVNode("Search Companies")
+                          ])),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }),
+                    createVNode(_component_v_card_text, {
+                      class: "pa-4",
+                      style: { "padding-top": "0" }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(_component_v_text_field, {
+                          modelValue: searchTerm.value,
+                          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => searchTerm.value = $event),
+                          placeholder: "Type to search companies...",
+                          "prepend-inner-icon": "mdi-magnify",
+                          clearable: "",
+                          "hide-details": "",
+                          density: "compact",
+                          solo: "",
+                          flat: "",
+                          color: "primary"
+                        }, null, 8, ["modelValue"]),
+                        createVNode(_component_v_list, {
+                          class: "mt-4",
+                          style: { "max-height": "70vh", "overflow-y": "auto", "background-color": "#0c1427" }
+                        }, {
+                          default: withCtx(() => [
+                            (openBlock(true), createElementBlock(Fragment, null, renderList(filteredSymbols.value, (item) => {
+                              return openBlock(), createBlock(_component_v_list_item, {
+                                key: item.symbol,
+                                onClick: ($event) => goToProfile(item.symbol)
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(_component_v_list_item_title, null, {
+                                    default: withCtx(() => [
+                                      createBaseVNode("div", _hoisted_1$2, [
+                                        createBaseVNode("span", null, toDisplayString(item.name), 1),
+                                        createBaseVNode("span", _hoisted_2$2, "[" + toDisplayString(item.symbol) + "]", 1)
+                                      ])
+                                    ]),
+                                    _: 2
+                                  }, 1024)
+                                ]),
+                                _: 2
+                              }, 1032, ["onClick"]);
+                            }), 128))
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["style"])
+              ]),
+              _: 1
+            }, 8, ["modelValue"])
+          ]),
+          _: 1
+        })
+      ], 64);
     };
   }
 };
@@ -434,10 +460,14 @@ function _sfc_render(_ctx, _cache) {
       ])),
       _: 1
     }),
-    _cache[2] || (_cache[2] = createBaseVNode("div", null, [
-      createBaseVNode("span", null, [
-        createTextVNode(" This is a portfolio project, if you are interested in my skills feel free to contact me here: "),
-        createBaseVNode("a", { href: "https://www.linkedin.com/in/mario-landa/" }, "Linked In Profile")
+    _cache[2] || (_cache[2] = createBaseVNode("div", { style: { "background-color": "#1e293b", "padding": "16px", "border-radius": "8px", "color": "#f1f5f9", "font-family": "'Segoe UI', sans-serif", "text-align": "center" } }, [
+      createBaseVNode("p", { style: { "margin": "0", "font-size": "16px" } }, [
+        createTextVNode(" This is a portfolio project to highlight my technical abilities. I'm open to work and would love to connect — reach out here: "),
+        createBaseVNode("a", {
+          href: "https://www.linkedin.com/in/mario-landa/",
+          target: "_blank",
+          style: { "color": "#38bdf8", "text-decoration": "underline", "font-weight": "500" }
+        }, " LinkedIn Profile ")
       ])
     ], -1)),
     createBaseVNode("div", null, [

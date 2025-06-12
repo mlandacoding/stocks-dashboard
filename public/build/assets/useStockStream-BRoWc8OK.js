@@ -1,4 +1,4 @@
-import { s as computed, g as ref, h as onMounted, i as axios } from "./app-CARG_xon.js";
+import { s as computed, g as ref, h as onMounted, i as axios } from "./app-QYOQF0v9.js";
 const stocks = ref({});
 function setupWebSocketListeners() {
   window.Echo.channel("stocks").listen("StockPriceUpdated", (payload) => {

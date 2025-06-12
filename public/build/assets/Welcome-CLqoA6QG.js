@@ -1,10 +1,10 @@
-import { f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, F as Fragment } from "./app-CARG_xon.js";
-import { M as MainLayout } from "./MainLayout-CundLyAg.js";
-import "./FooterComponent-CkzMO7WZ.js";
-import "./useStockStream-BA8lq4eq.js";
-import "./IntradayGraph-ClCzai_A.js";
-import "./vue3-apexcharts-9fWjqkCD.js";
-import "./LiveSingleStockComponent-Dto8ELv1.js";
+import { f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, F as Fragment } from "./app-QYOQF0v9.js";
+import { M as MainLayout } from "./MainLayout-DGB2XuUg.js";
+import "./FooterComponent-BSU4I882.js";
+import "./useStockStream-BRoWc8OK.js";
+import "./IntradayGraph-mve3pzij.js";
+import "./vue3-apexcharts-DcRN2u9R.js";
+import "./LiveSingleStockComponent-ZSA6MrXf.js";
 const _sfc_main = {
   __name: "Welcome",
   props: {
@@ -24,9 +24,10 @@ const _sfc_main = {
             content: "ie=edge"
           }),
           createBaseVNode("title", null, "All Global Data"),
+          createBaseVNode("title", null, "All Global Data"),
           createBaseVNode("meta", {
             name: "description",
-            content: "We are a Financial Data repository with a focus on Public Companies and their Fundamental data."
+            content: "All Global Data is a financial platform providing real-time stock updates, options strategy tools,\n        for public companies, ETFs, and indices."
           })
         ], -1)),
         createVNode(MainLayout)

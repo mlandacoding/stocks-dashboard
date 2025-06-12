@@ -1,13 +1,13 @@
-import { _ as _export_sfc, F as FooterComponent, M as MarketStatus, b as _sfc_main$6, a as _sfc_main$7 } from "./FooterComponent-CkzMO7WZ.js";
-import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-Dto8ELv1.js";
-import { m } from "./vue3-apexcharts-9fWjqkCD.js";
-import { r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, j as createTextVNode, e as createBaseVNode, t as toDisplayString, F as Fragment, c as createBlock, b as createCommentVNode, n as normalizeClass } from "./app-CARG_xon.js";
-import "./useStockStream-BA8lq4eq.js";
+import { _ as _export_sfc, F as FooterComponent, M as MarketStatus, b as _sfc_main$6, a as _sfc_main$7 } from "./FooterComponent-BSU4I882.js";
+import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-ZSA6MrXf.js";
+import { m } from "./vue3-apexcharts-DcRN2u9R.js";
+import { r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, j as createTextVNode, e as createBaseVNode, t as toDisplayString, F as Fragment, c as createBlock, b as createCommentVNode, n as normalizeClass } from "./app-QYOQF0v9.js";
+import "./useStockStream-BRoWc8OK.js";
 const _hoisted_1$4 = { class: "mb-2" };
 const _hoisted_2$4 = { class: "text-caption text-grey-lighten-1" };
 const _hoisted_3$4 = { class: "text-caption text-blue-lighten-1" };
 const _hoisted_4$2 = { class: "text-caption text-blue-lighten-1" };
-const _hoisted_5 = { class: "text-caption text-blue-lighten-1" };
+const _hoisted_5$1 = { class: "text-caption text-blue-lighten-1" };
 const _hoisted_6 = { class: "pl-3" };
 const _hoisted_7 = { class: "mb-2" };
 const _hoisted_8 = { class: "text-caption text-grey-lighten-1" };
@@ -53,7 +53,7 @@ const _sfc_main$5 = {
                       createBaseVNode("div", _hoisted_2$4, toDisplayString(__props.selectedITMOption.option_symbol), 1),
                       createBaseVNode("div", _hoisted_3$4, "Last Price: " + toDisplayString(__props.selectedITMOption.last_price), 1),
                       createBaseVNode("div", _hoisted_4$2, "Strike Price: " + toDisplayString(__props.selectedITMOption.strike_price), 1),
-                      createBaseVNode("div", _hoisted_5, "Implied Volatility: " + toDisplayString(__props.selectedITMOption.implied_volatility), 1)
+                      createBaseVNode("div", _hoisted_5$1, "Implied Volatility: " + toDisplayString(__props.selectedITMOption.implied_volatility), 1)
                     ]),
                     createBaseVNode("ul", _hoisted_6, [
                       createBaseVNode("li", null, "Delta: " + toDisplayString(__props.selectedITMOption.delta), 1),
@@ -1358,7 +1358,8 @@ const _sfc_main$1 = {
       OTMPuts: [],
       maximumLoss: 0,
       maximumProfit: 0,
-      breakEven: 0,
+      breakEvenUp: 0,
+      breakEvenDown: 0,
       chartOptions: {
         chart: {
           id: "long-strangle-payoff",
@@ -1472,12 +1473,14 @@ const _sfc_main$1 = {
       }
       return 0;
     },
-    getBreakeven() {
+    getBreakevenPoints() {
       if (this.selectedOTMCall && this.selectedOTMPut) {
         const callStrike = Number(this.selectedOTMCall.strike_price);
-        Number(this.selectedOTMPut.strike_price);
+        const putStrike = Number(this.selectedOTMPut.strike_price);
         const netDebit = Number(this.selectedOTMCall.last_price) + Number(this.selectedOTMPut.last_price);
-        return callStrike + netDebit;
+        const breakEvenUp = callStrike + netDebit;
+        const breakEvenDown = putStrike + netDebit;
+        return [breakEvenUp, breakEvenDown];
       }
       return 0;
     },
@@ -1486,11 +1489,14 @@ const _sfc_main$1 = {
         this.maximumLoss = this.getMaximumLoss();
         console.log(this.maximumLoss);
         this.maximumProfit = this.getMaximumProfit();
-        this.breakEven = this.getBreakeven();
+        const breakEvenPoints = this.getBreakevenPoints();
+        this.breakEvenUp = breakEvenPoints[0];
+        this.breakEvenDown = breakEvenPoints[1];
       } else {
         this.maximumLoss = 0;
         this.maximumProfit = 0;
-        this.breakEven = 0;
+        this.breakEvenUp = 0;
+        this.breakEvenDown = 0;
       }
     },
     generateChartData() {
@@ -1549,6 +1555,7 @@ const _hoisted_1 = { style: { "color": "#ff4560" } };
 const _hoisted_2 = { style: { "color": "#00e396" } };
 const _hoisted_3 = { style: { "color": "#00e396" } };
 const _hoisted_4 = { style: { "color": "#facc15" } };
+const _hoisted_5 = { style: { "color": "#facc15" } };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_select = resolveComponent("v-select");
   const _component_v_col = resolveComponent("v-col");
@@ -1733,9 +1740,22 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                     }, {
                       default: withCtx(() => [
                         _cache[9] || (_cache[9] = createBaseVNode("div", null, [
-                          createBaseVNode("strong", null, "Break Even:")
+                          createBaseVNode("strong", null, "Break Even Up:")
                         ], -1)),
-                        createBaseVNode("div", _hoisted_4, "$" + toDisplayString($data.breakEven.toFixed(2)), 1)
+                        createBaseVNode("div", _hoisted_4, "$" + toDisplayString($data.breakEvenUp.toFixed(2)), 1)
+                      ]),
+                      _: 1
+                    }),
+                    createVNode(_component_v_col, {
+                      cols: "4",
+                      sm: "4",
+                      class: "text-center"
+                    }, {
+                      default: withCtx(() => [
+                        _cache[10] || (_cache[10] = createBaseVNode("div", null, [
+                          createBaseVNode("strong", null, "Break Even Down:")
+                        ], -1)),
+                        createBaseVNode("div", _hoisted_5, "$" + toDisplayString($data.breakEvenDown.toFixed(2)), 1)
                       ]),
                       _: 1
                     })
