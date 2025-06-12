@@ -5,8 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <title>All Global Data</title>
-        <meta name="description" content="We are a Financial Data repository with a focus on Public Companies and their Fundamental data.">
+        <title>All Global Data</title>
+        <meta name="description"
+        content="All Global Data is a financial platform providing real-time stock updates, options strategy tools,
+        for public companies, ETFs, and indices.">
+
 </head>
+
     <MainLayout>
 
     </MainLayout>
@@ -15,9 +20,7 @@
 
 
 <script setup>
-
 import MainLayout from '@/layouts/MainLayout.vue';
-
 
 defineProps({
     message: String

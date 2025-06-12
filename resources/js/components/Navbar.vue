@@ -2,6 +2,8 @@
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useDisplay } from "vuetify";
+import GoogleAnalytics from "./GoogleAnalytics.vue";
+import GoogleAnalytics from "./GoogleAnalytics.vue";
 
 const showSearchDialog = ref(false);
 const searchTerm = ref("");
@@ -44,6 +46,7 @@ const goToProfile = (symbol) => {
 </script>
 
 <template>
+    <GoogleAnalytics />
     <v-app-bar color="primary" class="outlined-navbar" style="border-bottom: .5px solid #17223f;">
         <v-app-bar-nav-icon variant="text" @click="updateDrawer"></v-app-bar-nav-icon>
 

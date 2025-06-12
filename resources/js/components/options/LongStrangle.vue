@@ -16,13 +16,15 @@
         </v-col>
 
         <v-col cols="12">
-            <v-alert v-if="getMaximumProfitUp() < 0" color="#C51162" icon="mdi-cancel" theme="dark" density="compact" border>
+            <v-alert v-if="getMaximumProfitUp() < 0" color="#C51162" icon="mdi-cancel" theme="dark" density="compact"
+                border>
                 Your selected options would result in a negative maximum profit
             </v-alert>
         </v-col>
 
         <v-col cols="12">
-            <v-alert v-if="selectedOTMCall?.strike_price < selectedOTMPut?.strike_price" color="#C51162" icon="mdi-cancel" theme="dark" density="compact" border>
+            <v-alert v-if="selectedOTMCall?.strike_price < selectedOTMPut?.strike_price" color="#C51162"
+                icon="mdi-cancel" theme="dark" density="compact" border>
                 The Call should have a higher strike price for it to be a valid Long Strangle
             </v-alert>
         </v-col>
@@ -31,7 +33,8 @@
 
     <v-row dense class="ma-0 pa-0">
         <v-col cols="12" sm="8">
-            <v-card class="pa-0" style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
+            <v-card class="pa-0"
+                style="background: #181f3a; color: #fff; border-radius: 8px; border: 1px solid #2c365a;">
                 <v-card-title class="text-h6 mb-3" style="align-content: center;">
                     Strategy P&L Summary
                 </v-card-title>
@@ -50,8 +53,12 @@
                         <div style="color: #00e396;">${{ getMaximumProfitDown().toFixed(2) }}</div>
                     </v-col>
                     <v-col cols="4" sm="4" class="text-center">
-                        <div><strong>Break Even:</strong></div>
-                        <div style="color: #facc15;">${{ breakEven.toFixed(2) }}</div>
+                        <div><strong>Break Even Up:</strong></div>
+                        <div style="color: #facc15;">${{ breakEvenUp.toFixed(2) }}</div>
+                    </v-col>
+                    <v-col cols="4" sm="4" class="text-center">
+                        <div><strong>Break Even Down:</strong></div>
+                        <div style="color: #facc15;">${{ breakEvenDown.toFixed(2) }}</div>
                     </v-col>
                 </v-row>
 
@@ -101,7 +108,8 @@ export default {
             OTMPuts: [],
             maximumLoss: 0,
             maximumProfit: 0,
-            breakEven: 0,
+            breakEvenUp: 0,
+            breakEvenDown: 0,
             chartOptions: {
                 chart: {
                     id: 'long-strangle-payoff',
@@ -188,46 +196,48 @@ export default {
             return 0;
         },
         getMaximumProfitUp() {
-    if (this.selectedOTMCall && this.selectedOTMPut) {
-        const callStrike = Number(this.selectedOTMCall.strike_price);
-        const callPremium = Number(this.selectedOTMCall.last_price);
-        const putPremium = Number(this.selectedOTMPut.last_price);
-        const netDebit = callPremium + putPremium;
+            if (this.selectedOTMCall && this.selectedOTMPut) {
+                const callStrike = Number(this.selectedOTMCall.strike_price);
+                const callPremium = Number(this.selectedOTMCall.last_price);
+                const putPremium = Number(this.selectedOTMPut.last_price);
+                const netDebit = callPremium + putPremium;
 
-        const simulatedHigh = callStrike * 1.5;
-        const callPayoff = Math.max(simulatedHigh - callStrike, 0);
+                const simulatedHigh = callStrike * 1.5;
+                const callPayoff = Math.max(simulatedHigh - callStrike, 0);
 
-        return callPayoff - netDebit;
-    }
-    return 0;
-},
+                return callPayoff - netDebit;
+            }
+            return 0;
+        },
 
-getMaximumProfitDown() {
-    if (this.selectedOTMCall && this.selectedOTMPut) {
-        const putStrike = Number(this.selectedOTMPut.strike_price);
-        const callPremium = Number(this.selectedOTMCall.last_price);
-        const putPremium = Number(this.selectedOTMPut.last_price);
-        const netDebit = callPremium + putPremium;
+        getMaximumProfitDown() {
+            if (this.selectedOTMCall && this.selectedOTMPut) {
+                const putStrike = Number(this.selectedOTMPut.strike_price);
+                const callPremium = Number(this.selectedOTMCall.last_price);
+                const putPremium = Number(this.selectedOTMPut.last_price);
+                const netDebit = callPremium + putPremium;
 
-        const simulatedLow = 0;
-        const putPayoff = putStrike - simulatedLow;
+                const simulatedLow = 0;
+                const putPayoff = putStrike - simulatedLow;
 
-        return putPayoff - netDebit;
-    }
-    return 0;
-},
+                return putPayoff - netDebit;
+            }
+            return 0;
+        },
         getMaximumProfit() {
             if (this.selectedOTMCall && this.selectedOTMPut) {
                 return this.selectedOTMCall.strike_price - this.selectedOTMPut.strike_price - this.getMaximumLoss();
             }
             return 0;
         },
-        getBreakeven() {
+        getBreakevenPoints() {
             if (this.selectedOTMCall && this.selectedOTMPut) {
                 const callStrike = Number(this.selectedOTMCall.strike_price);
                 const putStrike = Number(this.selectedOTMPut.strike_price);
                 const netDebit = Number(this.selectedOTMCall.last_price) + Number(this.selectedOTMPut.last_price);
-                return callStrike + netDebit;
+                const breakEvenUp = callStrike + netDebit;
+                const breakEvenDown = putStrike + netDebit;
+                return [breakEvenUp, breakEvenDown];
             }
             return 0;
         },
@@ -236,11 +246,14 @@ getMaximumProfitDown() {
                 this.maximumLoss = this.getMaximumLoss();
                 console.log(this.maximumLoss);
                 this.maximumProfit = this.getMaximumProfit();
-                this.breakEven = this.getBreakeven();
+                const breakEvenPoints = this.getBreakevenPoints()
+                this.breakEvenUp = breakEvenPoints[0];
+                this.breakEvenDown = breakEvenPoints[1];
             } else {
                 this.maximumLoss = 0;
                 this.maximumProfit = 0;
-                this.breakEven = 0;
+                this.breakEvenUp = 0;
+                this.breakEvenDown = 0;
             }
         },
         generateChartData() {
