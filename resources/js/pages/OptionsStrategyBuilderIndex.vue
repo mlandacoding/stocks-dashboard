@@ -245,6 +245,16 @@ export default {
         } catch(error){
             console.error('Error fetching data');
         }
+        document.title = 'Options Strategy Builder | All Global Data';
+
+        let meta = document.querySelector('meta[name="description"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.name = 'description';
+            document.head.appendChild(meta);
+        }
+        meta.content = 'Free Interactive Options Strategy Builder to create bull spreads, bear spreads, straddles, and strangles. Visualize payoffs and analyze real-time data for public companies.';
+
     },
     methods: {
         handleDrawerToggle(value) {
