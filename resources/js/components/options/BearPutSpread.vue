@@ -20,6 +20,7 @@
                 Your selected options would result in a negative maximum profit
             </v-alert>
         </v-col>
+
     </v-row>
 
     <v-row dense class="ma-0 pa-0">
@@ -161,6 +162,17 @@ export default {
         if (this.expirationDates.length) {
             this.selectedExpiration = this.expirationDates[0];
         }
+
+        document.title = 'Bear Put Spread Visualizer | Options Strategy Builder';
+
+        let meta = document.querySelector('meta[name="description"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.name = 'description';
+            document.head.appendChild(meta);
+        }
+        meta.content = 'Analyze Bear Put Spread strategies in real-time. Use our interactive builder to understand payoffs, breakevens, and downside protection.';
+
     },
     methods: {
         handleDrawerToggle() {

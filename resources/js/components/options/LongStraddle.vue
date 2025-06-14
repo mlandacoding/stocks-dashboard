@@ -182,6 +182,16 @@ export default {
         } catch (error) {
             console.error('Failed to load prevCloseMap:', error);
         }
+
+        document.title = 'Long Straddle Visualizer | Options Strategy Builder';
+
+        let meta = document.querySelector('meta[name="description"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.name = 'description';
+            document.head.appendChild(meta);
+        }
+        meta.content = 'Build and analyze Long Straddle options strategies. Visualize potential profits from volatility using our free and interactive payoff chart tool.';
     },
     methods: {
         handleDrawerToggle() {

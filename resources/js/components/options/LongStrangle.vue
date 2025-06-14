@@ -180,6 +180,16 @@ export default {
         } catch (error) {
             console.error('Failed to load prevCloseMap:', error);
         }
+
+        document.title = 'Long Strangle Visualizer | Options Strategy Builder';
+
+        let meta = document.querySelector('meta[name="description"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.name = 'description';
+            document.head.appendChild(meta);
+        }
+        meta.content = 'Explore Long Strangle options strategies with a live visualizer. Compare call and put strike prices and model profits from major price swings.';
     },
     methods: {
         handleDrawerToggle() {
@@ -244,7 +254,6 @@ export default {
         updateMetrics() {
             if (this.selectedOTMCall && this.selectedOTMPut) {
                 this.maximumLoss = this.getMaximumLoss();
-                console.log(this.maximumLoss);
                 this.maximumProfit = this.getMaximumProfit();
                 const breakEvenPoints = this.getBreakevenPoints()
                 this.breakEvenUp = breakEvenPoints[0];
