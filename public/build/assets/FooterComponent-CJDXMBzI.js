@@ -1,4 +1,4 @@
-import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, F as Fragment, k as renderList, c as createBlock, t as toDisplayString, b as createCommentVNode } from "./app-QYOQF0v9.js";
+import { g as ref, u as useDisplay, h as onMounted, i as axios$1, s as computed, r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, e as createBaseVNode, p as normalizeStyle, m as unref, j as createTextVNode, F as Fragment, k as renderList, c as createBlock, t as toDisplayString, b as createCommentVNode } from "./app-DIVAU1yG.js";
 const _sfc_main$4 = {
   __name: "GoogleAnalytics",
   setup(__props) {
@@ -468,7 +468,14 @@ function _sfc_render(_ctx, _cache) {
           target: "_blank",
           style: { "color": "#38bdf8", "text-decoration": "underline", "font-weight": "500" }
         }, " LinkedIn Profile ")
-      ])
+      ]),
+      createBaseVNode("br"),
+      createTextVNode("If you find this project helpful, feel free to give it a ⭐ on "),
+      createBaseVNode("a", {
+        href: "https://github.com/mlandacoding/stocks-dashboard",
+        target: "_blank"
+      }, "GitHub"),
+      createTextVNode(" — it really helps! ")
     ], -1)),
     createBaseVNode("div", null, [
       createVNode(_component_v_alert, {

@@ -1,6 +1,6 @@
-import { r as resolveComponent, f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, w as withCtx, p as normalizeStyle, c as createBlock, b as createCommentVNode, j as createTextVNode, t as toDisplayString, F as Fragment, k as renderList, n as normalizeClass, u as useDisplay } from "./app-QYOQF0v9.js";
-import { _ as _export_sfc, F as FooterComponent, M as MarketStatus, b as _sfc_main$1, a as _sfc_main$2 } from "./FooterComponent-BSU4I882.js";
-import { m } from "./vue3-apexcharts-DcRN2u9R.js";
+import { r as resolveComponent, f as createElementBlock, o as openBlock, e as createBaseVNode, a as createVNode, w as withCtx, p as normalizeStyle, c as createBlock, b as createCommentVNode, j as createTextVNode, t as toDisplayString, F as Fragment, k as renderList, n as normalizeClass, u as useDisplay } from "./app-DIVAU1yG.js";
+import { _ as _export_sfc, F as FooterComponent, M as MarketStatus, b as _sfc_main$1, a as _sfc_main$2 } from "./FooterComponent-CJDXMBzI.js";
+import { m } from "./vue3-apexcharts-CzGknkqO.js";
 const bullSpreadSeries = [
   {
     name: "Payoff",
@@ -312,6 +312,14 @@ const _sfc_main = {
     } catch (error) {
       console.error("Error fetching data");
     }
+    document.title = "Options Strategy Builder | All Global Data";
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Free Interactive Options Strategy Builder to create bull spreads, bear spreads, straddles, and strangles. Visualize payoffs and analyze real-time data for public companies.";
   },
   methods: {
     handleDrawerToggle(value) {
@@ -773,7 +781,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ], 64);
 }
-const OptionsStrategyBuilderIndex = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-ded156d3"]]);
+const OptionsStrategyBuilderIndex = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-0357e905"]]);
 export {
   OptionsStrategyBuilderIndex as default
 };

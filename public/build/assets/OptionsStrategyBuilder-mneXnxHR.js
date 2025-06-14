@@ -1,8 +1,8 @@
-import { _ as _export_sfc, F as FooterComponent, M as MarketStatus, b as _sfc_main$6, a as _sfc_main$7 } from "./FooterComponent-BSU4I882.js";
-import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-ZSA6MrXf.js";
-import { m } from "./vue3-apexcharts-DcRN2u9R.js";
-import { r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, j as createTextVNode, e as createBaseVNode, t as toDisplayString, F as Fragment, c as createBlock, b as createCommentVNode, n as normalizeClass } from "./app-QYOQF0v9.js";
-import "./useStockStream-BRoWc8OK.js";
+import { _ as _export_sfc, F as FooterComponent, M as MarketStatus, b as _sfc_main$6, a as _sfc_main$7 } from "./FooterComponent-CJDXMBzI.js";
+import { L as LiveSingleStockComponent } from "./LiveSingleStockComponent-kSs3MxRz.js";
+import { m } from "./vue3-apexcharts-CzGknkqO.js";
+import { r as resolveComponent, f as createElementBlock, o as openBlock, a as createVNode, w as withCtx, j as createTextVNode, e as createBaseVNode, t as toDisplayString, F as Fragment, c as createBlock, b as createCommentVNode, n as normalizeClass } from "./app-DIVAU1yG.js";
+import "./useStockStream-B2e18YaT.js";
 const _hoisted_1$4 = { class: "mb-2" };
 const _hoisted_2$4 = { class: "text-caption text-grey-lighten-1" };
 const _hoisted_3$4 = { class: "text-caption text-blue-lighten-1" };
@@ -183,6 +183,14 @@ const _sfc_main$4 = {
     if (this.expirationDates.length) {
       this.selectedExpiration = this.expirationDates[0];
     }
+    document.title = "Bull Call Spread Visualizer | Options Strategy Builder";
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Visualize Bull Call Spread strategies using real-time stock data. Analyze risk/reward and payoff diagrams with our free interactive options tool.";
   },
   methods: {
     handleDrawerToggle() {
@@ -573,6 +581,14 @@ const _sfc_main$3 = {
     if (this.expirationDates.length) {
       this.selectedExpiration = this.expirationDates[0];
     }
+    document.title = "Bear Put Spread Visualizer | Options Strategy Builder";
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Analyze Bear Put Spread strategies in real-time. Use our interactive builder to understand payoffs, breakevens, and downside protection.";
   },
   methods: {
     handleDrawerToggle() {
@@ -956,6 +972,14 @@ const _sfc_main$2 = {
     } catch (error) {
       console.error("Failed to load prevCloseMap:", error);
     }
+    document.title = "Long Straddle Visualizer | Options Strategy Builder";
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Build and analyze Long Straddle options strategies. Visualize potential profits from volatility using our free and interactive payoff chart tool.";
   },
   methods: {
     handleDrawerToggle() {
@@ -1428,6 +1452,14 @@ const _sfc_main$1 = {
     } catch (error) {
       console.error("Failed to load prevCloseMap:", error);
     }
+    document.title = "Long Strangle Visualizer | Options Strategy Builder";
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = "Explore Long Strangle options strategies with a live visualizer. Compare call and put strike prices and model profits from major price swings.";
   },
   methods: {
     handleDrawerToggle() {
@@ -1487,7 +1519,6 @@ const _sfc_main$1 = {
     updateMetrics() {
       if (this.selectedOTMCall && this.selectedOTMPut) {
         this.maximumLoss = this.getMaximumLoss();
-        console.log(this.maximumLoss);
         this.maximumProfit = this.getMaximumProfit();
         const breakEvenPoints = this.getBreakevenPoints();
         this.breakEvenUp = breakEvenPoints[0];
