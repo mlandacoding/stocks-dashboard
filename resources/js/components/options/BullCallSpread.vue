@@ -161,6 +161,16 @@ export default {
         if (this.expirationDates.length) {
             this.selectedExpiration = this.expirationDates[0];
         }
+
+        document.title = 'Bull Call Spread Visualizer | Options Strategy Builder';
+
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'description';
+        document.head.appendChild(meta);
+    }
+    meta.content = 'Visualize Bull Call Spread strategies using real-time stock data. Analyze risk/reward and payoff diagrams with our free interactive options tool.';
     },
     methods: {
         handleDrawerToggle() {
