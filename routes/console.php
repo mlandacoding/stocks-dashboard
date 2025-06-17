@@ -35,6 +35,20 @@ Schedule::command('python:update-stocks-overview')
     })
     ->appendOutputTo(storage_path('logs/update-stocks.log'));
 
+Schedule::command('python:populateOptionChain')
+    ->dailyAt('00:01')
+    ->weekdays()
+    ->timezone('America/New_York')
+    ->when(function () {
+        $today = Carbon::now('America/New_York')->toDateString();
+
+        return !DB::table('calendars')
+            ->whereDate('date', $today)
+            ->where('status', '=', 'closed')
+            ->exists();
+    })
+    ->appendOutputTo(storage_path('logs/populateOptionChain.log'));
+
 Schedule::command('cache:previous-close')
     ->dailyAt('05:55')
     ->weekdays()
@@ -51,7 +65,7 @@ Schedule::command('cache:previous-close')
 
 
 Schedule::command('intraday:clear')
-    ->dailyAt('07:25')
+    ->dailyAt('08:15')
     ->weekdays()
     ->timezone('America/New_York')
     ->when(function () {
