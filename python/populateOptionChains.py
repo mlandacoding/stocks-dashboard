@@ -1,6 +1,7 @@
 
 from dotenv import load_dotenv
 import os
+import platform
 from polygon import RESTClient
 from dataclasses import asdict
 from options_calculations.riskFreeRateFromFred import *
@@ -28,7 +29,12 @@ def is_in_the_money(option_type: str, option_strike_price: float, asset_price: f
 
 
 def get_active_asset_symbols() ->list:
-    with open('./storage/app/public/cache/active_assets.json', 'r') as f:
+    if platform.system() == 'Windows':
+        path = '../storage/app/public/cache/active_assets.json'
+    else:
+        path = './storage/app/public/cache/active_assets.json'
+
+    with open(path, 'r') as f:
         stocks = json.load(f)
     active_assets = {stock['symbol']: stock['company_name'] for stock in stocks}
 

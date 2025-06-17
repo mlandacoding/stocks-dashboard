@@ -23,7 +23,7 @@
         </v-col>
 
         <v-col cols="12">
-            <v-alert v-if="selectedOTMCall?.strike_price < selectedOTMPut?.strike_price" color="#C51162"
+            <v-alert v-if="selectedOTMCall && selectedOTMPut && Number(selectedOTMCall.strike_price) < Number(selectedOTMPut.strike_price)" color="#C51162"
                 icon="mdi-cancel" theme="dark" density="compact" border>
                 The Call should have a higher strike price for it to be a valid Long Strangle
             </v-alert>
