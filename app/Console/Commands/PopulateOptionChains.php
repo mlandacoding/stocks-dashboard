@@ -37,7 +37,7 @@ class populateOptionChains extends Command
         }
 
         $process = new Process([$pythonPath, $scriptPath]);
-        $process->setTimeout(300);
+        $process->setTimeout(10800);
         $process->setIdleTimeout(300);
         $process->run();
 
