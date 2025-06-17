@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Console\Commands;
-use Symfony\Component\Process\Process;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 
-class UpdateOptionsChains extends Command
+class populateOptionChains extends Command
 {
     /**
      * The name and signature of the console command.
@@ -28,7 +28,7 @@ class UpdateOptionsChains extends Command
     {
         $this->info('Running Python populateOptionChain.py - Started at - '. Carbon::now()->toDateTimeString());
 
-        $scriptPath = base_path('python/populateOptionChain.py');
+        $scriptPath = base_path('python/populateOptionChains.py');
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $pythonPath = base_path('venv/Scripts/python.exe');

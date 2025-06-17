@@ -28,7 +28,7 @@ def is_in_the_money(option_type: str, option_strike_price: float, asset_price: f
 
 
 def get_active_asset_symbols() ->list:
-    with open('../storage/app/public/cache/active_assets.json', 'r') as f:
+    with open('./storage/app/public/cache/active_assets.json', 'r') as f:
         stocks = json.load(f)
     active_assets = {stock['symbol']: stock['company_name'] for stock in stocks}
 
