@@ -25,17 +25,18 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
-Route::get('/login', function () {
-    return Inertia::render('auth/Login', [
-        'canResetPassword' => true,
-    ]);
-})->name('login');
 
-Route::get('/testinghome', fn () => Inertia::render('Home'))->name('home');
+// Route::get('/login', function () {
+//     return Inertia::render('auth/Login', [
+//         'canResetPassword' => true,
+//     ]);
+// })->name('login');
 
-Route::get('/register', function () {
-    return Inertia::render('auth/Register');
-})->name('register');
+// Route::get('/testinghome', fn () => Inertia::render('Home'))->name('home');
+
+// Route::get('/register', function () {
+//     return Inertia::render('auth/Register');
+// })->name('register');
 
 Route::get('/stocks/{symbol}', [StockOverviewController::class, 'show']);
 Route::get('/isHoliday', [CalendarController::class, 'isHoliday']);

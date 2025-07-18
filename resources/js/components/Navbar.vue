@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useDisplay } from "vuetify";
 import GoogleAnalytics from "./GoogleAnalytics.vue";
+import { Link, usePage } from '@inertiajs/vue3';
 
 const showSearchDialog = ref(false);
 const searchTerm = ref("");
@@ -16,6 +17,8 @@ const updateDrawer = () => {
     drawer.value = !drawer.value;
     emit("toggle-drawer", drawer.value);
 };
+
+const page = usePage();
 
 onMounted(async () => {
     try {
@@ -57,6 +60,37 @@ const goToProfile = (symbol) => {
                     style="width:100px; margin-right: 5px;" />
             </a>
         </v-toolbar-title>
+
+        <div class="d-flex align-center ml-auto gap-2 flex-wrap">
+            <v-menu offset-y transition="slide-y-transition">
+                <template #activator="{ props }">
+                    <v-btn v-bind="props" icon class="text-white">
+                        <v-icon>mdi-account</v-icon>
+                    </v-btn>
+                </template>
+                <v-list style="background-color: #0c1427; color: #fff;">
+                    <template v-if="page.props.auth && !page.props.auth.user">
+                        <v-list-item>
+                            <Link :href="route('login')" class="w-100 text-decoration-none" style="color: #fff;">
+                                <v-icon left class="mr-2">mdi-login</v-icon>Login
+                            </Link>
+                        </v-list-item>
+                        <v-list-item>
+                            <Link :href="route('register')" class="w-100 text-decoration-none" style="color: #fff;">
+                                <v-icon left class="mr-2">mdi-account-plus</v-icon>Register
+                            </Link>
+                        </v-list-item>
+                    </template>
+                    <template v-else-if="page.props.auth && page.props.auth.user">
+                        <v-list-item>
+                            <Link :href="route('logout')" method="post" as="button" class="w-100 text-decoration-none" style="color: #fff;">
+                                <v-icon left class="mr-2">mdi-logout</v-icon>Logout
+                            </Link>
+                        </v-list-item>
+                    </template>
+                </v-list>
+            </v-menu>
+        </div>
 
         <v-btn icon="mdi-magnify" variant="text" @click="showSearchDialog = true" />
 
