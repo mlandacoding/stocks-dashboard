@@ -3,6 +3,7 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import './bootstrap'
 import vuetify from "./vuetify";
+import { ZiggyVue } from 'ziggy-js';
 
 createInertiaApp({
     resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -10,6 +11,7 @@ createInertiaApp({
       createApp({ render: () => h(App, props) })
         .use(plugin)
         .use(vuetify)
+        .use(ZiggyVue)
         .mount(el)
     },
 })

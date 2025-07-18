@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <title>All Global Data</title>
-        <title>All Global Data</title>
         <meta name="description"
         content="All Global Data is a financial platform providing real-time stock updates, options strategy tools,
         for public companies, ETFs, and indices.">
