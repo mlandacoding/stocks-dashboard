@@ -46,59 +46,63 @@ const submit = () => {
                     <v-row justify="center" align="center" class="w-100">
                         <v-col cols="12" sm="6" md="4">
                             <Head title="Log in" />
-                            <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-                                {{ status }}
-                            </div>
-                            <form @submit.prevent="submit" class="flex flex-col gap-6 bg-white dark:bg-neutral-900 p-6 rounded-lg shadow">
-                                <div class="grid gap-6">
-                                    <div class="grid gap-2">
-                                        <Label for="email">Email address</Label>
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            required
-                                            autofocus
-                                            :tabindex="1"
-                                            autocomplete="email"
-                                            v-model="form.email"
-                                            placeholder="email@example.com"
-                                        />
-                                        <InputError :message="form.errors.email" />
-                                    </div>
-                                    <div class="grid gap-2">
-                                        <div class="flex items-center justify-between">
-                                            <Label for="password">Password</Label>
-                                            <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
+                            <v-card style="background:#0c1427; color:#fff; border:2px solid #fff;" class="pa-6 rounded-lg shadow">
+                                <v-card-title class="text-center text-h5 mb-4">Log in to your account</v-card-title>
+                                <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-400">
+                                    {{ status }}
+                                </div>
+                                <v-form @submit.prevent="submit" class="d-flex flex-column gap-4">
+                                    <v-text-field
+                                        v-model="form.email"
+                                        label="Email address"
+                                        type="email"
+                                        required
+                                        autofocus
+                                        :tabindex="1"
+                                        autocomplete="email"
+                                        :error-messages="form.errors.email"
+                                        color="primary"
+                                        variant="underlined"
+                                        class="white--text"
+                                        style="color:#fff;"
+                                    />
+                                    <v-text-field
+                                        v-model="form.password"
+                                        label="Password"
+                                        type="password"
+                                        required
+                                        :tabindex="2"
+                                        autocomplete="current-password"
+                                        :error-messages="form.errors.password"
+                                        color="primary"
+                                        variant="underlined"
+                                        class="white--text"
+                                        style="color:#fff;"
+                                    >
+                                        <template #append>
+                                            <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm text-blue-300 ml-2" :tabindex="5">
                                                 Forgot password?
                                             </TextLink>
-                                        </div>
-                                        <Input
-                                            id="password"
-                                            type="password"
-                                            required
-                                            :tabindex="2"
-                                            autocomplete="current-password"
-                                            v-model="form.password"
-                                            placeholder="Password"
-                                        />
-                                        <InputError :message="form.errors.password" />
-                                    </div>
-                                    <div class="flex items-center justify-between" :tabindex="3">
-                                        <Label for="remember" class="flex items-center space-x-3">
-                                            <Checkbox id="remember" v-model="form.remember" :tabindex="4" />
-                                            <span>Remember me</span>
-                                        </Label>
-                                    </div>
-                                    <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
-                                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
+                                        </template>
+                                    </v-text-field>
+                                    <v-checkbox
+                                        v-model="form.remember"
+                                        label="Remember me"
+                                        :tabindex="3"
+                                        color="primary"
+                                        class="white--text"
+                                        style="color:#fff;"
+                                    />
+                                    <v-btn type="submit" color="primary" class="mt-2 w-full" :tabindex="4" :loading="form.processing" block>
+                                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
                                         Log in
-                                    </Button>
+                                    </v-btn>
+                                </v-form>
+                                <div class="text-center text-sm mt-4">
+                                    <span class="text-muted-foreground">Don't have an account?</span>
+                                    <TextLink :href="route('register')" :tabindex="5" class="text-blue-300 ml-1">Sign up</TextLink>
                                 </div>
-                                <div class="text-center text-sm text-muted-foreground">
-                                    Don't have an account?
-                                    <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
-                                </div>
-                            </form>
+                            </v-card>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -112,5 +116,8 @@ const submit = () => {
 .custom-width-wrapper {
     width: 100%;
     max-width: 100%;
+}
+.white--text input, .white--text label, .white--text .v-label {
+    color: #fff !important;
 }
 </style>
