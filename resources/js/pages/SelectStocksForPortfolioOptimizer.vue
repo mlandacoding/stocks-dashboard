@@ -9,37 +9,6 @@
             <!-- Sidebar Navigation Drawer -->
             <Sidebar :drawer="drawer" @update:drawer="handleDrawerToggle" />
 
-            <v-dialog v-model="showSearchDialog" transition="dialog-bottom-transition" class="forceLocation" @click:outside="showSearchDialog = false">
-                <v-card class="search-dialog-card" :style="mdAndUp ? 'width: 90vw; height: 85vh;' : 'width: 90vw; height: 85vh;'">
-                    <v-toolbar color="primary" dark>
-                        <v-btn icon @click="showSearchDialog = false">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                        <v-toolbar-title>Search Companies</v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-subtitle v-if="selectedStrategy" class="text-center" style="color: #5E75E8; font-weight: bold;">
-                        Building: {{ selectedStrategy.charAt(0).toUpperCase() + selectedStrategy.slice(1).replace(/([A-Z])/g, ' $1') }}
-                    </v-card-subtitle>
-                    <v-card-text class="pa-4" style="padding-top: 0;">
-                        <v-text-field v-model="searchTerm" placeholder="Type to search companies..."
-                            prepend-inner-icon="mdi-magnify" clearable hide-details density="compact" solo flat
-                            color="primary" />
-
-                        <v-list class="mt-4" style="max-height: 70vh; overflow-y: auto; background-color: #0c1427;">
-                            <v-list-item v-for="item in filteredSymbols" :key="item.symbol"
-                                @click="goToProfile(item.symbol)">
-                                <v-list-item-title>
-                                    <div class="d-flex align-center justify-space-between">
-                                        <span>{{ item.name }}</span>
-                                        <span style="color: #5E75E8;">[{{ item.symbol }}]</span>
-                                    </div>
-                                </v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>
-
             <!-- Main Content -->
             <v-main :class="{ 'content-expanded': !drawer, 'content-shrinked': drawer }">
 
@@ -53,6 +22,18 @@
                     <v-row>
                         <v-col>
                             <h3>Portfolio Optimizer</h3>
+                            <v-autocomplete
+                                v-model="selectedStocks"
+                                :items="filteredSymbols"
+                                :item-title="item => item ? `${item.name} [${item.symbol}]` : ''"
+                                :item-value="item => item && item.symbol"
+                                label="Select stocks"
+                                multiple
+                                chips
+                                clearable
+                                style="background:#0c1427; color:#fff; border:2px solid #fff;"
+                                v-model:search="searchTerm"
+                            />
                         </v-col>
                     </v-row>
 
@@ -132,13 +113,14 @@ primary-dropdown {
 </style>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import MarketStatus from '@/components/MarketStatus.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import VueApexCharts from 'vue3-apexcharts';
 import { useDisplay } from "vuetify";
+import axios from 'axios';
 
 
 export default {
@@ -156,18 +138,36 @@ export default {
             showSearchDialog: false,
             searchTerm: '',
             symbols: [],
+            selectedStocks: [],
             mdAndUp: useDisplay(),
             selectedStrategy: null,
         };
     },
+    computed: {
+        filteredSymbols() {
+            if (!this.searchTerm) return this.symbols;
+            return this.symbols.filter((item) =>
+                `${item.symbol} ${item.name}`.toLowerCase().includes(this.searchTerm.toLowerCase())
+            );
+        },
+    },
     async mounted(){
+        try {
+            const response = await axios.get("/active-assets-with_companyname");
+            const data = response.data.symbols;
+            this.symbols = Object.entries(data).map(([symbol, name]) => ({
+                symbol,
+                name,
+            }));
+        } catch (err) {
+            console.error("Failed to load symbols", err);
+        }
+        console.log(symbols);
     },
     methods: {
         handleDrawerToggle(value) {
             this.drawer = value;
         },
     },
-    computed: {
-    }
 };
 </script>
