@@ -42,10 +42,10 @@
                             </v-btn>
 
                             <div v-if="showSelected" class="mt-4" style="color:#fff; background:#0c1427; border:2px solid #fff; padding: 1em; border-radius: 8px;">
-                                <div v-if="prices && Object.keys(prices).length">
+                                <div v-if="weights && Object.keys(weights).length">
                                     <h4>Latest Prices:</h4>
                                     <ul>
-                                        <li v-for="(price, symbol) in prices" :key="symbol">
+                                        <li v-for="(price, symbol) in weights" :key="symbol">
                                             {{ symbol }}: {{ price }}
                                         </li>
                                     </ul>
@@ -53,11 +53,6 @@
                             </div>
                         </v-col>
                     </v-row>
-
-                    <div v-if="resultMessage" style="margin-bottom: 1em; color: #a0a0a0;">
-  {{ resultMessage }}
-</div>
-
 
 
                 </v-container>
@@ -161,10 +156,10 @@ export default {
             symbols: [],
             selectedStocks: [],
             showSelected: false,
-            prices: {},
             mdAndUp: useDisplay(),
             selectedStrategy: null,
             resultMessage: '',
+            weights: {},
         };
     },
     computed: {
@@ -194,7 +189,7 @@ export default {
         async optimizePortfolio() {
     this.showSelected = true;
     this.resultMessage = '';
-    this.prices = {};
+    this.weights = {};
     const symbols = this.selectedStocks.map(s => {
       if (typeof s === 'string') {
         const match = s.match(/\[([A-Z.]+)\]$/);
@@ -210,13 +205,13 @@ export default {
       this.resultMessage = response.data.message || '';
 
       // If prices exist in the response, set them
-      if (response.data.prices) {
-        this.prices = response.data.prices;
+      if (response.data) {
+        this.weights = response.data;
       } else {
-        this.prices = {};
+        this.weights = {};
       }
     } catch (err) {
-      this.prices = {};
+      this.weights = {};
       this.resultMessage = 'Failed to optimize portfolio';
       alert(this.resultMessage);
     }
