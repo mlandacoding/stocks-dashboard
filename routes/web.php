@@ -91,3 +91,4 @@ Route::get('/optionsStrategyBuilder/{strategy?}', [OptionStrategyBuilderControll
 Route::get('/optionsStrategyBuilder/{strategy}/{symbol}', [OptionStrategyBuilderController::class, 'show']);
 
 Route::get('/portfolioOptimizerIndex', [PortfolioOptimizer::class, 'index']);
+Route::post('/optimize-portfolio', [PortfolioOptimizer::class, 'optimizePortfolio']);
