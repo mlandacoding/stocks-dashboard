@@ -49,6 +49,14 @@
                                             {{ symbol }}: {{ price }}
                                         </li>
                                     </ul>
+
+                                    <!-- Pie chart -->
+                                    <apexchart
+                                        type="pie"
+                                        :options="chartOptions"
+                                        :series="chartSeries"
+                                        width="380"
+                                    />
                                 </div>
                             </div>
                         </v-col>
@@ -169,6 +177,39 @@ export default {
                 `${item.symbol} ${item.name}`.toLowerCase().includes(this.searchTerm.toLowerCase())
             );
         },
+        chartSeries() {
+        return Object.values(this.weights);
+        },
+        chartOptions() {
+            return {
+                labels: Object.keys(this.weights),
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        colors: ['#fff']  // optional: make legend white
+                    }
+                },
+                chart: {
+                    background: '#0c1427'
+                },
+                tooltip: {
+                    theme: 'dark'
+                },
+                responsive: [
+                    {
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                                width: 300
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                ]
+            };
+        }
     },
     async mounted(){
         try {
