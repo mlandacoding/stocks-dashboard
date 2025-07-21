@@ -1,0 +1,49 @@
+
+.content-expanded[data-v-0357e905] {
+    margin-left: 0;
+    transition: margin-left 0.8s ease-in-out;
+}
+.content-shrinked[data-v-0357e905] {
+    margin-left: 5px;
+    transition: margin-left 0.8s ease-in-out;
+}
+.custom-width-wrapper[data-v-0357e905] {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+@media (max-width: 600px) {
+.custom-width-wrapper[data-v-0357e905] {
+        padding: 0 !important;
+        margin: 0 !important;
+}
+}
+primary-dropdown[data-v-0357e905] {
+    background-color: #0c1427 !important;
+}
+.primary-dropdown .v-list[data-v-0357e905] {
+    background-color: #0c1427 !important;
+}
+.primary-dropdown .v-list-item--active[data-v-0357e905] {
+    background-color: rgba(94, 117, 232, 0.15) !important;
+}
+.primary-dropdown .v-list-item[data-v-0357e905]:hover {
+    background-color: rgba(94, 117, 232, 0.1) !important;
+}
+.search-dialog-card[data-v-0357e905] {
+  background-color: #0c1427;
+  margin: auto;
+}
+.forceLocation > .v-overlay__content[data-v-0357e905] {
+  position: absolute !important;
+  top: 0px !important;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 40px !important;
+  pointer-events: none;
+}
+.forceLocation .v-card[data-v-0357e905] {
+  pointer-events: auto;
+}
+

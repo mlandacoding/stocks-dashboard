@@ -1,0 +1,74 @@
+.gap-2[data-v-85a4e571] {
+    gap: 0.5rem;
+}
+
+/* Dark theme styling */
+.custom-card[data-v-85a4e571] {
+    background-color: #0c1427 !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+/* Force Search Bar to Stay Dark */
+.custom-input[data-v-85a4e571] .v-input__control {
+    background: #1a2238 !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Make sure text is visible */
+.custom-input[data-v-85a4e571] .v-field__input {
+    color: rgb(255, 255, 255) !important;
+    background-color: #0c1427 !important;
+}
+
+/* Keep background dark when focused */
+.custom-input[data-v-85a4e571] .v-input.v-input--focused .v-input__control {
+    background: #1a2238 !important;
+    border-color: white !important;
+}
+.custom-table[data-v-85a4e571] .v-data-table__td,
+.custom-table[data-v-85a4e571] .v-data-table__th {
+    border-bottom: none !important;
+}
+
+/* Fix label color */
+.custom-input[data-v-85a4e571] .v-label {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Table styling */
+.custom-table[data-v-85a4e571] {
+    background: #0c1427 !important;
+    color: white !important;
+}
+
+/* Table header styling */
+.custom-table .v-data-table-header[data-v-85a4e571] {
+    background: #1a2238 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Remove hover effect from table headers */
+.custom-table .v-data-table-header th[data-v-85a4e571]:hover {
+    background: none !important;
+}
+
+/* Table row hover effect */
+.custom-table .v-data-table__tbody tr[data-v-85a4e571]:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Thinner Border Lines */
+.custom-table .v-data-table__th[data-v-85a4e571],
+.custom-table .v-data-table__td[data-v-85a4e571] {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+.clickable-row[data-v-85a4e571] {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.clickable-row[data-v-85a4e571]:hover {
+    background-color: rgba(0, 0, 0, 0.04); /* or Vuetify lighten background */
+}

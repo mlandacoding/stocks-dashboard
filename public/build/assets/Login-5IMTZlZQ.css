@@ -1,0 +1,8 @@
+
+.custom-width-wrapper[data-v-d98af4d1] {
+    width: 100%;
+    max-width: 100%;
+}
+.white--text input[data-v-d98af4d1], .white--text label[data-v-d98af4d1], .white--text .v-label[data-v-d98af4d1] {
+    color: #fff !important;
+}

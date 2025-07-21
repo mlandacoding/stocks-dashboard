@@ -1,0 +1,347 @@
+{
+  "_AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js": {
+    "file": "assets/AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js",
+    "name": "AuthLayout.vue_vue_type_script_setup_true_lang",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_FooterComponent-D7VV_RBj.js": {
+    "file": "assets/FooterComponent-D7VV_RBj.js",
+    "name": "FooterComponent",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "css": [
+      "assets/FooterComponent-N3ASH-0J.css"
+    ]
+  },
+  "_FooterComponent-N3ASH-0J.css": {
+    "file": "assets/FooterComponent-N3ASH-0J.css",
+    "src": "_FooterComponent-N3ASH-0J.css"
+  },
+  "_IntradayGraph-CVpMLJIq.js": {
+    "file": "assets/IntradayGraph-CVpMLJIq.js",
+    "name": "IntradayGraph",
+    "imports": [
+      "_useStockStream-BjAXdcwL.js",
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_vue3-apexcharts-Dy1aaU6o.js"
+    ],
+    "css": [
+      "assets/IntradayGraph-DYTa-PHY.css"
+    ]
+  },
+  "_IntradayGraph-DYTa-PHY.css": {
+    "file": "assets/IntradayGraph-DYTa-PHY.css",
+    "src": "_IntradayGraph-DYTa-PHY.css"
+  },
+  "_Label.vue_vue_type_script_setup_true_lang-BCTvhHPx.js": {
+    "file": "assets/Label.vue_vue_type_script_setup_true_lang-BCTvhHPx.js",
+    "name": "Label.vue_vue_type_script_setup_true_lang",
+    "imports": [
+      "resources/js/app.js",
+      "_AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js"
+    ]
+  },
+  "_LiveSingleStockComponent-Bk4d3-lv.js": {
+    "file": "assets/LiveSingleStockComponent-Bk4d3-lv.js",
+    "name": "LiveSingleStockComponent",
+    "imports": [
+      "_useStockStream-BjAXdcwL.js",
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js"
+    ],
+    "css": [
+      "assets/LiveSingleStockComponent-DAvID7B-.css"
+    ]
+  },
+  "_LiveSingleStockComponent-DAvID7B-.css": {
+    "file": "assets/LiveSingleStockComponent-DAvID7B-.css",
+    "src": "_LiveSingleStockComponent-DAvID7B-.css"
+  },
+  "_MainLayout-BWkL4Bil.js": {
+    "file": "assets/MainLayout-BWkL4Bil.js",
+    "name": "MainLayout",
+    "imports": [
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_useStockStream-BjAXdcwL.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_IntradayGraph-CVpMLJIq.js",
+      "_vue3-apexcharts-Dy1aaU6o.js",
+      "_LiveSingleStockComponent-Bk4d3-lv.js"
+    ],
+    "css": [
+      "assets/MainLayout-BsJGHcuq.css"
+    ]
+  },
+  "_MainLayout-BsJGHcuq.css": {
+    "file": "assets/MainLayout-BsJGHcuq.css",
+    "src": "_MainLayout-BsJGHcuq.css"
+  },
+  "_MarketStatus-BWNCAFoI.js": {
+    "file": "assets/MarketStatus-BWNCAFoI.js",
+    "name": "MarketStatus",
+    "imports": [
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js"
+    ],
+    "css": [
+      "assets/MarketStatus-Dq2UZx8u.css"
+    ]
+  },
+  "_MarketStatus-Dq2UZx8u.css": {
+    "file": "assets/MarketStatus-Dq2UZx8u.css",
+    "src": "_MarketStatus-Dq2UZx8u.css"
+  },
+  "_TextLink.vue_vue_type_script_setup_true_lang-DJ5JQzMw.js": {
+    "file": "assets/TextLink.vue_vue_type_script_setup_true_lang-DJ5JQzMw.js",
+    "name": "TextLink.vue_vue_type_script_setup_true_lang",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_loader-circle-B3CJX7vV.js": {
+    "file": "assets/loader-circle-B3CJX7vV.js",
+    "name": "loader-circle",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_useStockStream-BjAXdcwL.js": {
+    "file": "assets/useStockStream-BjAXdcwL.js",
+    "name": "useStockStream",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_vue3-apexcharts-Dy1aaU6o.js": {
+    "file": "assets/vue3-apexcharts-Dy1aaU6o.js",
+    "name": "vue3-apexcharts",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-B__TVklt.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-B8Z1Fyv-.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/CompanyProfilePage.vue",
+      "resources/js/pages/ExamplePage.vue",
+      "resources/js/pages/OptionsChain.vue",
+      "resources/js/pages/OptionsStrategyBuilder.vue",
+      "resources/js/pages/OptionsStrategyBuilderIndex.vue",
+      "resources/js/pages/SelectStocksForPortfolioOptimizer.vue",
+      "resources/js/pages/Welcome.vue",
+      "resources/js/pages/auth/ConfirmPassword.vue",
+      "resources/js/pages/auth/ForgotPassword.vue",
+      "resources/js/pages/auth/Login.vue",
+      "resources/js/pages/auth/Register.vue",
+      "resources/js/pages/auth/ResetPassword.vue",
+      "resources/js/pages/auth/VerifyEmail.vue"
+    ],
+    "css": [
+      "assets/app-3DX0gi9g.css"
+    ]
+  },
+  "resources/js/pages/CompanyProfilePage.vue": {
+    "file": "assets/CompanyProfilePage-C-CXGIiR.js",
+    "name": "CompanyProfilePage",
+    "src": "resources/js/pages/CompanyProfilePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_IntradayGraph-CVpMLJIq.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_vue3-apexcharts-Dy1aaU6o.js",
+      "_useStockStream-BjAXdcwL.js"
+    ],
+    "css": [
+      "assets/CompanyProfilePage-D3vf-g0u.css"
+    ]
+  },
+  "resources/js/pages/ExamplePage.vue": {
+    "file": "assets/ExamplePage-D0WD4Ej3.js",
+    "name": "ExamplePage",
+    "src": "resources/js/pages/ExamplePage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_MainLayout-BWkL4Bil.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_useStockStream-BjAXdcwL.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_IntradayGraph-CVpMLJIq.js",
+      "_vue3-apexcharts-Dy1aaU6o.js",
+      "_LiveSingleStockComponent-Bk4d3-lv.js"
+    ]
+  },
+  "resources/js/pages/OptionsChain.vue": {
+    "file": "assets/OptionsChain-DTgA5_a3.js",
+    "name": "OptionsChain",
+    "src": "resources/js/pages/OptionsChain.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_LiveSingleStockComponent-Bk4d3-lv.js",
+      "_useStockStream-BjAXdcwL.js"
+    ],
+    "css": [
+      "assets/OptionsChain-C5793RVM.css"
+    ]
+  },
+  "resources/js/pages/OptionsStrategyBuilder.vue": {
+    "file": "assets/OptionsStrategyBuilder-BxNl1seZ.js",
+    "name": "OptionsStrategyBuilder",
+    "src": "resources/js/pages/OptionsStrategyBuilder.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_FooterComponent-D7VV_RBj.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_LiveSingleStockComponent-Bk4d3-lv.js",
+      "_vue3-apexcharts-Dy1aaU6o.js",
+      "resources/js/app.js",
+      "_useStockStream-BjAXdcwL.js"
+    ],
+    "css": [
+      "assets/OptionsStrategyBuilder-xJRNVeeI.css"
+    ]
+  },
+  "resources/js/pages/OptionsStrategyBuilderIndex.vue": {
+    "file": "assets/OptionsStrategyBuilderIndex-DH1pTH2W.js",
+    "name": "OptionsStrategyBuilderIndex",
+    "src": "resources/js/pages/OptionsStrategyBuilderIndex.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_vue3-apexcharts-Dy1aaU6o.js"
+    ],
+    "css": [
+      "assets/OptionsStrategyBuilderIndex-BOWp_lg_.css"
+    ]
+  },
+  "resources/js/pages/SelectStocksForPortfolioOptimizer.vue": {
+    "file": "assets/SelectStocksForPortfolioOptimizer-CkDpylEQ.js",
+    "name": "SelectStocksForPortfolioOptimizer",
+    "src": "resources/js/pages/SelectStocksForPortfolioOptimizer.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_vue3-apexcharts-Dy1aaU6o.js"
+    ],
+    "css": [
+      "assets/SelectStocksForPortfolioOptimizer-DnjDQdC5.css"
+    ]
+  },
+  "resources/js/pages/Welcome.vue": {
+    "file": "assets/Welcome-Bu6TPcvP.js",
+    "name": "Welcome",
+    "src": "resources/js/pages/Welcome.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_MainLayout-BWkL4Bil.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_useStockStream-BjAXdcwL.js",
+      "_MarketStatus-BWNCAFoI.js",
+      "_IntradayGraph-CVpMLJIq.js",
+      "_vue3-apexcharts-Dy1aaU6o.js",
+      "_LiveSingleStockComponent-Bk4d3-lv.js"
+    ]
+  },
+  "resources/js/pages/auth/ConfirmPassword.vue": {
+    "file": "assets/ConfirmPassword-BzR2uqOX.js",
+    "name": "ConfirmPassword",
+    "src": "resources/js/pages/auth/ConfirmPassword.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Label.vue_vue_type_script_setup_true_lang-BCTvhHPx.js",
+      "_AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js",
+      "_loader-circle-B3CJX7vV.js"
+    ]
+  },
+  "resources/js/pages/auth/ForgotPassword.vue": {
+    "file": "assets/ForgotPassword-DjP7iGX0.js",
+    "name": "ForgotPassword",
+    "src": "resources/js/pages/auth/ForgotPassword.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Label.vue_vue_type_script_setup_true_lang-BCTvhHPx.js",
+      "_TextLink.vue_vue_type_script_setup_true_lang-DJ5JQzMw.js",
+      "_AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js",
+      "_loader-circle-B3CJX7vV.js"
+    ]
+  },
+  "resources/js/pages/auth/Login.vue": {
+    "file": "assets/Login-Clc4NT41.js",
+    "name": "Login",
+    "src": "resources/js/pages/auth/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_TextLink.vue_vue_type_script_setup_true_lang-DJ5JQzMw.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_loader-circle-B3CJX7vV.js"
+    ],
+    "css": [
+      "assets/Login-5IMTZlZQ.css"
+    ]
+  },
+  "resources/js/pages/auth/Register.vue": {
+    "file": "assets/Register-CkEHI8Qo.js",
+    "name": "Register",
+    "src": "resources/js/pages/auth/Register.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_TextLink.vue_vue_type_script_setup_true_lang-DJ5JQzMw.js",
+      "_FooterComponent-D7VV_RBj.js",
+      "_loader-circle-B3CJX7vV.js"
+    ],
+    "css": [
+      "assets/Register-CkRhnVGn.css"
+    ]
+  },
+  "resources/js/pages/auth/ResetPassword.vue": {
+    "file": "assets/ResetPassword-C9OGQS-y.js",
+    "name": "ResetPassword",
+    "src": "resources/js/pages/auth/ResetPassword.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Label.vue_vue_type_script_setup_true_lang-BCTvhHPx.js",
+      "_AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js",
+      "_loader-circle-B3CJX7vV.js"
+    ]
+  },
+  "resources/js/pages/auth/VerifyEmail.vue": {
+    "file": "assets/VerifyEmail-hhK5K4yH.js",
+    "name": "VerifyEmail",
+    "src": "resources/js/pages/auth/VerifyEmail.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_TextLink.vue_vue_type_script_setup_true_lang-DJ5JQzMw.js",
+      "_AuthLayout.vue_vue_type_script_setup_true_lang-Cx8RMwS3.js",
+      "_loader-circle-B3CJX7vV.js"
+    ]
+  }
+}
