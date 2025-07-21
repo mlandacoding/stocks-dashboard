@@ -40,6 +40,16 @@ const toggleDrawer = () => {
       <v-list-item>
         <a href="/optionsStrategyBuilder" style="color: white; text-decoration: none;">Option Strategy Builder</a>
       </v-list-item>
+
+      <v-divider></v-divider>
+      <div class="justify-content-center">
+        <v-list-subheader style="color: white; background-color: #17223f;">Portfolio</v-list-subheader>
+      </div>
+
+        <v-list-item>
+        <a href="/portfolioOptimizerIndex" style="color: white; text-decoration: none;">Portfolio Optimizer</a>
+      </v-list-item>
+
     </v-list>
   </v-navigation-drawer>
 </template>

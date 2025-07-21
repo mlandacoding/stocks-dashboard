@@ -17,6 +17,7 @@ use App\Http\Controllers\FinancialMetricsController;
 use App\Http\Controllers\SymbolNewsController;
 use App\Http\Controllers\OptionChainController;
 use App\Http\Controllers\OptionStrategyBuilderController;
+use App\Http\Controllers\PortfolioOptimizer;
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
@@ -24,19 +25,6 @@ require __DIR__.'/auth.php';
 Route::get('/', function () {
     return Inertia::render('Welcome');
 });
-
-
-// Route::get('/login', function () {
-//     return Inertia::render('auth/Login', [
-//         'canResetPassword' => true,
-//     ]);
-// })->name('login');
-
-// Route::get('/testinghome', fn () => Inertia::render('Home'))->name('home');
-
-// Route::get('/register', function () {
-//     return Inertia::render('auth/Register');
-// })->name('register');
 
 Route::get('/stocks/{symbol}', [StockOverviewController::class, 'show']);
 Route::get('/isHoliday', [CalendarController::class, 'isHoliday']);
@@ -101,3 +89,5 @@ Route::get('/getChainCallsByUnderlyingAsset/{symbol}', [OptionChainController::c
 Route::get('/getChainPutsByUnderlyingAsset/{symbol}', [OptionChainController::class, 'getChainPutsByUnderlyingAsset']);
 Route::get('/optionsStrategyBuilder/{strategy?}', [OptionStrategyBuilderController::class, 'index']);
 Route::get('/optionsStrategyBuilder/{strategy}/{symbol}', [OptionStrategyBuilderController::class, 'show']);
+
+Route::get('/portfolioOptimizerIndex', [PortfolioOptimizer::class, 'index']);
