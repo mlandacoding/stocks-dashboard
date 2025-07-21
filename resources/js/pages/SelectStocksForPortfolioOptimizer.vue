@@ -42,13 +42,7 @@
                             </v-btn>
 
                             <div v-if="showSelected" class="mt-4" style="color:#fff; background:#0c1427; border:2px solid #fff; padding: 1em; border-radius: 8px;">
-                                <h4>Selected Stocks:</h4>
-                                <ul>
-                                    <li v-for="stock in selectedStocks" :key="stock.symbol">
-                                        {{ stock.name }} [{{ stock.symbol }}]
-                                    </li>
-                                </ul>
-                                <div v-if="Object.keys(prices).length">
+                                <div v-if="prices && Object.keys(prices).length">
                                     <h4>Latest Prices:</h4>
                                     <ul>
                                         <li v-for="(price, symbol) in prices" :key="symbol">
@@ -59,6 +53,10 @@
                             </div>
                         </v-col>
                     </v-row>
+
+                    <div v-if="resultMessage" style="margin-bottom: 1em; color: #a0a0a0;">
+  {{ resultMessage }}
+</div>
 
 
 
@@ -166,6 +164,7 @@ export default {
             prices: {},
             mdAndUp: useDisplay(),
             selectedStrategy: null,
+            resultMessage: '',
         };
     },
     computed: {
@@ -187,32 +186,41 @@ export default {
         } catch (err) {
             console.error("Failed to load symbols", err);
         }
-        console.log(symbols);
     },
     methods: {
         handleDrawerToggle(value) {
             this.drawer = value;
         },
         async optimizePortfolio() {
-            this.showSelected = true;
-            const symbols = this.selectedStocks.map(s => {
-                if (typeof s === 'string') {
-                    // Extract symbol from 'Company Name [SYMBOL]'
-                    const match = s.match(/\[([A-Z.]+)\]$/);
-                    return match ? match[1] : s;
-                } else {
-                    return s.symbol;
-                }
-            });
-            console.log(symbols);
-            try {
-                const response = await axios.post('/optimize-portfolio', { symbols });
-                this.prices = response.data.prices;
-            } catch (err) {
-                this.prices = {};
-                alert('Failed to optimize portfolio');
-            }
-        },
+    this.showSelected = true;
+    this.resultMessage = '';
+    this.prices = {};
+    const symbols = this.selectedStocks.map(s => {
+      if (typeof s === 'string') {
+        const match = s.match(/\[([A-Z.]+)\]$/);
+        return match ? match[1] : s;
+      } else {
+        return s.symbol;
+      }
+    });
+    try {
+      const response = await axios.post('/optimize-portfolio', { symbols });
+
+      // Show message returned by backend
+      this.resultMessage = response.data.message || '';
+
+      // If prices exist in the response, set them
+      if (response.data.prices) {
+        this.prices = response.data.prices;
+      } else {
+        this.prices = {};
+      }
+    } catch (err) {
+      this.prices = {};
+      this.resultMessage = 'Failed to optimize portfolio';
+      alert(this.resultMessage);
+    }
+  }
     },
 };
 </script>
